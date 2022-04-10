@@ -3,17 +3,13 @@ require("dotenv").config();
 
 // Web server config
 const PORT = process.env.PORT || 8080;
+const db = require('./db/db.js')
 const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const cookieSession = require('cookie-session')
 
-// PG database client/connection setup
-const { Pool } = require("pg");
-const dbParams = require("./lib/db.js");
-const db = new Pool(dbParams);
-db.connect();
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -44,13 +40,13 @@ app.use(cookieSession({
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
-const usersRoutes = require("./routes/users");
-const widgetsRoutes = require("./routes/widgets");
-const menuRoutes = require("./routes/menu")
+const menuRoutes = require("./routes/menu-router")
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
-app.use("/", menuRoutes(db))
+
+app.use("/", menuRoutes)
+
 // Note: mount other resources here, using the same pattern above
 
 // Home page
