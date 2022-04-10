@@ -5,22 +5,32 @@
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 
-const express = require('express');
-const router  = express.Router();
-const menuQueries = require('../db/queries/03_menu_item_queries')
+const express = require("express");
+const router = express.Router();
+const menuQueries = require("../db/queries/03_menu_item_queries");
+const twilioClient = require("../lib/twilio");
 
 router.get("/", (req, res) => {
-  // temp session for menu testing
-  req.session.user_id = 'test'
-  menuQueries.getAllMenuItems()
+  const promises = []
+  const user = { name: "testuser" };
+
+  const order = { 1: 3, 3: 1};
+  let orderStr = `Order received from ${user.name}\n`;
+
+  Object.keys(order).forEach((id) => {
+    promises.push(menuQueries.getItemByID(id))
+  })
+
+  Promise.all(promises)
     .then((data) => {
-      const menuItems = data.rows
-      res.json(menuItems)
+      for(foodItem of data) {
+        orderStr += `${foodItem.name} x${order[foodItem.id]}\n`;
+      }      
+      return orderStr
     })
     .catch((err) => {
-      res.status(500).send('Failed to get menu items')
-    })
-  res.send('Hello')
+      res.send("Failed to get order items");
+    });
 });
 
-module.exports = router
+module.exports = router;
