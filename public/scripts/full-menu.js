@@ -1,4 +1,3 @@
-// Client facing scripts here
 $(() => {
 
   // Transforms any scripting attacks to normal text 
@@ -48,12 +47,23 @@ $(() => {
     ];
     // END OF FAKE MINI DATA
 
-    console.log("here");
-
     for (const menuItem of menuItems) {
       $(`#${categoryData.category}`).append(createMenuItem(menuItem));
     }
   };
+
+
+  fetch('/api/menu')
+    .then(response => {
+      console.log(response.text());
+    })
+    .catch(err => {
+      console.log(err.message);
+    });
+
+
+
+
 
   renderMenuItems({ category: 'Mains2' });
 
