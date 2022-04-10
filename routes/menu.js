@@ -7,7 +7,7 @@
 
 const express = require('express');
 const router  = express.Router();
-const menuQueries = require('../db/menu-queries')
+//const menuQueries = require('../db/menu-queries')
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
