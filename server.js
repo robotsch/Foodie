@@ -39,7 +39,7 @@ app.use(cookieSession({
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
-const menuRoutes = require("./routes/menu")
+const menuRoutes = require("./routes/menu-router")
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own

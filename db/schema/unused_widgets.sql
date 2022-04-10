@@ -1,4 +1,4 @@
--- Drop and recreate Widgets table (Example)
+-- ** UNUSED: Assumed to be irrelevant for our chosen midterm project **. Drop and recreate Widgets table (Example)
 
 DROP TABLE IF EXISTS widgets CASCADE;
 CREATE TABLE widgets (
