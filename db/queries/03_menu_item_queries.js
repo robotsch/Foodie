@@ -1,5 +1,6 @@
 const db = require("../db");
 
+//gets all the items on our menu
 const getAllMenuItems = () => {
   // 1
   const queryParams = [];
@@ -14,6 +15,7 @@ const getAllMenuItems = () => {
 
 exports.getAllMenuItems = getAllMenuItems;
 
+//receives an order object containing menu_items(id):quantity (property:value). returns an integer representing the total cost of the order in cents
 const sumOrderTotal = (order) => {
   const menuIDs = Object.keys(order);
   const quantity = Object.values(order);
@@ -28,6 +30,7 @@ const sumOrderTotal = (order) => {
 
 exports.sumOrderTotal = sumOrderTotal;
 
+//receives an integer representing the menu_items(id). returns an object containing the row of the matching menu item from the menu_items table
 const getItemByID = (menuID) => {
   // 1
   const queryParams = [menuID];

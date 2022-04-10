@@ -1,5 +1,6 @@
 const db = require("../db");
 
+//expected a string containing the email address of the user
 const getUserWithEmail = function (email) {
   const values = [`%${email}%`];
 
@@ -16,6 +17,7 @@ const getUserWithEmail = function (email) {
 
 exports.getUserWithEmail = getUserWithEmail;
 
+//expects an integer containing the user id
 const getUserWithId = function (id) {
   return db
     .query(`SELECT * FROM users WHERE id = $1`, [id])
@@ -29,6 +31,7 @@ const getUserWithId = function (id) {
 };
 exports.getUserWithId = getUserWithId;
 
+//expects a user object containing property values for email, password, first_name, last_name, phone_number relating to a new user
 const addUser = function (user) {
   const email = user.email;
   const pw = user.password;
