@@ -1,6 +1,6 @@
 const db = require("../db");
 
-//gets all the items on our menu
+//gets all the items on our menu and returns it as an array of objects
 const getAllMenuItems = () => {
   // 1
   const queryParams = [];
