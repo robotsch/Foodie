@@ -40,3 +40,5 @@ const getItemByID = (menuID) => {
 
   return db.query(queryString, queryParams).then((res) => res.rows[0]);
 };
+
+exports.getItemByID = getItemByID;
