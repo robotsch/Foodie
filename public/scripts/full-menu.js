@@ -53,7 +53,7 @@ $(() => {
   };
 
 
-  fetch('/menu')
+  fetch('/api/menu')
     .then(response => {
       console.log(response.text());
     })

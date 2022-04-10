@@ -19,7 +19,6 @@ router.get("/", (req, res) => {
     .catch((err) => {
       res.status(500).send('Failed to get menu item')
     })
-  res.send('Hello')
 });
 
 router.post("/", (req, res) => {
