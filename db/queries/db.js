@@ -1,11 +1,4 @@
-const { Pool } = require("pg");
-
-const pool = new Pool({
-  user: "labber",
-  password: "123",
-  host: "localhost",
-  database: "foodie",
-});
+const db = require('../db')
 
 const getAllMenuItems = () => {
   // 1
@@ -16,7 +9,7 @@ const getAllMenuItems = () => {
   FROM menu_items
   `;
 
-  return pool.query(queryString, queryParams).then((res) => res.rows);
+  return db.query(queryString, queryParams).then((res) => res.rows);
 
   /* placeholder
   if (options.city) {
