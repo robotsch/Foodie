@@ -20,7 +20,7 @@ const sumOrderTotal = (order) => {
   let total = 0;
 
   for (let i = 0; i < menuIDs.length; i++) {
-    const menuObj = sumOrderTotalQuery(menuIDs[i]);
+    const menuObj = getItemByID(menuIDs[i]);
     total += menuObj.price * quantity[i];
   }
   return total;
@@ -28,9 +28,9 @@ const sumOrderTotal = (order) => {
 
 exports.sumOrderTotal = sumOrderTotal;
 
-const sumOrderTotalQuery = (order) => {
+const getItemByID = (menuID) => {
   // 1
-
+  const queryParams = [menuID];
   // 2
   let queryString = `
   SELECT *
