@@ -69,3 +69,21 @@ const acceptOrder = function (orderInProgress) {
 };
 
 exports.acceptOrder = acceptOrder;
+
+//receives an orderID as an INT and updates the orders table to mark order as complete
+const completeOrder = function (orderID) {
+  db.query(
+    `UPDATE orders
+    SET active_order = FALSE
+    WHERE id = $1;`,
+    [orderID]
+  )
+    .then((result) => {
+      console.log("Order completed!");
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+exports.completeOrder = completeOrder;
