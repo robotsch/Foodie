@@ -45,7 +45,7 @@ const menuRoutes = require("./routes/menu-router")
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 
-app.use("/", menuRoutes)
+app.use("/menu", menuRoutes)
 
 // Note: mount other resources here, using the same pattern above
 
