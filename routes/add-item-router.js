@@ -7,29 +7,29 @@
 
 const express = require('express');
 const router  = express.Router();
-//const menuQueries = require('../db/menu-queries')
+const menuQueries = require('../db/queries/03_menu_item_queries')
 
 router.get("/", (req, res) => {
-  // const itemId = req.body.itemId
-  // menuQueries.getItemByID(itemId)
-  //   .then((data) => {
-  //     const menuItem = data.rows[0]
-  //     res.json(menuItem)
-  //   })
-  //   .catch((err) => {
-  //     res.status(500).send('Failed to get menu item')
-  //   })
+  const itemId = req.body.itemId
+  menuQueries.getItemByID(itemId)
+    .then((data) => {
+      const menuItem = data.rows[0]
+      res.json(menuItem)
+    })
+    .catch((err) => {
+      res.status(500).send('Failed to get menu item')
+    })
   res.send('Hello')
 });
 
 router.post("/", (req, res) => {
-  // const itemId = req.body.itemId
-  // const itemQuantity = req.body.quantity
-  // menuQueries.getItemByID(itemId)
-  //   .then((data) => {
-  //     const menuItem = data.rows[0]
-  //     req.session.order = { [menuItem.name]: itemQuantity}
-  //   })
+  const itemId = req.body.itemId
+  const itemQuantity = req.body.quantity
+  menuQueries.getItemByID(itemId)
+    .then((data) => {
+      const menuItem = data.rows[0]
+      req.session.order = { [menuItem.id]: itemQuantity}
+    })
   res.send('Hello')
 })
 

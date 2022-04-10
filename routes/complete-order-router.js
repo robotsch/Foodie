@@ -7,19 +7,20 @@
 
 const express = require('express');
 const router  = express.Router();
+const menuQueries = require('../db/queries/03_menu_item_queries')
 
-module.exports = (db) => {
-  router.get("/", (req, res) => {
-    db.query(`SELECT * FROM users;`)
-      .then(data => {
-        const users = data.rows;
-        res.json({ users });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
-  });
-  return router;
-};
+router.get("/", (req, res) => {
+  // temp session for menu testing
+  req.session.user_id = 'test'
+  menuQueries.getAllMenuItems()
+    .then((data) => {
+      const menuItems = data.rows
+      res.json(menuItems)
+    })
+    .catch((err) => {
+      res.status(500).send('Failed to get menu items')
+    })
+  res.send('Hello')
+});
+
+module.exports = router
