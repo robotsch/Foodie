@@ -54,16 +54,14 @@ $(() => {
 
 
   fetch('/api/menu')
-    .then(response => {
-      console.log(response.text());
+    .then(response => response.json())
+    .then(data => {
+      const menuItems = data.data;
+      console.log(menuItems);
     })
     .catch(err => {
       console.log(err.message);
     });
-
-
-
-
 
   renderMenuItems({ category: 'Mains2' });
 
