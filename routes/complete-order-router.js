@@ -21,9 +21,9 @@ router.get("/", (req, res) => {
         orderStr += `${foodItem.name} x${order[foodItem.id]}\n`;
       }
 
-      orderQueries.createNewOrder(user.id, order).id
-        .then((order) => {
-          orderStr += `Order ID: ${order.id}\n`;
+      orderQueries.createNewOrder(user.id, order)
+        .then((createdOrder) => {
+          orderStr += `Order ID: ${createdOrder.id}\n`;
           orderStr +=
             "Please respond with the order id followed by estimated completion time in minutes.";
           twilioClient.messages
