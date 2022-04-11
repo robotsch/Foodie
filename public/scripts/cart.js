@@ -101,6 +101,8 @@ $(() => {
     let sum = 0;
 
     for (const menuItem of Object.values(cartData)) {
+      let newQuantity = 1;
+
       sum += menuItem.price * menuItem.quantity;
       checkoutBtn.before(createItem(menuItem));
 
@@ -127,7 +129,12 @@ $(() => {
         });
 
         $("#set-quantity-btn").on("click", function(e) {
-          
+          const sessionCart = JSON.parse(sessionStorage.getItem('orders'));
+          // sessionCart[menuItem.id] 
+          // sessionCart[menuItem.id] = 
+          // idk if commenting/uncommenting this line does much
+          // delete cartData[menuItem.id];
+          sessionStorage.setItem('orders', JSON.stringify(sessionCart));
         })
 
         $("#remove-btn").on("click", function(e) {
@@ -138,7 +145,6 @@ $(() => {
           sessionStorage.setItem('orders', JSON.stringify(sessionCart));
         })
       
-
         modal.modal("toggle");
       });
 
