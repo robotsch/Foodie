@@ -2,3 +2,14 @@
   background-image: url(../logo-assets/banner.jpg);
   border: 2px solid red;
 }
+
+.menuItem-img-container {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+}
+
+.menuItem-img-container > img {
+  width: 100%;
+  height: auto;
+}

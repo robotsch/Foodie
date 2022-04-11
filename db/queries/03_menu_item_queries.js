@@ -8,12 +8,30 @@ const getAllMenuItems = () => {
   let queryString = `
   SELECT *
   FROM menu_items
+  ORDER BY category_id;
   `;
 
   return db.query(queryString, queryParams).then((res) => res.rows);
 };
 
 exports.getAllMenuItems = getAllMenuItems;
+
+//gets all categories from database and returns as obj of key=id, value=name
+const getAllCategories = () => {
+  // 1
+  const queryParams = [];
+  // 2
+  let queryString = `
+  SELECT *
+  FROM categories
+  ORDER BY categories.id;
+  `;
+
+  return db.query(queryString, queryParams).then((res) => res.rows);
+}
+
+exports.getAllCategories = getAllCategories;
+
 
 //receives an order object containing menu_items(id):quantity (property:value). returns an integer representing the total cost of the order in cents
 const sumOrderTotal = (order) => {
