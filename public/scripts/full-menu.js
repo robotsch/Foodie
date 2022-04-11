@@ -43,18 +43,18 @@ $(() => {
               </div>
               <div>
                 Quantity<br>
-                1
+                <span class="menuItemModal-quantity-${menuItemData.id}">1</span>
               </div>
               <div>
                 Total<br>
-                $${menuItemData.price / 100}
+                <span id="menuItemModal-total-cost-${menuItemData.id}">$${menuItemData.price / 100}</span>
               </div>
             </div>
             <hr class="bg-danger border-2 border-top border-danger">
             <div>
-              <button type="button" class="btn btn-outline-dark mx-3" id="menuItemModal-minus-quantity">-</button>
-              <span id="menuItemModal-quantity">1</span>
-              <button type="button" class="btn btn-outline-dark mx-3" id="menuItemModal-plus-quantity">+</button>
+              <button type="button" class="btn btn-outline-dark mx-3" id="menuItemModal-minus-quantity-${menuItemData.id}">-</button>
+              <span class="menuItemModal-quantity-${menuItemData.id}">1</span>
+              <button type="button" class="btn btn-outline-dark mx-3" id="menuItemModal-plus-quantity-${menuItemData.id}">+</button>
             </div>
           </div>
           <div class="modal-footer">
@@ -89,23 +89,27 @@ $(() => {
       $(`#menuItem-${menuItem.id}`).on("click", function (e) {
         $(`#menuItemModal-${menuItem.id}`).modal("toggle");
       });
+
+      // Decreases quantity by 1 on minus button click
+      $(`#menuItemModal-minus-quantity-${menuItem.id}`).unbind().on("click", function (e) {
+        const quantity = parseInt($(this).next().text());
+        if (quantity > 0) {
+          $(`.menuItemModal-quantity-${menuItem.id}`).text(quantity - 1);
+          $(`#menuItemModal-total-cost-${menuItem.id}`).text(`$${(quantity - 1) * menuItem.price / 100}`);
+        }
+      });
+
+      // Increase quantity by 1 on plus button click
+      $(`#menuItemModal-plus-quantity-${menuItem.id}`).unbind().on("click", function (e) {
+        const quantity = parseInt($(this).prev().text());
+        if (quantity < 100) {
+          $(`.menuItemModal-quantity-${menuItem.id}`).text(quantity + 1);
+          $(`#menuItemModal-total-cost-${menuItem.id}`).text(`$${(quantity + 1) * menuItem.price / 100}`);
+        }
+      });
+
     }
 
-    // Decreases quantity by 1 on minus button click
-    $(`#menuItemModal-minus-quantity`).unbind().on("click", function (e) {
-      const quantity = $(`#menuItemModal-quantity`);
-      if (quantity.text() > 0) {
-        quantity.text(parseInt(quantity.text()) - 1)
-      }
-    });
-
-    // Increase quantity by 1 on plus button click
-    $(`#menuItemModal-plus-quantity`).unbind().on("click", function (e) {
-      const quantity = $(`#menuItemModal-quantity`);
-      if (quantity.text() < 100) {
-        quantity.text(parseInt(quantity.text()) + 1)
-      }
-    });
 
   };
 
