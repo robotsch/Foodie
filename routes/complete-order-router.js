@@ -19,7 +19,7 @@ router.get("/", (req, res) => {
       for(foodItem of data) {
         orderStr += `${foodItem.name} x${order[foodItem.id]}\n`;
       }
-      orderStr += 'Please respond with estimated time in minutes.'
+      orderStr += 'Please respond with the customer name and estimated time in minutes.'
       twilioClient.messages
         .create({body: orderStr, from: process.env.APP_PHONE, to: process.env.RESTAURANT_PHONE})
         .then(message => console.log(message))
