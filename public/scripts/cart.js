@@ -41,18 +41,21 @@ $(() => {
     `);
   };
 
-  const renderCart = function () {
+  const renderCart = function (cartData) {
     $(`h3`).after(createItems({ name: "Spring Rolls", quantity: 3, price: 150 }), createTotals());
   };
 
+  const orders = JSON.parse(sessionStorage.getItem('orders'));
 
-  console.log(JSON.parse(sessionStorage.getItem('orders')));
-  // fetch("/api/cart/")
-  //   .then(response => response.json())
-  //   .then(data => {
-  //     console.log(data);
-  //     renderCart();
-  //   })
-  //   .catch(err => console.log(err.message));
-
+  $.ajax({
+    url: "/api/cart",
+    type: "get",
+    data: orders,
+    success: function (response) {
+      console.log(response);
+    },
+    err: function (err) {
+      console.log(err.message);
+    }
+  });
 });

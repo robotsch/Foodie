@@ -10,38 +10,31 @@ const router = express.Router();
 const menuQueries = require('../db/queries/03_menu_item_queries');
 
 router.get("/", (req, res) => {
-  const order = req.session.order;
-  console.log(order);
+  const orders = req.query;
+  const menuItemIDs = Object.keys(orders);
 
-  if (order) {
-
-    const orderSummary = {};
-    const promises = [];
-
-    // promises.push(
-    //   menuQueries.sumOrderTotal(order)
-    //     .then((data) => {
-    //       console.log(data);
-    //       res.json(data);
-    //     })
-    //     .catch((err) => {
-    //       res.status(500).send('Failed to get cart');
-    //     })
-    // );
-
-
-    return Promise.all(promises)
-    .then()
-    .catch(err => {
-      res.status(500).send('Failed to get cart');
-    });
-
-  } else {
-    // Cart is empty
-    return new Promise((resolve, reject) => {
-      resolve({ [-1]: 0 });
-    }).then(result => res.json(result));
+  if (menuItemIDs.length === 0) {
+    return res.json({});
   }
+
+  const orderSummary = {};
+  const promises = [];
+
+  menuItemIDs.forEach(id => {
+    promises.push(menuQueries.getItemByID(id));
+  });
+
+  return Promise.all(promises)
+    .then(menuItems => {
+      menuItems.forEach(menuItem => {
+        orderSummary[menuItem.id] = menuItem;
+        orderSummary[menuItem.id]['quantity'] = parseInt(orders[menuItem.id]);
+      });
+
+      res.json(orderSummary);
+    })
+    .catch(err => res.status(500).send('Failed to get items from cart'));
+
 });
 
 module.exports = router;

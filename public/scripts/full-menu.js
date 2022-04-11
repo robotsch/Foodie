@@ -110,56 +110,42 @@ $(() => {
 
       $(`#menuItemModal-submit-btn-${menuItem.id}`).on("click", function (e) {
         if (!sessionStorage.getItem('orders')) {
-          sessionStorage.setItem('orders', JSON.stringify({}))
+          sessionStorage.setItem('orders', JSON.stringify({}));
         }
 
         const orders = JSON.parse(sessionStorage.getItem('orders'));
-        console.log(orders);
 
         if (!(menuItem.id in orders)) {
           orders[menuItem.id] = 0;
         }
-        
+
         orders[menuItem.id] += parseInt($(`#menuItemModal-minus-quantity-${menuItem.id}`).next().text());
 
         sessionStorage.setItem('orders', JSON.stringify(orders));
 
-        // $.post("/api/additem", order)
-        // .then(() => {
-        //   $.get("/api/additem", {itemId: 1})
-        // })
-        // .then((result) => {
-        //   console.log(result);
-        // })
-        // .catch(err => console.log(err.message));
-        // .then(() => console.log("pls"));
-
         // $.post("/api/additem", order, function (data) {
         //   console.log("Added to cart!");
         //   localStorage.setItem('order', JSON.stringify(data));
-          // fetch("/api/additem?itemId=1")
-          //   .then(response => response.json())
-          //   .then(data => {
-          //     console.log(data);
-          //   });
-          // $.ajax({
-          //   url: "/api/additem",
-          //   type: "get",
-          //   data: { itemId: 1 },
-          //   success: function(response) {
-          //     console.log("THE GET RESPONSES BABY")
-          //     console.log(response);
-          //   },
-          //   err: function(err) {
-          //     console.log(err.message);
-          //   }
-          // })
+        // fetch("/api/additem?itemId=1")
+        //   .then(response => response.json())
+        //   .then(data => {
+        //     console.log(data);
+        //   });
+        // $.ajax({
+        //   url: "/api/additem",
+        //   type: "get",
+        //   data: { itemId: 1 },
+        //   success: function(response) {
+        //     console.log("THE GET RESPONSES BABY")
+        //     console.log(response);
+        //   },
+        //   err: function(err) {
+        //     console.log(err.message);
+        //   }
+        // })
         // });
       });
-
     }
-
-
   };
 
   fetch("/api/menu")
@@ -170,8 +156,6 @@ $(() => {
           renderMenuItems(data.menuItems[category], data.categories[category]);
         }
       }
-
-
     })
     .catch(err => {
       console.log(err.message);

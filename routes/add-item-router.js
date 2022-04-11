@@ -21,14 +21,4 @@ router.get("/", (req, res) => {
     });
 });
 
-router.post("/", (req, res) => {
-  const itemId = req.body.itemId;
-  const itemQuantity = req.body.quantity;
-  menuQueries.getItemByID(itemId)
-    .then((menuItem) => {
-      res.json({ [menuItem.id]: itemQuantity });
-    })
-    .catch(err => console.log(err.message));
-});
-
 module.exports = router;
