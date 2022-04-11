@@ -22,15 +22,11 @@ const createNewOrderMenuItems = (orderData, menuData) => {
   }
 };
 
-//Expects an orderData object containing property values for user_id. creates a new row in the orders and order_menu_items tables. returns the newly created order
+//Expects an userID INT. creates a new row in the orders and order_menu_items tables. returns the newly created order
 //Expects menuData in the same form as the data supplied to the sumOrderTotal function
-const createNewOrder = function (orderData, menuData) {
-  const user = orderData.user_id;
-
-  const values = [user];
-
+const createNewOrder = function (userID, menuData) {
   return db
-    .query(`INSERT INTO orders (user_id) VALUES ($1) RETURNING *;`, values)
+    .query(`INSERT INTO orders (user_id) VALUES ($1) RETURNING *;`, [userID])
     .then((result) => {
       createNewOrderMenuItems(result.row[0], menuData);
       return result.rows[0];
