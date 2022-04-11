@@ -22,21 +22,13 @@ const createNewOrderMenuItems = (orderData, menuData) => {
   }
 };
 
-//Expects an orderData object containing property values for user_id, estimated_completion_time, time_ordered. creates a new row in the orders and order_menu_items tables. returns the newly created order
+//Expects an userID INT. creates a new row in the orders and order_menu_items tables. returns the newly created order
 //Expects menuData in the same form as the data supplied to the sumOrderTotal function
-const createNewOrder = function (orderData, menuData) {
-  const user = orderData.user_id;
-  const est_time = orderData.estimated_completion_time;
-  const time_ordered = orderData.time_ordered;
-  const values = [user, est_time, time_ordered];
-
+const createNewOrder = function (userID, menuData) {
   return db
-    .query(
-      `INSERT INTO orders (user_id, estimated_completion_time, time_ordered) VALUES ($1, $2, $3) RETURNING *;`,
-      values
-    )
+    .query(`INSERT INTO orders (user_id) VALUES ($1) RETURNING *;`, [userID])
     .then((result) => {
-      createNewOrderMenuItems(result.row[0], menuData);
+      createNewOrderMenuItems(result.rows[0], menuData);
       return result.rows[0];
     })
     .catch((err) => {
@@ -46,13 +38,10 @@ const createNewOrder = function (orderData, menuData) {
 
 exports.createNewOrder = createNewOrder;
 
-//receives an orderInProgress object which should contain 2 properties: id (INT) and estimated_completion_time (INT)
+//receives an orderID and estTime (INT)
 //updates the corresponding order with estimated completion time and time accepted
-const acceptOrder = function (orderInProgress) {
-  const values = [
-    orderInProgress.estimated_completion_time,
-    orderInProgress.id,
-  ];
+const acceptOrder = function (orderID, estTime) {
+  const values = [estTime, orderID];
 
   db.query(
     `UPDATE orders
