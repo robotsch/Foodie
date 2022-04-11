@@ -38,13 +38,10 @@ const createNewOrder = function (userID, menuData) {
 
 exports.createNewOrder = createNewOrder;
 
-//receives an orderInProgress object which should contain 2 properties: orderID (INT) and estimated_completion_time (INT - provided by restaurant)
+//receives an orderID and estTime (INT)
 //updates the corresponding order with estimated completion time and time accepted
-const acceptOrder = function (orderInProgress) {
-  const values = [
-    orderInProgress.estimated_completion_time,
-    orderInProgress.id,
-  ];
+const acceptOrder = function (orderID, estTime) {
+  const values = [estTime, orderID];
 
   db.query(
     `UPDATE orders
