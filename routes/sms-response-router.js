@@ -4,6 +4,7 @@ const orderQueries = require("../db/queries/04_orders_queries")
 const twilioClient = require("../lib/twilio");
 
 router.post("/", (req, res) => {
+  console.log(req)
   const [orderId, estimatedTime] = req.body.split(' ')
   if(Number(orderId) % 1 === 0 || Number(estimatedTime % 1 === 0)) {
     return twilioClient.messages
