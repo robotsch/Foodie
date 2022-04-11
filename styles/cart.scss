@@ -33,3 +33,18 @@
 hr {
   width: 100%;
 }
+
+.modal-body > div:first-of-type {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-body > div > div {
+  text-align: center;
+}
+
+.modal-body > div:nth-of-type(2) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

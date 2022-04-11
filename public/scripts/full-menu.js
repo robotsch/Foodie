@@ -123,27 +123,11 @@ $(() => {
 
         sessionStorage.setItem('orders', JSON.stringify(orders));
 
-        // $.post("/api/additem", order, function (data) {
-        //   console.log("Added to cart!");
-        //   localStorage.setItem('order', JSON.stringify(data));
         // fetch("/api/additem?itemId=1")
         //   .then(response => response.json())
         //   .then(data => {
         //     console.log(data);
         //   });
-        // $.ajax({
-        //   url: "/api/additem",
-        //   type: "get",
-        //   data: { itemId: 1 },
-        //   success: function(response) {
-        //     console.log("THE GET RESPONSES BABY")
-        //     console.log(response);
-        //   },
-        //   err: function(err) {
-        //     console.log(err.message);
-        //   }
-        // })
-        // });
       });
     }
   };

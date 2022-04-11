@@ -33,7 +33,7 @@ router.get("/", (req, res) => {
 
       res.json(orderSummary);
     })
-    .catch(err => res.status(500).send('Failed to get items from cart'));
+    .catch(() => res.status(500).send('Failed to get items from cart'));
 
 });
 
