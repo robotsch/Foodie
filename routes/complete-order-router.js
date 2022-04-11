@@ -20,13 +20,16 @@ router.get("/", (req, res) => {
       for(foodItem of data) {
         orderStr += `${foodItem.name} x${order[foodItem.id]}\n`;
       }
-      const orderId = orderQueries.createNewOrder(user.id, order).id
-      orderStr += `Order ID: ${orderId}\n`
-      orderStr += 'Please respond with the order id followed by estimated completion time in minutes.'
-      twilioClient.messages
-        .create({body: orderStr, from: process.env.APP_PHONE, to: process.env.RESTAURANT_PHONE})
-        .then((messages) => {
-          console.log(messages)
+      orderQueries.createNewOrder(user.id, order)
+        .then((createdOrder) => {
+          orderStr += `Order ID: ${orderId}\n`
+          orderStr += 'Please respond with the order id followed by estimated completion time in minutes.'
+          twilioClient.messages
+            .create({body: orderStr, from: process.env.APP_PHONE, to: process.env.RESTAURANT_PHONE})
+            .then((messages) => {
+              console.log(messages)
+            })
+          res.send('Success')
         })
     })
     .catch((err) => {
