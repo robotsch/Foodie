@@ -1,6 +1,10 @@
 #banner {
-  background-image: url(../logo-assets/banner.jpg);
-  border: 2px solid red;
+  overflow: hidden;
+}
+
+#banner > img {
+  width: 100%;
+  height: auto;
 }
 
 .menuItem-img-container {
