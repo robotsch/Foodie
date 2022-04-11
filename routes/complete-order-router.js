@@ -1,10 +1,3 @@
-/*
- * All routes for Users are defined here
- * Since this file is loaded in server.js into api/users,
- *   these routes are mounted onto /users
- * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
- */
-
 const express = require("express");
 const router = express.Router();
 const menuQueries = require("../db/queries/03_menu_item_queries");
@@ -25,8 +18,11 @@ router.get("/", (req, res) => {
     .then((data) => {
       for(foodItem of data) {
         orderStr += `${foodItem.name} x${order[foodItem.id]}\n`;
-      }      
-      return orderStr
+      }
+      orderStr += 'Please respond with estimated time in minutes.'
+      twilioClient.messages
+        .create({body: orderStr, from: process.env.APP_PHONE, to: process.env.RESTAURANT_PHONE})
+        .then(message => console.log(message))
     })
     .catch((err) => {
       res.send("Failed to get order items");
