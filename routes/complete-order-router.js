@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const menuQueries = require("../db/queries/03_menu_item_queries");
+const orderQueries = require("../db/queries/04_orders_queries")
 const twilioClient = require("../lib/twilio");
 
 router.get("/", (req, res) => {
   const promises = []
-  const user = { name: "testuser" };
+  const user = { name: "testuser", id: 1};
 
   const order = { 1: 3, 3: 1};
   let orderStr = `Order received from ${user.name}\n`;
@@ -19,10 +20,12 @@ router.get("/", (req, res) => {
       for(foodItem of data) {
         orderStr += `${foodItem.name} x${order[foodItem.id]}\n`;
       }
-      orderStr += 'Please respond with the customer id and estimated time in minutes.'
+      orderStr += 'Please respond with the customer id followed by estimated completion time in minutes.'
       twilioClient.messages
         .create({body: orderStr, from: process.env.APP_PHONE, to: process.env.RESTAURANT_PHONE})
-        .then(message => console.log(message))
+        .then((msg) => {
+          console.log(msg)
+        })
     })
     .catch((err) => {
       res.send("Failed to get order items");
