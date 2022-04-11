@@ -109,9 +109,21 @@ $(() => {
       });
 
       $(`#menuItemModal-submit-btn-${menuItem.id}`).on("click", function (e) {
-        const order = {};
-        order["itemId"] = menuItem.id;
-        order["quantity"] = parseInt($(`#menuItemModal-minus-quantity-${menuItem.id}`).next().text());
+        if (!sessionStorage.getItem('orders')) {
+          sessionStorage.setItem('orders', JSON.stringify({}))
+        }
+
+        const orders = JSON.parse(sessionStorage.getItem('orders'));
+        console.log(orders);
+
+        if (!(menuItem.id in orders)) {
+          orders[menuItem.id] = 0;
+        }
+        
+        orders[menuItem.id] += parseInt($(`#menuItemModal-minus-quantity-${menuItem.id}`).next().text());
+
+        sessionStorage.setItem('orders', JSON.stringify(orders));
+
         // $.post("/api/additem", order)
         // .then(() => {
         //   $.get("/api/additem", {itemId: 1})
@@ -122,8 +134,9 @@ $(() => {
         // .catch(err => console.log(err.message));
         // .then(() => console.log("pls"));
 
-        $.post("/api/additem", order, function () {
-          console.log("Added to cart!");
+        // $.post("/api/additem", order, function (data) {
+        //   console.log("Added to cart!");
+        //   localStorage.setItem('order', JSON.stringify(data));
           // fetch("/api/additem?itemId=1")
           //   .then(response => response.json())
           //   .then(data => {
@@ -141,7 +154,7 @@ $(() => {
           //     console.log(err.message);
           //   }
           // })
-        });
+        // });
       });
 
     }
@@ -149,7 +162,7 @@ $(() => {
 
   };
 
-  fetch('/api/menu')
+  fetch("/api/menu")
     .then(response => response.json())
     .then(data => {
       for (const category in data.categories) {

@@ -45,6 +45,14 @@ $(() => {
     $(`h3`).after(createItems({ name: "Spring Rolls", quantity: 3, price: 150 }), createTotals());
   };
 
-  renderCart();
+
+  console.log(JSON.parse(sessionStorage.getItem('orders')));
+  // fetch("/api/cart/")
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     console.log(data);
+  //     renderCart();
+  //   })
+  //   .catch(err => console.log(err.message));
 
 });

@@ -25,12 +25,10 @@ router.post("/", (req, res) => {
   const itemId = req.body.itemId;
   const itemQuantity = req.body.quantity;
   menuQueries.getItemByID(itemId)
-  .then((data) => {
-    const menuItem = data;
-    req.session.order = { [menuItem.id]: itemQuantity };
+    .then((menuItem) => {
+      res.json({ [menuItem.id]: itemQuantity });
     })
     .catch(err => console.log(err.message));
-  res.send('Hello');
 });
 
 module.exports = router;
