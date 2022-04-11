@@ -28,7 +28,6 @@ const createNewOrder = function (userID, menuData) {
   return db
     .query(`INSERT INTO orders (user_id) VALUES ($1) RETURNING *;`, [userID])
     .then((result) => {
-      console.log(result.rows)
       createNewOrderMenuItems(result.rows[0], menuData);
       return result.rows[0];
     })
