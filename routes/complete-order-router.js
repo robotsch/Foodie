@@ -23,8 +23,8 @@ router.get("/", (req, res) => {
       orderStr += 'Please respond with the customer id followed by estimated completion time in minutes.'
       twilioClient.messages
         .create({body: orderStr, from: process.env.APP_PHONE, to: process.env.RESTAURANT_PHONE})
-        .then((msg) => {
-          console.log(msg)
+        .then(() => {
+          orderQueries.createNewOrder(user.id)
         })
     })
     .catch((err) => {
