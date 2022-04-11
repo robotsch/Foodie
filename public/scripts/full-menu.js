@@ -10,15 +10,15 @@ $(() => {
   const createMenuItem = function (menuItemData) {
     return $(`
       <div class="row">
-        <div class="col-lg-8 d-flex justify-content-between">
+        <div class="col-lg-8 d-flex justify-content-between menuItem">
           <div>
             <h4>${menuItemData.name}</h4>
             <p>${menuItemData.description}</p>
             <h5>$${menuItemData.price / 100}</h5>
           </div>
-        </div>
-        <div class="menuItem-img-container">
-          <img src="${menuItemData.image_url}" alt="IMG">
+          <div class="menuItem-img-container">
+            <img src="${menuItemData.image_url}" alt="IMG">
+          </div>
         </div>
       </div>
     `);
@@ -49,9 +49,15 @@ $(() => {
     .then(data => {
       for (const category in data.categories) {
         if (Object.hasOwnProperty.call(data.categories, category)) {
-          renderMenuItems(data.menuItems[category], data.categories[category])
+          renderMenuItems(data.menuItems[category], data.categories[category]);
         }
       }
+      
+      $(".menuItem").on("click", (e) => {
+        console.log("click");
+        $("#exampleModal").modal("toggle");
+      });
+
     })
     .catch(err => {
       console.log(err.message);

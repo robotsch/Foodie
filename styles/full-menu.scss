@@ -17,3 +17,16 @@
   width: 100%;
   height: auto;
 }
+
+.menuItem {
+  cursor: pointer;
+}
+
+.modal-body > div:first-of-type {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-body > div > div {
+  text-align: center;
+}
