@@ -39,6 +39,10 @@ app.use(
   })
 );
 
+
+const orderQueries = require("./db/queries/04_orders_queries")
+
+
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
 const menuRoute = require("./routes/menu-router")
