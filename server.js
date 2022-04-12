@@ -37,17 +37,12 @@ app.use(expressSession({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-<<<<<<< HEAD
-  cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 }
-}));
-=======
   cookie: { 
     maxAge: 7 * 24 * 60 * 60 * 1000,
     sameSite: true,
     secure: true
   }
 }))
->>>>>>> main
 
 app.use(express.static("public"));
 
