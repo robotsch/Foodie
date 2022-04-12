@@ -8,8 +8,11 @@ const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
+<<<<<<< HEAD
 const expressSession = require("express-session");
 const pgSession = require("connect-pg-simple")(expressSession);
+=======
+>>>>>>> 0477cb764af7e9f780d7f2a96ea77e7eddbf6f23
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -28,8 +31,21 @@ app.use(
   })
 );
 
-app.use(express.static("public"));
+// Session setup
+const expressSession = require('express-session')
+const pgSession = require('connect-pg-simple')(expressSession)
+app.use(expressSession({
+  store: new pgSession({
+    pool: db,
+    tableName: 'user_sessions'
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 7 * 24 * 60 * 60 * 1000}
+}))
 
+<<<<<<< HEAD
 app.use(
   session({
     store: new (require("connect-pg-simple")(session))({
@@ -41,8 +57,10 @@ app.use(
     cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 },
   })
 );
+=======
+>>>>>>> 0477cb764af7e9f780d7f2a96ea77e7eddbf6f23
 
-const orderQueries = require("./db/queries/04_orders_queries");
+app.use(express.static("public"));
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
