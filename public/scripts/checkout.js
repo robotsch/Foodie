@@ -50,7 +50,6 @@ $(() => {
     }
 
     for (const menuItem of Object.values(cartData)) {
-      // console.log(menuItem);
       $("#checkout-container > hr:first").after(createItem(menuItem));
     }
 
@@ -67,6 +66,21 @@ $(() => {
     err: function (err) {
       console.log(err.message);
     }
+  });
+
+  // sohould be post request to /api/checkout to send order to backend
+  $("#place-order-btn").unbind().on("click", function () {
+    $.ajax({
+      url: "/api/checkout",
+      type: "get",
+      data: JSON.parse(sessionStorage.getItem('orders')), // Passes in sessionStorage order info
+      success: function (response) {
+        console.log(response);
+      },
+      err: function (err) {
+        console.log(err.message);
+      }
+    });
   });
 
 });

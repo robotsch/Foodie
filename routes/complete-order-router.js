@@ -16,7 +16,8 @@ router.get("/", (req, res) => {
   const promises = [];
   const user = { name: "testuser", id: 1 };
 
-  const order = JSON.parse(sessionStorage.getItem('orders'));
+  // const order = JSON.parse(sessionStorage.getItem('orders'));
+  const order = req.query;
   let orderStr = `Order received from ${user.name}\n`;
 
   Object.keys(order).forEach((id) => {
