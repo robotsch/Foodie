@@ -15,50 +15,7 @@ $(() => {
     <hr>
   `);
   };
-
-  // const createItemEditModal = function (menuItemData) {
-  //   return $(`
-  //   <div class="modal fade" id="menuItemModal-${menuItemData.id}">
-  //     <div class="modal-dialog">
-  //       <div class="modal-content">
-  //         <div class="modal-header">
-  //           <h5 class="modal-title" id="exampleModalLabel">${menuItemData.name}</h5>
-  //           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-  //         </div>
-  //         <div class="modal-body">
-  //           ${menuItemData.description}
-  //           <hr class="bg-danger border-2 border-top border-danger">
-  //           <div>
-  //             <div>
-  //               Price<br>
-  //               $${menuItemData.price / 100}
-  //             </div>
-  //             <div>
-  //               Quantity<br>
-  //               <span class="menuItemModal-quantity-${menuItemData.id}">1</span>
-  //             </div>
-  //             <div>
-  //               Total<br>
-  //               <span id="menuItemModal-total-cost-${menuItemData.id}">$${menuItemData.price / 100}</span>
-  //             </div>
-  //           </div>
-  //           <hr class="bg-danger border-2 border-top border-danger">
-  //           <div>
-  //             <button type="button" class="btn btn-outline-dark mx-3" id="menuItemModal-minus-quantity-${menuItemData.id}">-</button>
-  //             <span class="menuItemModal-quantity-${menuItemData.id}">1</span>
-  //             <button type="button" class="btn btn-outline-dark mx-3" id="menuItemModal-plus-quantity-${menuItemData.id}">+</button>
-  //           </div>
-  //         </div>
-  //         <div class="modal-footer">
-  //           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-  //           <button type="button" data-bs-dismiss="modal" id="menuItemModal-submit-btn-${menuItemData.id}" class="btn btn-primary">Add To Order</button>
-  //         </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //     `);
-  // };
-
+  
   const createTotals = function (totals) {
     return $(`
     <div id="totals-container">
