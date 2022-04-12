@@ -28,10 +28,9 @@ const getAllCategories = () => {
   `;
 
   return db.query(queryString, queryParams).then((res) => res.rows);
-}
+};
 
 exports.getAllCategories = getAllCategories;
-
 
 //receives an order object containing menu_items(id):quantity (property:value). returns an integer representing the total cost of the order in cents
 const sumOrderTotal = (order) => {
@@ -63,3 +62,16 @@ const getItemByID = (menuID) => {
 };
 
 exports.getItemByID = getItemByID;
+
+const getItemBySearch = (searchItem) => {
+  const values = [`%${searchItem}%`];
+  console.log("values: ", values);
+  let queryString = `
+   SELECT *
+   FROM menu_items
+   WHERE name LIKE $1
+  `;
+  return db.query(queryString, values).then((res) => res.rows);
+};
+
+exports.getItemBySearch = getItemBySearch;

@@ -1,3 +1,5 @@
+//ripped from full-menu.js
+
 $(() => {
   // Transforms any scripting attacks to normal text
   const escape = function (str) {
@@ -166,9 +168,42 @@ $(() => {
     }
   };
 
+  const deleteSearchResults = () => {
+    $("#menu-container").empty();
+  };
+
+  //ajax handles the GET requests for /tweets/ asynchronously
+  $("textarea").on("input", function (event) {
+    let searchString = $("#search-text").val();
+
+    deleteSearchResults();
+
+    console.log("search string: ", searchString);
+
+    $.ajax({
+      url: `/search/`,
+      method: "POST",
+      data: searchString,
+    })
+      .then((response) => {
+        let data = JSON.parse(response);
+        console.log("responsedata: ", data);
+
+        const menuItemKeys = Object.keys(data.menuItems);
+
+        for (const element of menuItemKeys) {
+          renderMenuItems(data.menuItems[element], data.categories[element]);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+
   fetch("/api/menu")
     .then((response) => response.json())
     .then((data) => {
+      console.log("data: ", data);
       for (const category in data.categories) {
         if (Object.hasOwnProperty.call(data.categories, category)) {
           renderMenuItems(data.menuItems[category], data.categories[category]);
@@ -179,3 +214,9 @@ $(() => {
       console.log(err.message);
     });
 });
+
+//end of rip
+
+const renderSearchItems = (data) => {
+  for (let i = 0; i < data.mentItems.length; i++) {}
+};
