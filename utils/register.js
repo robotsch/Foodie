@@ -1,5 +1,5 @@
 const bcrypt = require("bcryptjs");
-const userQueries = require('../db/queries/01_user_queries')
+const userQueries = require('../db/queries/01_user_queries');
 
 /**
  * Creates a new user in the database with the provided info
@@ -13,15 +13,15 @@ const registerUser = function(userObj) {
     fname: userObj.firstName,
     lname: userObj.lastName,
     phone: userObj.phone
-  }
+  };
 
   userQueries.addUser(userInfo)
     .then((newUser) => {
-      return newUser.id
+      return newUser.id;
     })
     .catch((err) => {
-      console.log('Registration failed: ', err)
-    })
-}
+      console.log('Registration failed: ', err);
+    });
+};
 
-module.exports = registerUser
+module.exports = registerUser;
