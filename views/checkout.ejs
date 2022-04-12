@@ -20,12 +20,13 @@
   <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
   <link rel="stylesheet" href="/styles/topbar.css" type="text/css" />
   <link rel="stylesheet" href="/styles/cart.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/checkout.css" type="text/css" />
 
   <!-- jQuery -->
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
 
   <!-- app.js -->
-  <script type="text/javascript" src="/scripts/cart.js"></script>
+  <script type="text/javascript" src="/scripts/checkout.js"></script>
 
   <title>Cart | Golden Wok</title>
 </head>
@@ -34,51 +35,60 @@
 
   <%- include('partials/_topbar') %>
 
-    <div class="container-md d-flex flex-column align-items-center mt-4" id="cart-container">
-      <h3>Your Cart</h3>
-      <button type="button" class="btn btn-primary">Checkout</button>
-    </div>
-
-    <div class="modal fade" id="edit-quantity-modal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">NAME</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-          <div class="modal-body">
-            <span id="desc">DESC</span>
-            <hr>
-            <div>
-              <div>
-                Price<br>
-                <span id="price">$PRICE</span>
-              </div>
-              <div>
-                Quantity<br>
-                <span class="quantity">1</span>
-              </div>
-              <div>
-                Total<br>
-                <span id="total">$TOTAL</span>
-              </div>
-            </div>
-            <hr>
-            <div>
-              <button type="button" class="btn btn-outline-dark mx-3" id="minus-quantity-btn">-</button>
-              <span class="quantity">1</span>
-              <button type="button" class="btn btn-outline-dark mx-3" id="plus-quantity-btn">+</button>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" data-bs-dismiss="modal" id="set-quantity-btn" class="btn btn-primary">Set
-              Quantity</button>
-            <button type="button" data-bs-dismiss="modal" id="remove-btn" class="btn btn-danger">Remove
-              Item</button>
-          </div>
+    <div class="container-md d-flex flex-column align-items-center mt-4" id="checkout-container">
+      <h3>Checkout</h3>
+      <hr>
+      <h4>Items</h4>
+      <div class="item-container" id="item-${orderData.id}">
+        <div>
+          <div class="px-2 py-1 mx-2 text-center">1</div>
+          <div>Spring Rolls</div>
+        </div>
+        <div>$1.50</div>
+      </div>
+      <hr>
+      <div id="totals-container">
+        <div>
+          <div>Subtotal</div>
+          <div>$xxx</div>
+        </div>
+        <div>
+          <div>Serivce Fee</div>
+          <div>$xxx</div>
+        </div>
+        <div>
+          <div>Tax</div>
+          <div>$xxx</div>
+        </div>
+        <div>
+          <div>Total</div>
+          <div>$xxx</div>
         </div>
       </div>
+      <hr>
+      <h4>Payment Info</h4>
+      <div>
+        <label for="cc-name" class="form-label">Name on card</label>
+        <input type="text" class="form-control" id="cc-name" placeholder="" required="">
+        <small class="text-muted">Full name as displayed on card</small>
+      </div>
+      <div>
+        <label for="cc-number" class="form-label">Credit card number</label>
+        <input type="text" class="form-control" id="cc-number" placeholder="" required="">
+      </div>
+      <div>
+        <label for="cc-expiration" class="form-label">Expiration</label>
+        <input type="text" class="form-control" id="cc-expiration" placeholder="" required="">
+      </div>
+      <div>
+        <label for="cc-cvv" class="form-label">CVV</label>
+        <input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
+      </div>
+      <hr>
+      <div>Approximate pickup time will be shown after completing checkout</div>
+      <div>Pickup at 94 Halsey Ave, Toronto</div>
+      <hr>
+      <button type="submit" class="btn btn-primary">Place Order</button>
     </div>
 
     <!-- Bootstrap -->
