@@ -71,7 +71,7 @@ app.use("/api/register", registerRoute);
 //app.use("/api/menuSearch", menuSearchRoute);
 
 // Note: mount other resources here, using the same pattern above
-const redirectUtils = require("./utils/auth-redirects")
+const redirectUtils = require("./middleware/auth-redirects")
 const authUtils = require("./utils/auth-utils")
 
 // Home page
