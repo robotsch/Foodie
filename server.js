@@ -40,17 +40,6 @@ app.use(expressSession({
   cookie: { maxAge: 7 * 24 * 60 * 60 * 1000}
 }))
 
-app.use(
-  session({
-    store: new (require("connect-pg-simple")(session))({
-      pool: db,
-      table_name: "user_sessions",
-    }),
-    secret: "some secret",
-    resave: false,
-    cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 },
-  })
-);
 
 app.use(express.static("public"));
 
