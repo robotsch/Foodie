@@ -93,8 +93,8 @@ $(() => {
             type: "get",
             data: { "orderID": orderID },
             success: function (response) {
-              if (response === "null") {
-              // if (response !== "null") {
+              // if (response === "null") {
+              if (response !== "null") {
                 clearInterval(timer);
                 document.location.href = "/";
               }
