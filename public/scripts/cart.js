@@ -80,15 +80,14 @@ $(() => {
       return;
     }
 
-    let sum = 0;
-
     for (const menuItem of Object.values(cartData)) {
 
-      sum += menuItem.price * menuItem.quantity;
       $("#cart-container > h3").after(createItem(menuItem));
 
       $(`#edit-quantity-btn-${menuItem.id}`).unbind().on("click", function () {
+
         const modal = $(`#edit-quantity-modal`);
+        
         $('.modal-title').text(menuItem.name);
         $('#desc').text(menuItem.description);
         $(`#price`).text(`$${(menuItem.price / 100).toFixed(2)}`);
@@ -134,7 +133,6 @@ $(() => {
           
           // Updates sessionStorage subtotal and orders
           const newSubtotal = parseInt(sessionStorage.getItem('subtotal')) + menuItem.price * (newQuantity - oldQuantity);
-          // console.log(typeof oldQuantity);
           sessionStorage.setItem('subtotal', JSON.stringify(newSubtotal));
           
           updateTotals(newSubtotal);
@@ -145,6 +143,7 @@ $(() => {
         $("#remove-btn").unbind().on("click", () => {
           const sessionCart = JSON.parse(sessionStorage.getItem('orders'));
 
+          const quantity = sessionCart[menuItem.id];
           // Deletes from sessionStorage
           delete sessionCart[menuItem.id];
 
@@ -158,8 +157,10 @@ $(() => {
           // delete cartData[menuItem.id];
 
           // Updates sessionStorage subtotal and orders
-          const newSubtotal = parseInt(sessionStorage.getItem('subtotal')) - menuItem.price * menuItem.quantity;
-          sessionStorage.setItem('subtotal', newSubtotal);
+          const newSubtotal = parseInt(sessionStorage.getItem('subtotal')) - menuItem.price * quantity;
+          sessionStorage.setItem('subtotal', JSON.stringify(newSubtotal));
+
+          updateTotals(newSubtotal);
 
           sessionStorage.setItem('orders', JSON.stringify(sessionCart));
 
@@ -178,20 +179,11 @@ $(() => {
 
     }
 
-    // Gets jquery selector for checkout button
-    const checkoutBtn = $(`#cart-container > button:last-child`);
-
-    // Creates and renders section for totals before checkout button
-    // checkoutBtn.before(createTotals({
-    //   subtotal: sum / 100,
-    //   serviceFee: 1,
-    //   tax: sum * 0.13 / 100,
-    //   total: sum * 1.13 / 100
-    // }));
-    updateTotals(sum);
+    // Updates totals container
+    updateTotals(parseInt(sessionStorage.getItem("subtotal")));
 
     // Adds horizontal line before checkout button
-    checkoutBtn.before("<hr>");
+    $(`#cart-container > button:last-child`).before("<hr>");
 
   };
 
