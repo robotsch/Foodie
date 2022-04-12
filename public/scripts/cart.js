@@ -67,7 +67,7 @@ $(() => {
   const renderCart = function (cartData) {
 
     // Creates initial totals-container
-    $(`#cart-container > button:last-child`).before(createTotals({
+    $("#checkout-btn").before(createTotals({
       subtotal: 0,
       serviceFee: 0,
       tax: 0,
@@ -117,7 +117,6 @@ $(() => {
           const newQuantity = parseInt($('.modal-body').find(".quantity:first").text());
           
           if (newQuantity === oldQuantity) return;
-
 
           // Updates new quantity in sessionStorage
           sessionCart[menuItem.id] = newQuantity;
@@ -177,7 +176,7 @@ $(() => {
     updateTotals(parseInt(sessionStorage.getItem("subtotal")));
 
     // Adds horizontal line before checkout button
-    $(`#cart-container > button:last-child`).before("<hr>");
+    $("#checkout-btn").before("<hr>");
 
   };
 
