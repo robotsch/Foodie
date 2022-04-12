@@ -37,9 +37,12 @@ app.use(expressSession({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 7 * 24 * 60 * 60 * 1000}
+  cookie: { 
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    sameSite: true,
+    secure: true
+  }
 }))
-
 
 app.use(express.static("public"));
 
@@ -51,11 +54,12 @@ const cartRoute = require("./routes/cart-summary-router");
 const orderRoute = require("./routes/complete-order-router");
 const checkoutRoute = require("./routes/complete-order-router");
 const smsResponseRoute = require("./routes/sms-response-router");
+const loginRoute = require("./routes/login-router")
+const registerRoute = require("./routes/login-router")
 //const menuSearchRoute = require("./routes/menu-search");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
-
 app.use("/api/menu", menuRoute);
 app.use("/api/additem", addItemRoute);
 app.use("/api/cart", cartRoute);
@@ -65,6 +69,7 @@ app.use("/api/smsresponse", smsResponseRoute);
 //app.use("/api/menuSearch", menuSearchRoute);
 
 // Note: mount other resources here, using the same pattern above
+const redirects = require("./utils/auth-redirects")
 
 // Home page
 // Warning: avoid creating more routes in this file!
@@ -82,17 +87,23 @@ app.get("/cart", (req, res) => {
   res.render("cart");
 });
 
-app.get("/checkout", (req, res) => {
+app.get("/checkout", redirects.toLogin, (req, res) => {
   res.render("checkout");
 });
 
-app.get("/orders", (req, res) => {
+app.get("/orders", redirects.toLogin, (req, res) => {
   res.render("order-history");
 });
 
-app.get("/test1", (req,res) => {
-  res.send(req.session.user_id)
+app.get("/login", redirects.toHome, (req, res) => {
+  res.render("login")
 })
+
+app.get("/register", redirects.toHome, (req, res) => {
+  res.render("register")
+})
+
+app.post("/register", redirects.toHome, (req, res))
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
