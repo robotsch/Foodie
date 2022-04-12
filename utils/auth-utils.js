@@ -7,13 +7,12 @@ const userQueries = require('../db/queries/01_user_queries');
  */
 
 const registerUser = function(userObj) {
-  
   userQueries.addUser({
     email: userObj.email,
-    pw: bcrypt.hashSync(userObj.password, 10),
-    fname: userObj.firstName,
-    lname: userObj.lastName,
-    phone: userObj.phone
+    password:  bcrypt.hashSync(userObj.password, 10),
+    first_name: userObj.fname,
+    last_name: userObj.lname,
+    phone_number: userObj.phone
   })
     .then((newUser) => {
       return newUser.id;
@@ -23,4 +22,18 @@ const registerUser = function(userObj) {
     });
 };
 
-module.exports = registerUser;
+const authenticateUser = function(credentials) {
+  userQueries.getUserWithEmail(credentials.email)
+    .then((user) => {
+      if(user) {
+        if(bcrypt.compareSync(credentials.password, user.password)) {
+          return user.id
+        }
+      }
+    })
+}
+
+module.exports = {
+  registerUser,
+  authenticateUser
+};
