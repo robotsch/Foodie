@@ -90,6 +90,10 @@ app.get("/orders", (req, res) => {
   res.render("order-history");
 });
 
+app.get("/test1", (req,res) => {
+  res.send(req.session.user_id)
+})
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });

@@ -4,7 +4,7 @@ const menuQueries = require("../db/queries/03_menu_item_queries");
 
 router.get("/", (req, res) => {
   // temp session for menu testing
-  req.session.user_id = "test";
+  req.session.user_id = "1";
 
   return Promise.all([
     menuQueries.getAllMenuItems(),
