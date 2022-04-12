@@ -8,7 +8,8 @@ const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
-const cookieSession = require("cookie-session");
+const expressSession = require('express-session')
+const pgSession = reqiore('connect-pg-simple')(expressSession)
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -30,12 +31,14 @@ app.use(
 app.use(express.static("public"));
 
 app.use(
-  cookieSession({
-    name: "session",
-    keys: [
-      "dde30aed83711ab341760f40cfe551de90c28607",
-      "4fa2d880a7d7e48c2b652ad07df215ad14020fbf",
-    ],
+  session({
+    store: new (require('connect-pg-simple')(session)) ({
+      pool: db,
+      table_name: 'user_sessions'
+    }),
+    secret: 'some secret',
+    resave: false,
+    cookie: { maxAge: 7 * 24 * 60 * 60 * 1000}
   })
 );
 
