@@ -8,7 +8,6 @@ const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
-const cookieSession = require("cookie-session");
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -27,19 +26,22 @@ app.use(
   })
 );
 
+// Session setup
+const expressSession = require('express-session')
+const pgSession = require('connect-pg-simple')(expressSession)
+app.use(expressSession({
+  store: new pgSession({
+    pool: db,
+    tableName: 'user_sessions'
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 7 * 24 * 60 * 60 * 1000}
+}))
+
+
 app.use(express.static("public"));
-
-app.use(
-  cookieSession({
-    name: "session",
-    keys: [
-      "dde30aed83711ab341760f40cfe551de90c28607",
-      "4fa2d880a7d7e48c2b652ad07df215ad14020fbf",
-    ],
-  })
-);
-
-const orderQueries = require("./db/queries/04_orders_queries");
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
@@ -83,6 +85,14 @@ app.get("/cart", (req, res) => {
 app.get("/checkout", (req, res) => {
   res.render("checkout");
 });
+
+app.get("/orders", (req, res) => {
+  res.render("order-history");
+});
+
+app.get("/test1", (req,res) => {
+  res.send(req.session.user_id)
+})
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
