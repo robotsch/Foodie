@@ -84,6 +84,10 @@ app.get("/checkout", (req, res) => {
   res.render("checkout");
 });
 
+app.get("/orders", (req, res) => {
+  res.render("order-history");
+});
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
