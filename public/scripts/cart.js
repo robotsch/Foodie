@@ -2,8 +2,7 @@ $(() => {
 
   const createItem = function (orderData) {
     return $(`
-    <div id="items-container">
-    <div>
+    <div class="item-container">
       <div>
         <div class="px-2 py-1 mx-2 text-center">${orderData.quantity}</div>
         <div>${orderData.name}</div>
@@ -14,7 +13,6 @@ $(() => {
       </div>
     </div>
     <hr>
-    </div>
   `);
   };
 
@@ -94,18 +92,15 @@ $(() => {
       `);
       return;
     }
-
-    // Gets jquery selector for checkout button
-    const checkoutBtn = $(`#cart-container > button:last-child`);
-
+    
     let sum = 0;
-
+    
     for (const menuItem of Object.values(cartData)) {
       let newQuantity = 1;
-
+      
       sum += menuItem.price * menuItem.quantity;
-      checkoutBtn.before(createItem(menuItem));
-
+      $("#cart-container > h3").after(createItem(menuItem));
+      
       $(`#edit-quantity-btn-${menuItem.id}`).on("click", function (e) {
         const modal = $(`#edit-quantity-modal`);
         $('.modal-title').text(menuItem.name);
@@ -139,7 +134,8 @@ $(() => {
 
         $("#remove-btn").on("click", function(e) {
           const sessionCart = JSON.parse(sessionStorage.getItem('orders'));
-          delete sessionCart[menuItem.id];
+          // delete sessionCart[menuItem.id];
+          console.log($(this))
           // idk if commenting/uncommenting this line does much
           // delete cartData[menuItem.id];
           sessionStorage.setItem('orders', JSON.stringify(sessionCart));
@@ -150,6 +146,10 @@ $(() => {
 
     }
 
+    // Gets jquery selector for checkout button
+    const checkoutBtn = $(`#cart-container > button:last-child`);
+
+    // Creates and renders section for totals before checkout button
     checkoutBtn.before(createTotals({
       subtotal: sum / 100,
       serviceFee: 1,
@@ -157,6 +157,7 @@ $(() => {
       total: sum * 1.13 / 100
     }));
 
+    // Adds horizontal line before checkout button
     checkoutBtn.before("<hr>");
 
   };
