@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS categories CASCADE;
 
 DROP TABLE IF EXISTS orders CASCADE;
 DROP TABLE IF EXISTS order_menu_items CASCADE;
-
+DROP TABLE IF EXISTS user_sessions CASCADE;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY NOT NULL,
@@ -52,3 +52,13 @@ CREATE TABLE order_menu_items (
 );
 
 
+CREATE TABLE "user_sessions" (
+  "sid" varchar NOT NULL COLLATE "default",
+        "sess" json NOT NULL,
+        "expire" timestamp(6) NOT NULL
+)
+WITH (OIDS=FALSE);
+
+ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
+
+CREATE INDEX "IDX_session_expire" ON "session" ("expire");

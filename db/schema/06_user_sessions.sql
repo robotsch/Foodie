@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS user_sessions CASCADE;
+
 CREATE TABLE "user_sessions" (
   "sid" varchar NOT NULL COLLATE "default",
         "sess" json NOT NULL,
