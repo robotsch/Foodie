@@ -7,7 +7,7 @@ const userQueries = require('../db/queries/01_user_queries');
  */
 
 const registerUser = function(userObj) {
-  userQueries.addUser({
+  return userQueries.addUser({
     email: userObj.email,
     password:  bcrypt.hashSync(userObj.password, 10),
     first_name: userObj.fname,
@@ -23,7 +23,7 @@ const registerUser = function(userObj) {
 };
 
 const authenticateUser = function(credentials) {
-  userQueries.getUserWithEmail(credentials.email)
+  return userQueries.getUserWithEmail(credentials.email)
     .then((user) => {
       if(user) {
         if(bcrypt.compareSync(credentials.password, user.password)) {
