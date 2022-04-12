@@ -15,7 +15,7 @@ $(() => {
     <hr>
   `);
   };
-  
+
   const createTotals = function (totals) {
     return $(`
     <div id="totals-container">
@@ -39,14 +39,31 @@ $(() => {
     `);
   };
 
-  const renderCart = function (cartData) {
-    // No items in cart
-    if (Object.keys(cartData).length === 0) {
-      $(`#cart-container > h3`).after(`
+  const renderEmptyCart = function() {
+    $(`#cart-container > h3`).after(`
+      <hr>
       <div class="my-5">
         <h4>No items in cart</h4>
       </div>
+      <hr>
       `);
+    return;
+  }
+
+  const renderCart = function (cartData) {
+    // No items in cart
+    if (Object.keys(cartData).length === 0) {
+      renderEmptyCart();
+
+      const sum = 0;
+      $(`#cart-container > button:last-child`).before(createTotals({
+        subtotal: sum / 100,
+        serviceFee: 1,
+        tax: sum * 0.13 / 100,
+        total: sum * 1.13 / 100
+      }));
+  
+
       return;
     }
 
@@ -121,6 +138,12 @@ $(() => {
 
           // Updates sessionStorage
           sessionStorage.setItem('orders', JSON.stringify(sessionCart));
+
+          if (Object.keys(sessionCart).length === 0) {
+            console.log("cart empty");
+            renderEmptyCart();
+          }
+
         });
 
         modal.modal("toggle");
