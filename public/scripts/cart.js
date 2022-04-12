@@ -86,8 +86,6 @@ $(() => {
 
       $(`#edit-quantity-btn-${menuItem.id}`).unbind().on("click", function () {
 
-        const modal = $(`#edit-quantity-modal`);
-        
         $('.modal-title').text(menuItem.name);
         $('#desc').text(menuItem.description);
         $(`#price`).text(`$${(menuItem.price / 100).toFixed(2)}`);
@@ -95,46 +93,45 @@ $(() => {
         $("#total").text(`$${(menuItem.price * menuItem.quantity / 100).toFixed(2)}`);
 
         $("#minus-quantity-btn").unbind().on("click", function () {
-          if (menuItem.quantity > 1) {
-            menuItem.quantity--;
-            $(".quantity").text(menuItem.quantity);
-            $("#total").text(`$${(menuItem.price * menuItem.quantity / 100).toFixed(2)}`);
+          const quantity = parseInt($('.modal-body').find(".quantity:first").text());
+          if (quantity > 1) {
+            $(".quantity").text(quantity - 1);
+            $("#total").text(`$${((quantity - 1) * menuItem.price / 100)}`);
           }
         });
 
         $("#plus-quantity-btn").unbind().on("click", function () {
-          if (menuItem.quantity < 100) {
-            menuItem.quantity++;
-            $(".quantity").text(menuItem.quantity);
-            $("#total").text(`$${(menuItem.price * menuItem.quantity / 100).toFixed(2)}`);
+          const quantity = parseInt($('.modal-body').find(".quantity:first").text());
+          if (quantity < 100) {
+            $(".quantity").text(quantity + 1);
+            $("#total").text(`$${((quantity + 1) * menuItem.price / 100)}`);
           }
         });
 
         $("#set-quantity-btn").unbind().on("click", function () {
+          
           const sessionCart = JSON.parse(sessionStorage.getItem('orders'));
-
           const oldQuantity = sessionCart[menuItem.id];
+          
           // Gets new quantity
-          const newQuantity = parseInt($(this).parent().prev().children("div:last-child").children("span").text());
-
+          const newQuantity = parseInt($('.modal-body').find(".quantity:first").text());
+          
           if (newQuantity === oldQuantity) return;
+
 
           // Updates new quantity in sessionStorage
           sessionCart[menuItem.id] = newQuantity;
 
           // Updates quantity in yellow div on 'Your Cart' page to new quantity
-          $(`#item-${menuItem.id}`).children("div:first-child").children("div:first-child").text(newQuantity);
+          $(`#item-${menuItem.id} > div:first-child > div:first-child`).text(newQuantity);
 
           // Updates total price for each item on 'Your Cart' page after quantity changes
-          $(`#item-${menuItem.id}`).children("div:last-child").children("div:last-child").text(`$${(menuItem.price * menuItem.quantity / 100).toFixed(2)}`);
+          $(`#item-${menuItem.id} > div:nth-child(2) > div:nth-child(2)`).text(`$${menuItem.price * newQuantity / 100}`);
 
-          // idk if commenting/uncommenting this line does much
-          // delete cartData[menuItem.id];
-          
           // Updates sessionStorage subtotal and orders
           const newSubtotal = parseInt(sessionStorage.getItem('subtotal')) + menuItem.price * (newQuantity - oldQuantity);
           sessionStorage.setItem('subtotal', JSON.stringify(newSubtotal));
-          
+
           updateTotals(newSubtotal);
 
           sessionStorage.setItem('orders', JSON.stringify(sessionCart));
@@ -153,9 +150,6 @@ $(() => {
           // Deletes item entry in cart from DOM
           $(`#item-${menuItem.id}`).remove();
 
-          // idk if commenting/uncommenting this line does much
-          // delete cartData[menuItem.id];
-
           // Updates sessionStorage subtotal and orders
           const newSubtotal = parseInt(sessionStorage.getItem('subtotal')) - menuItem.price * quantity;
           sessionStorage.setItem('subtotal', JSON.stringify(newSubtotal));
@@ -168,13 +162,13 @@ $(() => {
           if (Object.keys(sessionCart).length === 0) {
             renderEmptyCart();
             updateTotals(0);
-            modal.modal("toggle");
+            $(`#edit-quantity-modal`).modal("toggle");
             return;
           }
 
         });
 
-        modal.modal("toggle");
+        $(`#edit-quantity-modal`).modal("toggle");
       });
 
     }
