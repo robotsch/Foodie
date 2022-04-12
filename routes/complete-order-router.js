@@ -13,10 +13,10 @@ const twilioClient = require("../lib/twilio");
  *  alongside a prompt to respond with estimated completion time
 */
 router.get("/", (req, res) => {
+
   const promises = [];
   const user = { name: "testuser", id: 1 };
 
-  // const order = JSON.parse(sessionStorage.getItem('orders'));
   const order = req.query;
   let orderStr = `Order received from ${user.name}\n`;
 
@@ -35,17 +35,20 @@ router.get("/", (req, res) => {
           orderStr += `Order ID: ${createdOrder.id}\n`;
           orderStr +=
             "Please respond with the order id followed by estimated completion time in minutes.";
-          twilioClient.messages
-            .create({
-              body: orderStr,
-              from: process.env.APP_PHONE,
-              to: process.env.RESTAURANT_PHONE,
-            })
-            .then((messages) => {
-              console.log(messages);
-            });
-          res.send("Success");
-        });
+          // twilioClient.messages
+          //   .create({
+          //     body: orderStr,
+          //     from: process.env.APP_PHONE,
+          //     to: process.env.RESTAURANT_PHONE,
+          //   })
+          //   .then((messages) => {
+          //     // console.log(messages);
+          //   })
+          //   .catch((err) => console.log(err.messages));
+
+          console.log(createdOrder.id);
+          res.send(`${createdOrder.id}`);
+        })
     })
     .catch((err) => {
       res.send("Failed to get order items");

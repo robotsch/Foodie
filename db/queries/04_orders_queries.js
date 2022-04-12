@@ -1,3 +1,4 @@
+const res = require("express/lib/response");
 const db = require("../db");
 
 //requires menuData in the same form as the data supplied to the sumOrderTotal function
@@ -76,3 +77,14 @@ const completeOrder = function (orderID) {
 };
 
 exports.completeOrder = completeOrder;
+
+const getEstimatedCompletionTime = function (orderID) {
+  return db.query(
+    `SELECT estimated_completion_time
+    FROM orders
+    WHERE id = $1`,
+    [orderID]
+  ).then(result => result.rows[0]);
+};
+
+exports.getEstimatedCompletionTime = getEstimatedCompletionTime;

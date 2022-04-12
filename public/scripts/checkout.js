@@ -74,13 +74,60 @@ $(() => {
       url: "/api/checkout",
       type: "get",
       data: JSON.parse(sessionStorage.getItem('orders')), // Passes in sessionStorage order info
-      success: function (response) {
-        console.log(response);
+      success: function (orderID) {
+        console.log(orderID);
+        $("#checkout-container").replaceWith(`
+        <div class="container-md d-flex flex-column align-items-center mt-4" id="order-pending-container">
+        <h1>PENDING</h1>
+        <!-- <h3>Thank You!</h3>
+        <h5>Pickup at 94 Halsey Ave, Toronto</h5>
+        <h5>Your order will be ready at approximately:</h5>
+        <span id="estimated-completion-time">1:25 pm</span>
+        <span id="estimated-completion-date-time">(1:25 pm on Tue, April 11, 2022)</span> -->
+        </div>`
+        );
+
+        let timer = setInterval(function () {
+          $.ajax({
+            url: "/order-pending",
+            type: "get",
+            data: { "orderID": orderID },
+            success: function (response) {
+              if (response === "null") {
+              // if (response !== "null") {
+                clearInterval(timer);
+                document.location.href = "/";
+              }
+            },
+            err: function (err) {
+              console.log(err.message);
+            }
+          });
+        }, 1000);
+
       },
       err: function (err) {
         console.log(err.message);
       }
     });
   });
+
+  // const requestLoop = setInterval(function () {
+  //   $.ajax({
+  //     url: "",
+  //     type: "get",
+  //     data: ,
+  //     success: function (response) {
+  //       console.log(response);
+  //     },
+  //     err: function (err) {
+  //       console.log(err.message);
+  //     }
+  //   });
+  //   // if (order completion time exists) {
+  //   if (true) {
+  //     clearInterval(timer);
+  //   }
+  // }, 1000);
 
 });

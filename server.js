@@ -27,8 +27,8 @@ app.use(
 );
 
 // Session setup
-const expressSession = require('express-session')
-const pgSession = require('connect-pg-simple')(expressSession)
+const expressSession = require('express-session');
+const pgSession = require('connect-pg-simple')(expressSession);
 app.use(expressSession({
   store: new pgSession({
     pool: db,
@@ -37,8 +37,8 @@ app.use(expressSession({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 7 * 24 * 60 * 60 * 1000}
-}))
+  cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 }
+}));
 
 
 app.use(express.static("public"));
@@ -90,9 +90,26 @@ app.get("/orders", (req, res) => {
   res.render("order-history");
 });
 
-app.get("/test1", (req,res) => {
-  res.send(req.session.user_id)
-})
+app.get("/test1", (req, res) => {
+  res.send(req.session.user_id);
+});
+
+app.get("/order-success", (req, res) => {
+  res.render("order-success");
+});
+
+const orderQueries = require("./db/queries/04_orders_queries");
+
+app.get("/order-pending", (req, res) => {
+  console.log("/order-pending get requests req.query", req.query);
+  orderQueries.getEstimatedCompletionTime(req.query.orderID)
+    .then(result => {
+      console.log(result);
+      console.log(result.estimated_completion_time);
+      res.send(`${result.estimated_completion_time}`);
+    })
+    .catch(err => console.log(err.messages));
+});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
