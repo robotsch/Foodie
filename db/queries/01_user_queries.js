@@ -7,7 +7,6 @@ const getUserWithEmail = function (email) {
   return db
     .query(`SELECT * FROM users WHERE email LIKE $1`, values)
     .then((result) => {
-      console.log("result: ", result.rows[0]);
       return result.rows[0];
     })
     .catch((err) => {
