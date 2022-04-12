@@ -175,29 +175,47 @@ $(() => {
   //ajax handles the GET requests for /tweets/ asynchronously
   $("textarea").on("input", function (event) {
     let searchString = $("#search-text").val();
-
+    console.log("search: ", searchString);
     deleteSearchResults();
 
-    console.log("search string: ", searchString);
-
-    $.ajax({
-      url: `/search/`,
-      method: "POST",
-      data: searchString,
-    })
-      .then((response) => {
-        let data = JSON.parse(response);
-        console.log("responsedata: ", data);
-
-        const menuItemKeys = Object.keys(data.menuItems);
-
-        for (const element of menuItemKeys) {
-          renderMenuItems(data.menuItems[element], data.categories[element]);
-        }
+    //console.log("search string: ", searchString);
+    if (!searchString) {
+      fetch("/api/menu")
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("data: ", data);
+          for (const category in data.categories) {
+            if (Object.hasOwnProperty.call(data.categories, category)) {
+              renderMenuItems(
+                data.menuItems[category],
+                data.categories[category]
+              );
+            }
+          }
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    } else {
+      $.ajax({
+        url: `/search/`,
+        method: "POST",
+        data: searchString,
       })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then((response) => {
+          let data = JSON.parse(response);
+          console.log("responsedata: ", data);
+
+          const menuItemKeys = Object.keys(data.menuItems);
+
+          for (const element of menuItemKeys) {
+            renderMenuItems(data.menuItems[element], data.categories[element]);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   });
 
   fetch("/api/menu")
