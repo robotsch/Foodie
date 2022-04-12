@@ -55,7 +55,7 @@ const orderRoute = require("./routes/complete-order-router");
 const checkoutRoute = require("./routes/complete-order-router");
 const smsResponseRoute = require("./routes/sms-response-router");
 const loginRoute = require("./routes/login-router")
-const registerRoute = require("./routes/login-router")
+const registerRoute = require("./routes/register-router")
 //const menuSearchRoute = require("./routes/menu-search");
 
 // Mount all resource routes
@@ -104,10 +104,6 @@ app.get("/login", redirectUtils.toHome, (req, res) => {
 
 app.get("/register", redirectUtils.toHome, (req, res) => {
   res.render("register")
-})
-
-app.post("/register", redirectUtils.toHome, (req, res) => {
-
 })
 
 app.listen(PORT, () => {
