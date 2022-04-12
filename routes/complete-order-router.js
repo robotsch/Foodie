@@ -35,17 +35,13 @@ router.get("/", (req, res) => {
           orderStr += `Order ID: ${createdOrder.id}\n`;
           orderStr +=
             "Please respond with the order id followed by estimated completion time in minutes.";
-          // twilioClient.messages
-          //   .create({
-          //     body: orderStr,
-          //     from: process.env.APP_PHONE,
-          //     to: process.env.RESTAURANT_PHONE,
-          //   })
-          //   .then((messages) => {
-          //     // console.log(messages);
-          //   })
-          //   .catch((err) => console.log(err.messages));
-
+          twilioClient.messages
+            .create({
+              body: orderStr,
+              from: process.env.APP_PHONE,
+              to: process.env.RESTAURANT_PHONE,
+            })
+            .catch((err) => console.log(err.messages));
           console.log(createdOrder.id);
           res.send(`${createdOrder.id}`);
         })
