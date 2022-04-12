@@ -90,7 +90,7 @@ app.get("/cart", (req, res) => {
   res.render("cart");
 });
 
-app.get("/checkout", redirectUtils.toLogin, (req, res) => {
+app.get("/checkout", (req, res) => {
   res.render("checkout");
 });
 
