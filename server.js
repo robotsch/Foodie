@@ -66,10 +66,13 @@ app.use("/api/cart", cartRoute);
 app.use("/api/order", orderRoute);
 app.use("/api/checkout", checkoutRoute);
 app.use("/api/smsresponse", smsResponseRoute);
+app.use("/api/login", loginRoute);
+app.use("/api/register", registerRoute);
 //app.use("/api/menuSearch", menuSearchRoute);
 
 // Note: mount other resources here, using the same pattern above
-const redirects = require("./utils/auth-redirects")
+const redirectUtils = require("./utils/auth-redirects")
+const authUtils = require("/utils/auth-utils")
 
 // Home page
 // Warning: avoid creating more routes in this file!
@@ -87,23 +90,25 @@ app.get("/cart", (req, res) => {
   res.render("cart");
 });
 
-app.get("/checkout", redirects.toLogin, (req, res) => {
+app.get("/checkout", redirectUtils.toLogin, (req, res) => {
   res.render("checkout");
 });
 
-app.get("/orders", redirects.toLogin, (req, res) => {
+app.get("/orders", redirectUtils.toLogin, (req, res) => {
   res.render("order-history");
 });
 
-app.get("/login", redirects.toHome, (req, res) => {
+app.get("/login", redirectUtils.toHome, (req, res) => {
   res.render("login")
 })
 
-app.get("/register", redirects.toHome, (req, res) => {
+app.get("/register", redirectUtils.toHome, (req, res) => {
   res.render("register")
 })
 
-app.post("/register", redirects.toHome, (req, res))
+app.post("/register", redirectUtils.toHome, (req, res) => {
+
+})
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
