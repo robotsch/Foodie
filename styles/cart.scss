@@ -1,21 +1,21 @@
-#items-container {
+.item-container {
   width: 100%;
 }
 
-#items-container > div {
+.item-container {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-#items-container > div > div {
+.item-container > div {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-#items-container > div > div > div:first-child {
+.item-container > div > div:first-child {
   background-color: #F4D35E;
   border-radius: 5px;
 }

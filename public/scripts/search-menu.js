@@ -174,12 +174,10 @@ $(() => {
 
   //listens for inputs to the search field. continuously makes ajax requests to the database
   $("textarea").on("input", function (event) {
-    let searchString = $("#search-text").val();
-    //console.log("search: ", searchString);
+    const searchString = $("#search-text").val();
 
     deleteSearchResults();
 
-    //console.log("search string: ", searchString);
     if (!searchString) {
       fetch("/api/menu")
         .then((response) => response.json())
