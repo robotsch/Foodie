@@ -1,0 +1,50 @@
+#items-container {
+  width: 100%;
+}
+
+#items-container > div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#items-container > div > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#items-container > div > div > div:first-child {
+  background-color: #F4D35E;
+  border-radius: 5px;
+}
+
+#totals-container {
+  width: 100%;
+}
+
+#totals-container > div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+hr {
+  width: 100%;
+}
+
+.modal-body > div:first-of-type {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-body > div > div {
+  text-align: center;
+}
+
+.modal-body > div:nth-of-type(2) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

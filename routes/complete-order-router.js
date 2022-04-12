@@ -4,11 +4,19 @@ const menuQueries = require("../db/queries/03_menu_item_queries");
 const orderQueries = require("../db/queries/04_orders_queries");
 const twilioClient = require("../lib/twilio");
 
+/**
+ * Called when a user completes their order
+ * Creates a new order entry to the database
+ * Using that newly created order ID,
+ *  send an SMS to the restaurant phone number
+ * SMS includes order ID and the customer's order
+ *  alongside a prompt to respond with estimated completion time
+*/
 router.get("/", (req, res) => {
   const promises = [];
   const user = { name: "testuser", id: 1 };
 
-  const order = { 1: 3, 3: 1 };
+  const order = JSON.parse(sessionStorage.getItem('orders'));
   let orderStr = `Order received from ${user.name}\n`;
 
   Object.keys(order).forEach((id) => {
