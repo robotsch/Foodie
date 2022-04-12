@@ -37,9 +37,17 @@ app.use(expressSession({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
+<<<<<<< HEAD
   cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 }
 }));
-
+=======
+  cookie: { 
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    sameSite: true,
+    secure: true
+  }
+}))
+>>>>>>> main
 
 app.use(express.static("public"));
 
@@ -51,20 +59,25 @@ const cartRoute = require("./routes/cart-summary-router");
 const orderRoute = require("./routes/complete-order-router");
 const checkoutRoute = require("./routes/complete-order-router");
 const smsResponseRoute = require("./routes/sms-response-router");
+const loginRoute = require("./routes/login-router")
+const registerRoute = require("./routes/register-router")
 //const menuSearchRoute = require("./routes/menu-search");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
-
 app.use("/api/menu", menuRoute);
 app.use("/api/additem", addItemRoute);
 app.use("/api/cart", cartRoute);
 app.use("/api/order", orderRoute);
 app.use("/api/checkout", checkoutRoute);
 app.use("/api/smsresponse", smsResponseRoute);
+app.use("/api/login", loginRoute);
+app.use("/api/register", registerRoute);
 //app.use("/api/menuSearch", menuSearchRoute);
 
 // Note: mount other resources here, using the same pattern above
+const redirectUtils = require("./middleware/auth-redirects")
+const authUtils = require("./utils/auth-utils")
 
 // Home page
 // Warning: avoid creating more routes in this file!
@@ -82,11 +95,11 @@ app.get("/cart", (req, res) => {
   res.render("cart");
 });
 
-app.get("/checkout", (req, res) => {
+app.get("/checkout", redirectUtils.toLogin, (req, res) => {
   res.render("checkout");
 });
 
-app.get("/orders", (req, res) => {
+app.get("/orders", redirectUtils.toLogin, (req, res) => {
   res.render("order-history");
 });
 
@@ -110,6 +123,14 @@ app.get("/order-pending", (req, res) => {
     })
     .catch(err => console.log(err.messages));
 });
+
+app.get("/login", redirectUtils.toHome, (req, res) => {
+  res.render("login")
+})
+
+app.get("/register", redirectUtils.toHome, (req, res) => {
+  res.render("register")
+})
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
