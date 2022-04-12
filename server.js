@@ -49,7 +49,7 @@ const cartRoute = require("./routes/cart-summary-router");
 const orderRoute = require("./routes/complete-order-router");
 const checkoutRoute = require("./routes/complete-order-router");
 const smsResponseRoute = require("./routes/sms-response-router");
-const menuSearchRoute = require("./routes/menu-search");
+//const menuSearchRoute = require("./routes/menu-search");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -60,7 +60,7 @@ app.use("/api/cart", cartRoute);
 app.use("/api/order", orderRoute);
 app.use("/api/checkout", checkoutRoute);
 app.use("/api/smsresponse", smsResponseRoute);
-app.use("/api/menuSearch", menuSearchRoute);
+//app.use("/api/menuSearch", menuSearchRoute);
 
 // Note: mount other resources here, using the same pattern above
 

@@ -172,10 +172,11 @@ $(() => {
     $("#menu-container").empty();
   };
 
-  //ajax handles the GET requests for /tweets/ asynchronously
+  //listens for inputs to the search field. continuously makes ajax requests to the database
   $("textarea").on("input", function (event) {
     let searchString = $("#search-text").val();
-    console.log("search: ", searchString);
+    //console.log("search: ", searchString);
+
     deleteSearchResults();
 
     //console.log("search string: ", searchString);
@@ -200,7 +201,7 @@ $(() => {
       $.ajax({
         url: `/search/`,
         method: "POST",
-        data: searchString,
+        data: searchString.toLowerCase(),
       })
         .then((response) => {
           let data = JSON.parse(response);

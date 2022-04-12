@@ -1,9 +1,12 @@
+/* fucks everything up
+
 const express = require("express");
 const router = express.Router();
 
 const menuQueries = require("../db/queries/03_menu_item_queries");
 
-routerpost("/search", (req, res) => {
+
+router.post("/search", (req, res) => {
   //console.log("post request: ", req);
 
   req.session.user_id = "test";
@@ -44,3 +47,4 @@ routerpost("/search", (req, res) => {
 });
 
 module.exports = router;
+*/

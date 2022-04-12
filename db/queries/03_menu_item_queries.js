@@ -69,7 +69,7 @@ const getItemBySearch = (searchItem) => {
   let queryString = `
    SELECT *
    FROM menu_items
-   WHERE name LIKE $1
+   WHERE lower(name) LIKE $1
   `;
   return db.query(queryString, values).then((res) => res.rows);
 };
