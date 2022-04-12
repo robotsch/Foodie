@@ -11,7 +11,7 @@ const authUtils = require('../utils/auth-utils')
  * Otherwise, send a relevant error message 
  */
 
-router.get("/", (req, res) => {
+router.post("/", (req, res) => {
   // TODO: integration testing when registration page exists
   // const userData = req.body
   const userData = {
