@@ -21,7 +21,7 @@ $(() => {
     <div id="totals-container">
       <div>
         <div>Subtotal</div>
-        <div>$${totals.subtotal}</div>
+        <div>$${(totals.subtotal).toFixed(2)}</div>
       </div>
       <div>
         <div>Serivce Fee</div>
@@ -39,7 +39,7 @@ $(() => {
     `);
   };
 
-  const renderEmptyCart = function() {
+  const renderEmptyCart = function () {
     $(`#cart-container > h3`).after(`
       <hr>
       <div class="my-5">
@@ -47,35 +47,47 @@ $(() => {
       </div>
       <hr>
       `);
-    return;
-  }
+  };
+
+  const updateTotals = function (newSubtotal) {
+
+    const totals = {
+      subtotal: newSubtotal / 100,
+      serviceFee: (newSubtotal) ? 1 : 0,
+      tax: newSubtotal * 0.13 / 100,
+      total: newSubtotal * 1.13 / 100
+    };
+
+    $("#totals-container").children("div:first-child").children("div:nth-child(2)").text(`$${(totals.subtotal).toFixed(2)}`);
+    $("#totals-container").children("div:nth-child(2)").children("div:nth-child(2)").text(`$${(totals.serviceFee).toFixed(2)}`);
+    $("#totals-container").children("div:nth-child(3)").children("div:nth-child(2)").text(`$${(totals.tax).toFixed(2)}`);
+    $("#totals-container").children("div:nth-child(4)").children("div:nth-child(2)").text(`$${(totals.total).toFixed(2)}`);
+  };
 
   const renderCart = function (cartData) {
+
+    // Creates initial totals-container
+    $(`#cart-container > button:last-child`).before(createTotals({
+      subtotal: 0,
+      serviceFee: 0,
+      tax: 0,
+      total: 0
+    }));
+
     // No items in cart
     if (Object.keys(cartData).length === 0) {
       renderEmptyCart();
-
-      const sum = 0;
-      $(`#cart-container > button:last-child`).before(createTotals({
-        subtotal: sum / 100,
-        serviceFee: 1,
-        tax: sum * 0.13 / 100,
-        total: sum * 1.13 / 100
-      }));
-  
-
       return;
     }
 
     let sum = 0;
 
     for (const menuItem of Object.values(cartData)) {
-      let newQuantity = 1;
 
       sum += menuItem.price * menuItem.quantity;
       $("#cart-container > h3").after(createItem(menuItem));
 
-      $(`#edit-quantity-btn-${menuItem.id}`).on("click", function () {
+      $(`#edit-quantity-btn-${menuItem.id}`).unbind().on("click", function () {
         const modal = $(`#edit-quantity-modal`);
         $('.modal-title').text(menuItem.name);
         $('#desc').text(menuItem.description);
@@ -99,11 +111,14 @@ $(() => {
           }
         });
 
-        $("#set-quantity-btn").on("click", function () {
+        $("#set-quantity-btn").unbind().on("click", function () {
           const sessionCart = JSON.parse(sessionStorage.getItem('orders'));
 
+          const oldQuantity = sessionCart[menuItem.id];
           // Gets new quantity
           const newQuantity = parseInt($(this).parent().prev().children("div:last-child").children("span").text());
+
+          if (newQuantity === oldQuantity) return;
 
           // Updates new quantity in sessionStorage
           sessionCart[menuItem.id] = newQuantity;
@@ -116,12 +131,18 @@ $(() => {
 
           // idk if commenting/uncommenting this line does much
           // delete cartData[menuItem.id];
+          
+          // Updates sessionStorage subtotal and orders
+          const newSubtotal = parseInt(sessionStorage.getItem('subtotal')) + menuItem.price * (newQuantity - oldQuantity);
+          // console.log(typeof oldQuantity);
+          sessionStorage.setItem('subtotal', JSON.stringify(newSubtotal));
+          
+          updateTotals(newSubtotal);
 
-          // Updates sessionStorage
           sessionStorage.setItem('orders', JSON.stringify(sessionCart));
         });
 
-        $("#remove-btn").on("click", () => {
+        $("#remove-btn").unbind().on("click", () => {
           const sessionCart = JSON.parse(sessionStorage.getItem('orders'));
 
           // Deletes from sessionStorage
@@ -136,12 +157,18 @@ $(() => {
           // idk if commenting/uncommenting this line does much
           // delete cartData[menuItem.id];
 
-          // Updates sessionStorage
+          // Updates sessionStorage subtotal and orders
+          const newSubtotal = parseInt(sessionStorage.getItem('subtotal')) - menuItem.price * menuItem.quantity;
+          sessionStorage.setItem('subtotal', newSubtotal);
+
           sessionStorage.setItem('orders', JSON.stringify(sessionCart));
 
+          // If removing said item caused cart to become empty
           if (Object.keys(sessionCart).length === 0) {
-            console.log("cart empty");
             renderEmptyCart();
+            updateTotals(0);
+            modal.modal("toggle");
+            return;
           }
 
         });
@@ -155,22 +182,24 @@ $(() => {
     const checkoutBtn = $(`#cart-container > button:last-child`);
 
     // Creates and renders section for totals before checkout button
-    checkoutBtn.before(createTotals({
-      subtotal: sum / 100,
-      serviceFee: 1,
-      tax: sum * 0.13 / 100,
-      total: sum * 1.13 / 100
-    }));
+    // checkoutBtn.before(createTotals({
+    //   subtotal: sum / 100,
+    //   serviceFee: 1,
+    //   tax: sum * 0.13 / 100,
+    //   total: sum * 1.13 / 100
+    // }));
+    updateTotals(sum);
 
     // Adds horizontal line before checkout button
     checkoutBtn.before("<hr>");
 
   };
 
+  // GET request to /api/cart to get JSON of the current card but with additional info from db
   $.ajax({
     url: "/api/cart",
     type: "get",
-    data: JSON.parse(sessionStorage.getItem('orders')),
+    data: JSON.parse(sessionStorage.getItem('orders')), // Passes in sessionStorage order info
     success: function (response) {
       renderCart(response);
     },

@@ -9,9 +9,8 @@ $(() => {
   const createMenuItem = function (menuItemData) {
     return $(`
       <div class="row">
-        <div class="col-lg-8 d-flex justify-content-between menuItem" id="menuItem-${
-          menuItemData.id
-        }">
+        <div class="col-lg-8 d-flex justify-content-between menuItem" id="menuItem-${menuItemData.id
+      }">
           <div>
             <h4>${menuItemData.name}</h4>
             <p>${menuItemData.description}</p>
@@ -31,9 +30,8 @@ $(() => {
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">${
-              menuItemData.name
-            }</h5>
+            <h5 class="modal-title" id="exampleModalLabel">${menuItemData.name
+      }</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body">
@@ -50,27 +48,23 @@ $(() => {
               </div>
               <div>
                 Total<br>
-                <span id="menuItemModal-total-cost-${menuItemData.id}">$${
-      menuItemData.price / 100
-    }</span>
+                <span id="menuItemModal-total-cost-${menuItemData.id}">$${menuItemData.price / 100
+      }</span>
               </div>
             </div>
             <hr class="bg-danger border-2 border-top border-danger">
             <div>
-              <button type="button" class="btn btn-outline-dark mx-3" id="menuItemModal-minus-quantity-${
-                menuItemData.id
-              }">-</button>
+              <button type="button" class="btn btn-outline-dark mx-3" id="menuItemModal-minus-quantity-${menuItemData.id
+      }">-</button>
               <span class="menuItemModal-quantity-${menuItemData.id}">1</span>
-              <button type="button" class="btn btn-outline-dark mx-3" id="menuItemModal-plus-quantity-${
-                menuItemData.id
-              }">+</button>
+              <button type="button" class="btn btn-outline-dark mx-3" id="menuItemModal-plus-quantity-${menuItemData.id
+      }">+</button>
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" data-bs-dismiss="modal" id="menuItemModal-submit-btn-${
-              menuItemData.id
-            }" class="btn btn-primary">Add To Order</button>
+            <button type="button" data-bs-dismiss="modal" id="menuItemModal-submit-btn-${menuItemData.id
+      }" class="btn btn-primary">Add To Order</button>
           </div>
           </div>
         </div>
@@ -129,19 +123,26 @@ $(() => {
       $(`#menuItemModal-submit-btn-${menuItem.id}`).on("click", function (e) {
         if (!sessionStorage.getItem("orders")) {
           sessionStorage.setItem("orders", JSON.stringify({}));
+          sessionStorage.setItem("subtotal", JSON.stringify(0));
         }
 
         const orders = JSON.parse(sessionStorage.getItem("orders"));
+        let subtotal = JSON.parse(sessionStorage.getItem("subtotal"));
 
         if (!(menuItem.id in orders)) {
           orders[menuItem.id] = 0;
         }
 
-        orders[menuItem.id] += parseInt(
+        const quantity = parseInt(
           $(`#menuItemModal-minus-quantity-${menuItem.id}`).next().text()
         );
 
+        orders[menuItem.id] += quantity;
+
+        subtotal += menuItem.price * quantity;
+
         sessionStorage.setItem("orders", JSON.stringify(orders));
+        sessionStorage.setItem("subtotal", JSON.stringify(subtotal));
 
         // fetch("/api/additem?itemId=1")
         //   .then(response => response.json())
