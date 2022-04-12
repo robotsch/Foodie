@@ -3,11 +3,20 @@ const router = express.Router();
 
 const menuQueries = require("../db/queries/03_menu_item_queries");
 
-router.post("/search", (req, res) => {
+routerpost("/search", (req, res) => {
+  //console.log("post request: ", req);
+
   req.session.user_id = "test";
 
+  let body = req.body;
+
+  let searchArr = Object.keys(body);
+  let searchString = searchArr[0];
+
+  console.log("searchString: ", searchString);
+
   return Promise.all([
-    menuQueries.getItemBySearch(),
+    menuQueries.getItemBySearch(searchString),
     menuQueries.getAllCategories(),
   ])
     .then((values) => {
