@@ -72,7 +72,7 @@ app.use("/api/register", registerRoute);
 
 // Note: mount other resources here, using the same pattern above
 const redirectUtils = require("./utils/auth-redirects")
-const authUtils = require("/utils/auth-utils")
+const authUtils = require("./utils/auth-utils")
 
 // Home page
 // Warning: avoid creating more routes in this file!
