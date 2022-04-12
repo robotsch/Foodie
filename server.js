@@ -39,28 +39,28 @@ app.use(
   })
 );
 
-
-const orderQueries = require("./db/queries/04_orders_queries")
-
+const orderQueries = require("./db/queries/04_orders_queries");
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
-const menuRoute = require("./routes/menu-router")
-const addItemRoute = require("./routes/add-item-router")
-const cartRoute = require("./routes/cart-summary-router")
-const orderRoute = require("./routes/complete-order-router")
-const checkoutRoute = require("./routes/complete-order-router")
-const smsResponseRoute = require("./routes/sms-response-router")
+const menuRoute = require("./routes/menu-router");
+const addItemRoute = require("./routes/add-item-router");
+const cartRoute = require("./routes/cart-summary-router");
+const orderRoute = require("./routes/complete-order-router");
+const checkoutRoute = require("./routes/complete-order-router");
+const smsResponseRoute = require("./routes/sms-response-router");
+//const menuSearchRoute = require("./routes/menu-search");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 
-app.use("/api/menu", menuRoute)
-app.use("/api/additem", addItemRoute)
-app.use("/api/cart", cartRoute)
-app.use("/api/order", orderRoute)
-app.use("/api/checkout", checkoutRoute)
-app.use("/api/smsresponse", smsResponseRoute)
+app.use("/api/menu", menuRoute);
+app.use("/api/additem", addItemRoute);
+app.use("/api/cart", cartRoute);
+app.use("/api/order", orderRoute);
+app.use("/api/checkout", checkoutRoute);
+app.use("/api/smsresponse", smsResponseRoute);
+//app.use("/api/menuSearch", menuSearchRoute);
 
 // Note: mount other resources here, using the same pattern above
 
@@ -72,14 +72,56 @@ app.get("/", (req, res) => {
   res.render("full-menu");
 });
 
+app.get("/search", (req, res) => {
+  res.render("search-menu");
+});
+
 app.get("/cart", (req, res) => {
   res.render("cart");
 });
 
-app.get("/test", (req, res) => {
-  res.render("search-menu");
-});
-
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
+});
+
+const menuQueries = require("./db/queries/03_menu_item_queries");
+
+app.post("/search", (req, res) => {
+  //console.log("post request: ", req);
+
+  req.session.user_id = "test";
+
+  let body = req.body;
+
+  let searchArr = Object.keys(body);
+  let searchString = searchArr[0];
+
+  console.log("searchString: ", searchString);
+
+  return Promise.all([
+    menuQueries.getItemBySearch(searchString),
+    menuQueries.getAllCategories(),
+  ])
+    .then((values) => {
+      const menuItems = {};
+
+      values[0].forEach((row) => {
+        if (!(row.category_id in menuItems)) {
+          menuItems[row.category_id] = [];
+        }
+        menuItems[row.category_id].push(row);
+      });
+
+      const categories = {};
+      values[1].forEach((row) => {
+        categories[row.id] = row.category;
+      });
+      //console.log(menuItems, categories);
+      res.send(
+        JSON.stringify({ menuItems: menuItems, categories: categories })
+      );
+    })
+    .catch((err) => {
+      res.status(500).send("Failed to get menu and items");
+    });
 });

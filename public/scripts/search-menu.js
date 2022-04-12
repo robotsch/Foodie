@@ -1,3 +1,5 @@
+//ripped from full-menu.js
+
 $(() => {
   // Transforms any scripting attacks to normal text
   const escape = function (str) {
@@ -127,34 +129,100 @@ $(() => {
         });
 
       $(`#menuItemModal-submit-btn-${menuItem.id}`).on("click", function (e) {
-        if (!sessionStorage.getItem("orders")) {
-          sessionStorage.setItem("orders", JSON.stringify({}));
-        }
-
-        const orders = JSON.parse(sessionStorage.getItem("orders"));
-
-        if (!(menuItem.id in orders)) {
-          orders[menuItem.id] = 0;
-        }
-
-        orders[menuItem.id] += parseInt(
+        const order = {};
+        order["itemId"] = menuItem.id;
+        order["quantity"] = parseInt(
           $(`#menuItemModal-minus-quantity-${menuItem.id}`).next().text()
         );
+        // $.post("/api/additem", order)
+        // .then(() => {
+        //   $.get("/api/additem", {itemId: 1})
+        // })
+        // .then((result) => {
+        //   console.log(result);
+        // })
+        // .catch(err => console.log(err.message));
+        // .then(() => console.log("pls"));
 
-        sessionStorage.setItem("orders", JSON.stringify(orders));
-
-        // fetch("/api/additem?itemId=1")
-        //   .then(response => response.json())
-        //   .then(data => {
-        //     console.log(data);
-        //   });
+        $.post("/api/additem", order, function () {
+          console.log("Added to cart!");
+          // fetch("/api/additem?itemId=1")
+          //   .then(response => response.json())
+          //   .then(data => {
+          //     console.log(data);
+          //   });
+          // $.ajax({
+          //   url: "/api/additem",
+          //   type: "get",
+          //   data: { itemId: 1 },
+          //   success: function(response) {
+          //     console.log("THE GET RESPONSES BABY")
+          //     console.log(response);
+          //   },
+          //   err: function(err) {
+          //     console.log(err.message);
+          //   }
+          // })
+        });
       });
     }
   };
 
+  const deleteSearchResults = () => {
+    $("#menu-container").empty();
+  };
+
+  //listens for inputs to the search field. continuously makes ajax requests to the database
+  $("textarea").on("input", function (event) {
+    let searchString = $("#search-text").val();
+    //console.log("search: ", searchString);
+
+    deleteSearchResults();
+
+    //console.log("search string: ", searchString);
+    if (!searchString) {
+      fetch("/api/menu")
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("data: ", data);
+          for (const category in data.categories) {
+            if (Object.hasOwnProperty.call(data.categories, category)) {
+              renderMenuItems(
+                data.menuItems[category],
+                data.categories[category]
+              );
+            }
+          }
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    } else {
+      $.ajax({
+        url: `/search/`,
+        method: "POST",
+        data: searchString.toLowerCase(),
+      })
+        .then((response) => {
+          let data = JSON.parse(response);
+          console.log("responsedata: ", data);
+
+          const menuItemKeys = Object.keys(data.menuItems);
+
+          for (const element of menuItemKeys) {
+            renderMenuItems(data.menuItems[element], data.categories[element]);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  });
+
   fetch("/api/menu")
     .then((response) => response.json())
     .then((data) => {
+      console.log("data: ", data);
       for (const category in data.categories) {
         if (Object.hasOwnProperty.call(data.categories, category)) {
           renderMenuItems(data.menuItems[category], data.categories[category]);
@@ -165,3 +233,9 @@ $(() => {
       console.log(err.message);
     });
 });
+
+//end of rip
+
+const renderSearchItems = (data) => {
+  for (let i = 0; i < data.mentItems.length; i++) {}
+};
