@@ -33,7 +33,7 @@ $(() => {
     return $(`
     <div class="entry-div">
       <div>
-        <h4>Order #: ${oldOrderObj.orders_id}</h4>
+        <h4>Order #:${oldOrderObj.orders_id}</h4>
         <p class="entries"><b>Order Placed:</b> ${oldOrderObj.time_ordered}</p>
         <p class="entries"><b>Order Accepted:</b> ${oldOrderObj.time_accepted}</p>
       </div>
@@ -127,7 +127,8 @@ $(() => {
       alert("button pressed");
 
       const orderH4 = $(this).siblings("h4").text();
-      const orderID = orderH4.slice(-1);
+      const indOf = orderH4.indexOf(":");
+      const orderID = orderH4.slice(indOf);
 
       //console.log("retrieved orderID: ", orderID);
 
