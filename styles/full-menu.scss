@@ -6,31 +6,36 @@
   height: 28vh;
 }
 
-.menuItem-img-container {
-  width: 100px;
-  height: 100px;
-  overflow: hidden;
-}
-
 .category-title h3 {
   color: v.$category-title-font-color;
   font-weight: 600;
 }
 
+.menuItem-img-container {
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+}
+
 .menuItem-img-container>img {
+  object-fit: cover;
   width: 100%;
-  height: auto;
+  height: 100%;
+  border-radius: 20px;
 }
 
 .menuItem {
   cursor: pointer;
+  margin-bottom: 1rem;
 
   h4 {
     font-weight: 600;
+    margin-bottom: 0.3rem;
   }
 
   p {
     font-weight: 400;
+    margin-bottom: 0.3rem;
   }
 
   h5 {

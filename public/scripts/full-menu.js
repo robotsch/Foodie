@@ -9,9 +9,9 @@ $(() => {
   const createMenuItem = function (menuItemData) {
     return $(`
       <div class="row justify-content-center">
-        <div class="col-lg-8 d-flex justify-content-between menuItem" id="menuItem-${menuItemData.id
+        <div class="col-lg-8 d-flex justify-content-between align-items-center menuItem" id="menuItem-${menuItemData.id
       }">
-          <div class="d-flex flex-column">
+          <div class="d-flex flex-column justify-content-center">
             <h4>${menuItemData.name}</h4>
             <p>${menuItemData.description}</p>
             <h5>$${menuItemData.price / 100}</h5>
@@ -28,7 +28,9 @@ $(() => {
     return $(`
       <div class="row justify-content-center category-title" id="${category}">
         <div class="col-lg-8">
+        <hr>
           <h3>${category}</h3>
+          <hr>
         </div>
       </div>
     `);
