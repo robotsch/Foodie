@@ -8,10 +8,10 @@ $(() => {
 
   const createMenuItem = function (menuItemData) {
     return $(`
-      <div class="row">
+      <div class="row justify-content-center">
         <div class="col-lg-8 d-flex justify-content-between menuItem" id="menuItem-${menuItemData.id
       }">
-          <div>
+          <div class="d-flex flex-column">
             <h4>${menuItemData.name}</h4>
             <p>${menuItemData.description}</p>
             <h5>$${menuItemData.price / 100}</h5>
@@ -26,7 +26,7 @@ $(() => {
 
   const createMenuCategoryTitle = function (category) {
     return $(`
-      <div class="row" id="${category}">
+      <div class="row justify-content-center category-title" id="${category}">
         <div class="col-lg-8">
           <h3>${category}</h3>
         </div>
@@ -38,7 +38,7 @@ $(() => {
     $("#menu-container").append(createMenuCategoryTitle(category));
 
     for (const menuItem of menuItemsData) {
-      $(`#${category}`).append(createMenuItem(menuItem));
+      $(`#menu-container`).append(createMenuItem(menuItem));
 
       // menuItem modal opens when menuItem div clicked
       $(`#menuItem-${menuItem.id}`).unbind().on("click", function () {
