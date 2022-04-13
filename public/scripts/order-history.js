@@ -129,7 +129,7 @@ $(() => {
 
       data.newOrders.forEach(order => {
         if (order.estimated_completion_time === null) {
-          
+
           let timer = setInterval(function () {
             $.ajax({
               url: "/api/order-status",
@@ -140,8 +140,8 @@ $(() => {
                 console.log("INSIDE SUCCESS");
                 console.log(typeof response);
                 console.log("loop");
-                // if (response !== "null") {
-                if (response === "null") {
+                if (response !== "null") {
+                // if (response === "null") {
                   sessionStorage.clear();
                   clearInterval(timer);
                   console.log("PLS DEAR GOD IT WORKED");
