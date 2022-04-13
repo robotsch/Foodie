@@ -3,9 +3,13 @@ const router = express.Router();
 const orderQueries = require("../db/queries/04_orders_queries");
 const twilioClient = require("../lib/twilio");
 
+/**
+ * Handle incoming Twilio webhook triggered by incoming SMS from restaurant
+ * Parses orderId and estimatedTime, and updates database with those values
+ */
+
 router.post("/", (req, res) => {
   const [orderId, estimatedTime] = req.body.Body.split(" ");
-  console.log();
   if (Number(orderId) % 1 === 0 || Number(estimatedTime % 1 === 0)) {
     orderQueries.acceptOrder(Number(orderId), Number(estimatedTime));
     return res.send("Success");
