@@ -15,9 +15,7 @@ $(() => {
       <p class="entries">Order Placed: ${activeOrderObj.time_ordered}</p>
       <p class="entries">Order Accepted: ${activeOrderObj.time_accepted}</p>
       <p class="entries">Estimated Preparation Time: ${activeOrderObj.estimated_completion_time} mins</p>
-      <form action="/resolve" method="POST" class="resolve-order-form">
       <button type="submit" class="resolve-order-btn">Order Complete</button>
-      </form>
     </div>
     `);
   };
@@ -112,4 +110,31 @@ $(() => {
       renderPreviousOrders(data.oldOrders);
     }
   });
+
+  $("#active-orders-container").on(
+    "click",
+    ".resolve-order-btn",
+    function (event) {
+      event.preventDefault();
+      alert("button pressed");
+
+      const orderH4 = $(this).siblings("h4").text();
+      const orderID = orderH4.slice(-1);
+
+      //console.log("retrieved orderID: ", orderID);
+
+      $.ajax({
+        url: `/complete`,
+        method: "post",
+        data: { orderID: orderID },
+      })
+        .then((response) => {
+          const results = JSON.parse(response).menuItemResults;
+          renderMenuItems(results);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  );
 });

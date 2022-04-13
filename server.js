@@ -39,7 +39,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      name: 'testcookie',
+      name: "testcookie",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     },
   })
@@ -113,4 +113,8 @@ app.get("/register", redirectUtils.toHome, (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
+});
+
+app.post("/complete", (req, res) => {
+  console.log("request: ", req);
 });
