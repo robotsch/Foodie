@@ -6,7 +6,7 @@ const orderQueries = require("../db/queries/04_orders_queries");
 // Handle order completion, WIP
 router.post("/", (req, res) => {
   orderQueries
-    .completeOrder(req.body.orderId)
+    .completeOrder(Number(req.body.orderId))
     .then(() => {
       res.redirect("/orders");
     })
