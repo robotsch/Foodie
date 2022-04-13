@@ -148,9 +148,13 @@ $(() => {
         url: `/api/resolve-order`,
         method: "post",
         data: { orderId: orderID },
-      }).catch((err) => {
-        console.log(err);
-      });
+      })
+        .then(() => {
+          window.location.href = "/orders";
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   );
 });
