@@ -5,9 +5,6 @@ const menuQueries = require("../db/queries/03_menu_item_queries");
 // GET request for /api/menu/ 
 
 router.get("/", (req, res) => {
-  // temp session for menu testing
-  req.session.user_id = "1";
-
   // Queries for all menu items and all categories then sends JSON of all data
   return Promise.all([
     menuQueries.getAllMenuItems(),
