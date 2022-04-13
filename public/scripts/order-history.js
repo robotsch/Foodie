@@ -27,7 +27,7 @@ $(() => {
     if (est_time === null) {
       est_time = "Pending";
     } else {
-      est_time = (activeOrderObj.estimated_completion_time, " mins");
+      est_time = activeOrderObj.estimated_completion_time + " mins";
     }
 
     return $(`
