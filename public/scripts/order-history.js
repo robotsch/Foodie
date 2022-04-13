@@ -32,7 +32,7 @@ $(() => {
 
     return $(`
     <div class="entry-div">
-      <h4>Order #:${activeOrderObj.orders_id}</h4>
+      <h4>Order #${activeOrderObj.orders_id}</h4>
       <p class="entries"><b>Order Placed:</b> ${time_ordered}</p>
       <p class="entries"><b>Order Accepted:</b> ${time_accepted}</p>
       <p class="entries"><b>Estimated Preparation Time:</b> ${est_time}</p>
@@ -48,7 +48,7 @@ $(() => {
     return $(`
     <div class="entry-div">
       <div>
-        <h4>Order #:${oldOrderObj.orders_id}</h4>
+        <h4>Order #${oldOrderObj.orders_id}</h4>
         <p class="entries"><b>Order Placed:</b> ${time_ordered}</p>
         <p class="entries"><b>Order Accepted:</b> ${time_accepted}</p>
       </div>
@@ -141,7 +141,7 @@ $(() => {
       event.preventDefault();
 
       const orderH4 = $(this).siblings("h4").text();
-      const indOf = orderH4.indexOf(":");
+      const indOf = orderH4.indexOf("#");
       const orderID = orderH4.slice(indOf + 1);
 
       //console.log("retrieved orderID: ", orderID);
