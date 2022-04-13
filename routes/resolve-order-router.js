@@ -7,8 +7,9 @@ const orderQueries = require("../db/queries/04_orders_queries");
 router.post("/", (req, res) => {
   orderQueries.completeOrder(req.body.orderId)
     .then(() => {
-      res.send('Success')
+      res.redirect("/orders")
     })
+    .catch((err) => console.log(err))
 })
 
 module.exports = router;
