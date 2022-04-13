@@ -2,29 +2,39 @@ const express = require("express");
 const router = express.Router();
 const menuQueries = require("../db/queries/03_menu_item_queries");
 
+// GET request for /api/menu/ 
+
 router.get("/", (req, res) => {
   // temp session for menu testing
   req.session.user_id = "1";
 
+  // Queries for all menu items and all categories then sends JSON of all data
   return Promise.all([
     menuQueries.getAllMenuItems(),
     menuQueries.getAllCategories(),
   ])
     .then((values) => {
+      const allMenuItems = values[0];
+      const allCategories = values[1]
+      
+      // Takes all menuItem data and makes it object where key=category_id and
+      // value=an array of menu items belonging to said category
       const menuItems = {};
-
-      values[0].forEach((row) => {
-        if (!(row.category_id in menuItems)) {
-          menuItems[row.category_id] = [];
+      allMenuItems.forEach((menuItem) => {
+        if (!(menuItem.category_id in menuItems)) {
+          menuItems[menuItem.category_id] = [];
         }
-        menuItems[row.category_id].push(row);
+        menuItems[menuItem.category_id].push(menuItem);
       });
 
+      // Takes all category data and makes it object where key=category.id and 
+      // value=category's name
       const categories = {};
-      values[1].forEach((row) => {
-        categories[row.id] = row.category;
+      allCategories.forEach((category) => {
+        categories[category.id] = category.category;
       });
-      //console.log(menuItems, categories);
+
+      // Sends all data back as JSON object
       res.send(
         JSON.stringify({ menuItems: menuItems, categories: categories })
       );

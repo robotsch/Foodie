@@ -16,29 +16,6 @@ $(() => {
   `);
   };
 
-  const createTotals = function (totals) {
-    return $(`
-    <div id="totals-container">
-      <div>
-        <div>Subtotal</div>
-        <div>$${(totals.subtotal).toFixed(2)}</div>
-      </div>
-      <div>
-        <div>Serivce Fee</div>
-        <div>$${(totals.serviceFee).toFixed(2)}</div>
-      </div>
-      <div>
-        <div>Tax</div>
-        <div>$${(totals.tax).toFixed(2)}</div>
-      </div>
-      <div>
-        <div>Total</div>
-        <div>$${(totals.total).toFixed(2)}</div>
-      </div>
-    </div>   
-    `);
-  };
-
   const renderEmptyCart = function () {
     $(`#cart-container > h3`).after(`
       <hr>
@@ -66,13 +43,8 @@ $(() => {
 
   const renderCart = function (cartData) {
 
-    // Creates initial totals-container
-    $("#checkout-btn").before(createTotals({
-      subtotal: 0,
-      serviceFee: 0,
-      tax: 0,
-      total: 0
-    }));
+    // Sets totals to 0 initially
+    updateTotals(0);
 
     // No items in cart
     if (Object.keys(cartData).length === 0) {
@@ -82,16 +54,19 @@ $(() => {
 
     for (const menuItem of Object.values(cartData)) {
 
-      $("#cart-container > h3").after(createItem(menuItem));
+      // Renders menuItems in order of menuItem id
+      $("#totals-container").before(createItem(menuItem));
 
       $(`#edit-quantity-btn-${menuItem.id}`).unbind().on("click", function () {
 
+        // Sets info in modal to menuItem that had its edit button just clicked
         $('.modal-title').text(menuItem.name);
         $('#desc').text(menuItem.description);
         $(`#price`).text(`$${(menuItem.price / 100).toFixed(2)}`);
         $(".quantity").text(menuItem.quantity);
         $("#total").text(`$${(menuItem.price * menuItem.quantity / 100).toFixed(2)}`);
 
+        // Decreases quantity by 1 on minus button click
         $("#minus-quantity-btn").unbind().on("click", function () {
           const quantity = parseInt($('.modal-body').find(".quantity:first").text());
           if (quantity > 1) {
@@ -100,6 +75,7 @@ $(() => {
           }
         });
 
+        // Increase quantity by 1 on plus button click
         $("#plus-quantity-btn").unbind().on("click", function () {
           const quantity = parseInt($('.modal-body').find(".quantity:first").text());
           if (quantity < 100) {
@@ -108,6 +84,7 @@ $(() => {
           }
         });
 
+        // When set quantity button is clicked
         $("#set-quantity-btn").unbind().on("click", function () {
 
           const sessionCart = JSON.parse(sessionStorage.getItem('orders'));
@@ -116,6 +93,7 @@ $(() => {
           // Gets new quantity
           const newQuantity = parseInt($('.modal-body').find(".quantity:first").text());
 
+          // If no quantity change, nothing happens
           if (newQuantity === oldQuantity) return;
 
           // Updates new quantity in sessionStorage
@@ -136,6 +114,7 @@ $(() => {
           sessionStorage.setItem('orders', JSON.stringify(sessionCart));
         });
 
+        // When remove item button is clicked
         $("#remove-btn").unbind().on("click", () => {
           const sessionCart = JSON.parse(sessionStorage.getItem('orders'));
 
@@ -167,30 +146,34 @@ $(() => {
 
         });
 
+        // Shows and hides modal
         $(`#edit-quantity-modal`).modal("toggle");
       });
-
     }
 
     // Updates totals container
     updateTotals(parseInt(sessionStorage.getItem("subtotal")));
 
-    // Adds horizontal line before checkout button
-    $("#checkout-btn").before("<hr>");
-
   };
 
+  // When checkout button is clicked
   $("#checkout-btn").unbind().on("click", function () {
+
+    // If no items in cart then checkout button DOES NOT redirect
     if (sessionStorage.getItem("orders") === null) return;
 
+    // If items in cart, redirects to checkout page
     document.location.href = "/checkout";
+
   });
 
-  // GET request to /api/cart to get JSON of the current card but with additional info from db
+  // GET request to /api/cart to get JSON of the current cart but with additional
+  // info from the database
   $.ajax({
     url: "/api/cart",
     type: "get",
-    data: JSON.parse(sessionStorage.getItem('orders')), // Passes in sessionStorage order info
+     // Passes in sessionStorage orders info
+    data: JSON.parse(sessionStorage.getItem('orders')),
     success: function (response) {
       renderCart(response);
     },
