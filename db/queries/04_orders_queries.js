@@ -76,3 +76,37 @@ const completeOrder = function (orderID) {
 };
 
 exports.completeOrder = completeOrder;
+
+const newOrdersByID = function (userID) {
+  //console.log("new: ", userID);
+
+  const values = [userID];
+
+  let queryString = `
+  SELECT user_id, orders.id as orders_id, order_menu_items.id as order_menu_items_id, menu_items.id as menu_items_id, estimated_completion_time, time_ordered, time_accepted, name, quantity
+    FROM orders
+    JOIN order_menu_items ON order_id = orders.id
+    JOIN menu_items ON menu_item_id = menu_items.id
+    WHERE user_id = $1 AND active_order = TRUE;
+  `;
+
+  return db.query(queryString, values).then((res) => res.rows);
+};
+
+exports.newOrdersByID = newOrdersByID;
+
+const oldOrdersByID = function (userID) {
+  const values = [userID];
+
+  let queryString = `
+  SELECT user_id, orders.id as orders_id, order_menu_items.id as order_menu_items_id, menu_items.id as menu_items_id, price, estimated_completion_time, time_ordered, time_accepted, name, quantity
+    FROM orders
+    JOIN order_menu_items ON order_id = orders.id
+    JOIN menu_items ON menu_item_id = menu_items.id
+    WHERE user_id = $1 AND active_order = FALSE;
+  `;
+
+  return db.query(queryString, values).then((res) => res.rows);
+};
+
+exports.oldOrdersByID = oldOrdersByID;

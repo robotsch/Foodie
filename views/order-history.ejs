@@ -34,40 +34,47 @@
   <body>
     <%- include('partials/_topbar') %>
 
-    <div class="row">
+    <div id="massive">
+      <div class="row">
+        <div id="active-div">
+          <img
+            id="cooking-img"
+            src="http://localhost:8080/assets/cooking.png"
+            alt="Cooking"
+          />
+          <h2 name="active">Active Orders</h2>
+          <img
+            id="cooking-img-2"
+            src="http://localhost:8080/assets/cooking.png"
+            alt="Cooking"
+          />
+        </div>
+      </div>
+      <div id="active-div"></div>
+      <div id="active-orders-container">
+        <h3>NO ACTIVE ORDERS</h3>
+      </div>
+      <div class="row">
+        <div id="active-div">
+          <img
+            id="past-img"
+            src="http://localhost:8080/assets/past.png"
+            alt="History"
+          />
+          <h2 name="active">Previous Orders</h2>
+          <img
+            id="past-img-2"
+            src="http://localhost:8080/assets/past.png"
+            alt="History"
+          />
+        </div>
+      </div>
       <div id="active-div">
-        <img
-          id="cooking-img"
-          src="http://localhost:8080/assets/cooking.png"
-          alt="Cooking"
-        />
-        <h2 name="active">Active Orders</h2>
-        <img
-          id="cooking-img-2"
-          src="http://localhost:8080/assets/cooking.png"
-          alt="Cooking"
-        />
+        <div id="previous-orders-container">
+          <h3>NO PREVIOUS ORDERS</h3>
+        </div>
       </div>
     </div>
-
-    <div id="active-orders-container"></div>
-
-    <div class="row">
-      <div id="active-div">
-        <img
-          id="past-img"
-          src="http://localhost:8080/assets/past.png"
-          alt="History"
-        />
-        <h2 name="active">Previous Orders</h2>
-        <img
-          id="past-img-2"
-          src="http://localhost:8080/assets/past.png"
-          alt="History"
-        />
-      </div>
-    </div>
-    <div id="previous-orders-container"></div>
 
     <!-- Bootstrap -->
     <script

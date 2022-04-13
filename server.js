@@ -89,6 +89,43 @@ app.get("/checkout", (req, res) => {
 
 app.get("/orders", (req, res) => {
   res.render("order-history");
+
+  //console.log("req.session.user_id: ", req.session.user_id);
+});
+
+const orderQueries = require("./db/queries/04_orders_queries");
+
+app.get("/orders-user-id", (req, res) => {
+  const userID = req.session.user_id;
+  console.log("userID: ", userID);
+  //console.log("req.session.user_id: ", req.session.user_id);
+  return Promise.all([
+    orderQueries.newOrdersByID(userID),
+    orderQueries.oldOrdersByID(userID),
+  ])
+    .then((values) => {
+      console.log("returned values: ", values);
+
+      /*stale
+      const menuItems = {};
+
+      values[0].forEach((row) => {
+        if (!(row.category_id in menuItems)) {
+          menuItems[row.category_id] = [];
+        }
+        menuItems[row.category_id].push(row);
+      });
+
+      const categories = {};
+      values[1].forEach((row) => {
+        categories[row.id] = row.category;
+      });
+      //console.log(menuItems, categories);*/
+      res.send(JSON.stringify({ newOrders: values[0], oldOrders: values[1] }));
+    })
+    .catch((err) => {
+      res.status(500).send("Failed to get orders");
+    });
 });
 
 app.get("/test1", (req, res) => {
@@ -104,7 +141,7 @@ const menuQueries = require("./db/queries/03_menu_item_queries");
 app.post("/search", (req, res) => {
   //console.log("post request: ", req);
 
-  req.session.user_id = "test";
+  //req.session.user_id = "test";
 
   let body = req.body;
 
