@@ -124,6 +124,40 @@ $(() => {
     if (data.newOrders.length > 0) {
       $("#active-orders-container").empty();
       renderActiveOrders(data.newOrders);
+
+      console.log(data.newOrders);
+
+      data.newOrders.forEach(order => {
+        if (order.estimated_completion_time === null) {
+
+          let timer = setInterval(function () {
+            $.ajax({
+              url: "/api/order-status",
+              type: "get",
+              data: { "orderID": order.orders_id },
+              success: function (response) {
+                // SWITCH IF'S WHEN DEPLOYING ON HEROKU
+                console.log("INSIDE SUCCESS");
+                console.log(typeof response);
+                console.log("loop");
+                if (response !== "null") {
+                // if (response === "null") {
+                  sessionStorage.clear();
+                  clearInterval(timer);
+                  console.log("PLS DEAR GOD IT WORKED");
+                  document.location.href = "/orders"
+                }
+              },
+              err: function (err) {
+                console.log(err.message);
+              }
+            });
+          }, 4000);
+        }
+
+      });
+
+
     }
 
     if (data.oldOrders.length > 0) {
