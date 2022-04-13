@@ -39,9 +39,8 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
+      name: 'testcookie',
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      sameSite: true,
-      secure: true,
     },
   })
 );
@@ -96,37 +95,19 @@ app.get("/cart", (req, res) => {
   res.render("cart");
 });
 
-// UNCOMMENT BELOW FOR HEROKU DEPLOY I THINK
 app.get("/checkout", redirectUtils.toLogin, (req, res) => {
-// app.get("/checkout", (req, res) => {
   res.render("checkout");
 });
 
 app.get("/orders", redirectUtils.toLogin, (req, res) => {
   res.render("order-history");
-
-  //console.log("req.session.user_id: ", req.session.user_id);
 });
 
-app.get("/test1", (req, res) => {
-  res.send(req.session.user_id);
-});
-app.get("/test1", (req, res) => {
-  res.send(req.session.user_id);
-});
-
-// ============== NOTE =========================
-// when i use first one i get error "Cannot set headers after they are sent to the client"
-// no idea what's causing it, but without the middleware for both login and register
-// they work perfectly fine (also no logout function yet)
-
-// app.get("/login", redirectUtils.toHome, (req, res) => {
-app.get("/login", (req, res) => {
+app.get("/login", redirectUtils.toHome, (req, res) => {
   res.render("login");
 });
 
-// app.get("/register", redirectUtils.toHome, (req, res) => {
-app.get("/register", (req, res) => {
+app.get("/register", redirectUtils.toHome, (req, res) => {
   res.render("register");
 });
 
