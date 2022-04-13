@@ -101,9 +101,9 @@ $(() => {
             type: "get",
             data: { "orderID": orderID },
             success: function (response) {
-              if (response === "null") {
-                // SWITCH IF'S WHEN DEPLOYING ON HEROKU
-                // if (response !== "null") {
+              // if (response === "null") {
+              // SWITCH IF'S WHEN DEPLOYING ON HEROKU
+              if (response !== "null") {
                 sessionStorage.clear();
                 clearInterval(timer);
               }
@@ -113,7 +113,7 @@ $(() => {
             }
           });
         }, 2000);
-        
+
         document.location.href = "/orders";
       },
       err: function (err) {
