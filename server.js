@@ -39,7 +39,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      name: "testcookie",
+      name: "foodie_session",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     },
   })
