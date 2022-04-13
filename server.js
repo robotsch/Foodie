@@ -60,6 +60,7 @@ const loginRoute = require("./routes/login-router");
 const registerRoute = require("./routes/register-router");
 const orderStatusRoute = require("./routes/order-status-router");
 const menuSearchRoute = require("./routes/menu-search-router");
+const orderHistoryRoute = require("./routes/order-history-router");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -73,6 +74,7 @@ app.use("/api/login", loginRoute);
 app.use("/api/register", registerRoute);
 app.use("/api/order-status", orderStatusRoute);
 app.use("/api/menu-search", menuSearchRoute);
+app.use("/api/orders-user-id", orderHistoryRoute);
 
 // Note: mount other resources here, using the same pattern above
 const redirectUtils = require("./middleware/auth-redirects");
@@ -106,48 +108,12 @@ app.get("/orders", redirectUtils.toLogin, (req, res) => {
   //console.log("req.session.user_id: ", req.session.user_id);
 });
 
-const orderQueries = require("./db/queries/04_orders_queries");
-
-app.get("/orders-user-id", (req, res) => {
-  const userID = req.session.user_id;
-  console.log("userID: ", userID);
-  //console.log("req.session.user_id: ", req.session.user_id);
-  return Promise.all([
-    orderQueries.newOrdersByID(userID),
-    orderQueries.oldOrdersByID(userID),
-  ])
-    .then((values) => {
-      console.log("returned values: ", values);
-
-      /*stale
-      const menuItems = {};
-
-      values[0].forEach((row) => {
-        if (!(row.category_id in menuItems)) {
-          menuItems[row.category_id] = [];
-        }
-        menuItems[row.category_id].push(row);
-      });
-
-      const categories = {};
-      values[1].forEach((row) => {
-        categories[row.id] = row.category;
-      });
-      //console.log(menuItems, categories);*/
-      res.send(JSON.stringify({ newOrders: values[0], oldOrders: values[1] }));
-    })
-    .catch((err) => {
-      res.status(500).send("Failed to get orders");
-    });
-});
-
 app.get("/test1", (req, res) => {
   res.send(req.session.user_id);
 });
 app.get("/test1", (req, res) => {
   res.send(req.session.user_id);
 });
-
 
 app.get("/login", redirectUtils.toHome, (req, res) => {
   res.render("login");

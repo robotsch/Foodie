@@ -111,6 +111,7 @@ const oldOrdersByID = function (userID) {
 };
 
 exports.oldOrdersByID = oldOrdersByID;
+
 const getEstimatedCompletionTime = function (orderID) {
   return db
     .query(
