@@ -46,12 +46,10 @@ $(() => {
     let time_accepted = timeFormatter(oldOrderObj.time_accepted);
 
     return $(`
-    <div class="entry-div">
-      <div>
+    <div class="entry-div-history">
         <h4>Order #${oldOrderObj.orders_id}</h4>
         <p class="entries"><b>Order Placed:</b> ${time_ordered}</p>
         <p class="entries"><b>Order Accepted:</b> ${time_accepted}</p>
-      </div>
     </div>
     `);
   };
