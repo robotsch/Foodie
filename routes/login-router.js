@@ -13,21 +13,22 @@ const authUtils = require('../utils/auth-utils')
 
 router.post("/", (req, res) => {
   // TODO: integration testing when registration page exists
-  // const userData = req.body
-  const userData = {
-    email: 'testemail5@test.com',
-    password: 'secret'
-  }
+  const userData = req.body
+  // const userData = {
+  //   email: 'testemail5@test.com',
+  //   password: 'secret'
+  // }
 
   userQueries.getUserWithEmail(userData.email)
     .then((result) => {
       if(result) {
-        console.log(result)
+        // console.log(result)
         authUtils.authenticateUser(userData)
           .then((userId) => {
             if(userId) {
               req.session.user_id = userId
-              console.log(req.session)
+              // console.log(req.session)
+              res.redirect("/");
             } else {
               res.send('Incorrect email or password')
             }

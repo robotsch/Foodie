@@ -13,14 +13,15 @@ const authUtils = require('../utils/auth-utils')
 
 router.post("/", (req, res) => {
   // TODO: integration testing when registration page exists
-  // const userData = req.body
-  const userData = {
-    email: 'testemail6@test.com',
-    password: 'secret',
-    fname: 'christian',
-    lname: 'humble',
-    phone: '+11234567890'
-  }
+  const userData = req.body
+  console.log(userData);
+  // const userData = {
+  //   email: 'testemail6@test.com',
+  //   password: 'secret',
+  //   fname: 'christian',
+  //   lname: 'humble',
+  //   phone: '+11234567890'
+  // }
 
   userQueries.getUserWithEmail(userData.email)
     .then((result) => {
@@ -29,6 +30,7 @@ router.post("/", (req, res) => {
           .then((newUserId) => {
             if(newUserId) {
               req.session.user_id = newUserId
+              res.redirect("/");
             } else {
               res.send('Registration failed')
             }

@@ -97,8 +97,8 @@ app.get("/cart", (req, res) => {
 });
 
 // UNCOMMENT BELOW FOR HEROKU DEPLOY I THINK
-// app.get("/checkout", redirectUtils.toLogin, (req, res) => {
-app.get("/checkout", (req, res) => {
+app.get("/checkout", redirectUtils.toLogin, (req, res) => {
+// app.get("/checkout", (req, res) => {
   res.render("checkout");
 });
 
@@ -115,11 +115,13 @@ app.get("/test1", (req, res) => {
   res.send(req.session.user_id);
 });
 
-app.get("/login", redirectUtils.toHome, (req, res) => {
+// app.get("/login", redirectUtils.toHome, (req, res) => {
+app.get("/login", (req, res) => {
   res.render("login");
 });
 
-app.get("/register", redirectUtils.toHome, (req, res) => {
+// app.get("/register", redirectUtils.toHome, (req, res) => {
+app.get("/register", (req, res) => {
   res.render("register");
 });
 
