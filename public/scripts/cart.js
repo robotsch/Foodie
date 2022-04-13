@@ -109,13 +109,13 @@ $(() => {
         });
 
         $("#set-quantity-btn").unbind().on("click", function () {
-          
+
           const sessionCart = JSON.parse(sessionStorage.getItem('orders'));
           const oldQuantity = sessionCart[menuItem.id];
-          
+
           // Gets new quantity
           const newQuantity = parseInt($('.modal-body').find(".quantity:first").text());
-          
+
           if (newQuantity === oldQuantity) return;
 
           // Updates new quantity in sessionStorage
@@ -179,6 +179,12 @@ $(() => {
     $("#checkout-btn").before("<hr>");
 
   };
+
+  $("#checkout-btn").unbind().on("click", function () {
+    if (sessionStorage.getItem("orders") === null) return;
+
+    document.location.href = "/checkout";
+  });
 
   // GET request to /api/cart to get JSON of the current card but with additional info from db
   $.ajax({

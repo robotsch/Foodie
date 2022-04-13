@@ -70,6 +70,9 @@ $(() => {
 
   // sohould be post request to /api/checkout to send order to backend
   $("#place-order-btn").unbind().on("click", function () {
+
+    if (sessionStorage.getItem("orders") === null) return;
+
     $.ajax({
       url: "/api/checkout",
       type: "get",
@@ -93,10 +96,11 @@ $(() => {
             type: "get",
             data: { "orderID": orderID },
             success: function (response) {
-              // if (response === "null") {
-              if (response !== "null") {
+              if (response === "null") {
+              // if (response !== "null") {
+                sessionStorage.clear();
                 clearInterval(timer);
-                document.location.href = "/";
+                document.location.href = "/orders";
               }
             },
             err: function (err) {
