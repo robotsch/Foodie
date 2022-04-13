@@ -16,7 +16,6 @@
     "bcryptjs": "^2.4.3",
     "chalk": "^2.4.2",
     "connect-pg-simple": "^7.0.0",
-    "cookie-session": "^2.0.0",
     "dotenv": "^2.0.0",
     "ejs": "^2.6.2",
     "express": "^4.17.1",
