@@ -10,3 +10,5 @@ router.post("/", (req, res) => {
       res.send('Success')
     })
 })
+
+module.exports = router;
