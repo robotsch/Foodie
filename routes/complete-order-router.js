@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const menuQueries = require("../db/queries/03_menu_item_queries");
+const userQueries = require("../db/queries/01_user_queries")
 const orderQueries = require("../db/queries/04_orders_queries");
 const twilioClient = require("../lib/twilio");
 
@@ -20,11 +21,10 @@ const twilioClient = require("../lib/twilio");
 router.get("/", (req, res) => {
 
   const promises = [];
-  const user = { name: "testuser", id: 1 };
+  promises.push(userQueries.getUserWithId(req.session.user_id))
 
   const order = req.query;
-  let orderStr = `Order received from ${user.name}\n`;
-
+  
   Object.keys(order).forEach((id) => {
     promises.push(menuQueries.getItemByID(id));
   });
@@ -32,6 +32,8 @@ router.get("/", (req, res) => {
   Promise.all(promises)
     .then((data) => {
       // Constructs order string to be sent via text to restaurant
+      const user = data.shift()
+      let orderStr = `Order received from ${user.first_name} ${user.last_name.charAt(0)}.\n`;
       for (foodItem of data) {
         orderStr += `${foodItem.name} x${order[foodItem.id]}\n`;
       }
