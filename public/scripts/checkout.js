@@ -87,23 +87,26 @@ $(() => {
         // After new order has been created and inserted into database
         // user is shown pending screen while waiting for restaurant
         // to accept order
-        $("#checkout-container").replaceWith(`
-        <div class="container-md d-flex flex-column align-items-center mt-4" id="order-pending-container">
-        <h1>PENDING</h1>
-        </div>`
-        );
+        // $("#checkout-container").replaceWith(`
+        // // <div class="container-md d-flex flex-column align-items-center mt-4" id="order-pending-container">
+        // // <h1>PENDING</h1>
+        // // </div>`
+        // );
 
         // Sends a GET request to /api/order-status every 2 seconds
         // to check if order has been accepted
+        console.log("/api/checkout SUCESS FUNCTION", orderID);
         let timer = setInterval(function () {
           $.ajax({
             url: "/api/order-status",
             type: "get",
             data: { "orderID": orderID },
             success: function (response) {
-              if (response === "null") {
-                // SWITCH IF'S WHEN DEPLOYING ON HEROKU
-                // if (response !== "null") {
+              // if (response === "null") {
+              // SWITCH IF'S WHEN DEPLOYING ON HEROKU
+              console.log("loop");
+              if (response !== "null") {
+                console.log("CLEAR THE DAMN CART");
                 sessionStorage.clear();
                 clearInterval(timer);
                 document.location.href = "/orders";
@@ -115,6 +118,7 @@ $(() => {
           });
         }, 2000);
 
+        document.location.href = "/orders";
       },
       err: function (err) {
         console.log(err.message);

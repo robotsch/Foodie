@@ -90,6 +90,7 @@
 
 #previous-orders-container {
   margin-bottom: 100px;
+  justify-content: center;
 }
 
 #massive {
@@ -102,8 +103,24 @@
   justify-content: center;
 }
 
+.entry-div-history {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+}
+
 .entries {
   margin-left: 10px;
   margin-right: 10px;
   padding-top: 15px;
+}
+
+.resolve-order-btn {
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  box-sizing: border-box;
+  border-radius: 12px;
+  width: 240px;
+  background-color: #da4167;
 }
