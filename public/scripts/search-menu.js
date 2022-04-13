@@ -8,8 +8,8 @@ $(() => {
 
   const createMenuItem = function (menuItemData) {
     return $(`
-      <div class="row">
-        <div class="col-lg-8 d-flex justify-content-between menuItem" id="menuItem-${menuItemData.id
+      <div class="row justify-content-center">
+        <div class="col-lg-8 d-flex justify-content-between align-items-center menuItem" id="menuItem-${menuItemData.id
       }">
           <div>
             <h4>${menuItemData.name}</h4>
@@ -94,7 +94,7 @@ $(() => {
   };
 
   const deleteSearchResults = () => {
-    $("#results-container").empty();
+    $("#results-container").children().not(":first").remove();
   };
 
   const fetchRenderEntireMenu = function () {
