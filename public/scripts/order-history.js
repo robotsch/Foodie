@@ -128,7 +128,7 @@ $(() => {
 
       const orderH4 = $(this).siblings("h4").text();
       const indOf = orderH4.indexOf(":");
-      const orderID = orderH4.slice(indOf);
+      const orderID = orderH4.slice(indOf + 1);
 
       //console.log("retrieved orderID: ", orderID);
 
