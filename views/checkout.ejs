@@ -39,14 +39,6 @@
       <h3>Checkout</h3>
       <hr>
       <h4>Items</h4>
-      <div class="item-container" id="item-${orderData.id}">
-        <div>
-          <div class="px-2 py-1 mx-2 text-center">1</div>
-          <div>Spring Rolls</div>
-        </div>
-        <div>$1.50</div>
-      </div>
-      <hr>
       <div id="totals-container">
         <div>
           <div>Subtotal</div>
@@ -67,28 +59,32 @@
       </div>
       <hr>
       <h4>Payment Info</h4>
-      <div>
-        <label for="cc-name" class="form-label">Name on card</label>
-        <input type="text" class="form-control" id="cc-name" placeholder="" required="">
-        <small class="text-muted">Full name as displayed on card</small>
-      </div>
-      <div>
-        <label for="cc-number" class="form-label">Credit card number</label>
-        <input type="text" class="form-control" id="cc-number" placeholder="" required="">
-      </div>
-      <div>
-        <label for="cc-expiration" class="form-label">Expiration</label>
-        <input type="text" class="form-control" id="cc-expiration" placeholder="" required="">
-      </div>
-      <div>
-        <label for="cc-cvv" class="form-label">CVV</label>
-        <input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
-      </div>
-      <hr>
-      <div>Approximate pickup time will be shown after completing checkout</div>
-      <div>Pickup at 94 Halsey Ave, Toronto</div>
-      <hr>
-      <button type="submit" class="btn btn-primary">Place Order</button>
+      <!-- <form action="/api/checkout" class="text-center"> -->
+      <form action="" class="text-center">
+        <div>
+          <label for="cc-name" class="form-label">Name on card</label>
+          <input type="text" class="form-control" id="cc-name" placeholder="" required="">
+          <small class="text-muted">Full name as displayed on card</small>
+        </div>
+        <div>
+          <label for="cc-number" class="form-label">Credit card number</label>
+          <input type="text" class="form-control" id="cc-number" placeholder="" required="">
+        </div>
+        <div>
+          <label for="cc-expiration" class="form-label">Expiration</label>
+          <input type="text" class="form-control" id="cc-expiration" placeholder="" required="">
+        </div>
+        <div>
+          <label for="cc-cvv" class="form-label">CVV</label>
+          <input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
+        </div>
+        <hr>
+        <div>Approximate pickup time will be shown after completing checkout</div>
+        <div>Pickup at 94 Halsey Ave, Toronto</div>
+        <hr>
+        <!-- <button type="submit" class="btn btn-primary" id="place-order-btn">Place Order</button> -->
+        <button type="button" class="btn btn-primary" id="place-order-btn">Place Order</button>
+      </form>
     </div>
 
     <!-- Bootstrap -->

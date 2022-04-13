@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
     "chalk": "^2.4.2",
     "connect-pg-simple": "^7.0.0",
     "cookie-session": "^2.0.0",
