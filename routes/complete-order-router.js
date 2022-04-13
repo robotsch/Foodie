@@ -12,6 +12,11 @@ const twilioClient = require("../lib/twilio");
  * SMS includes order ID and the customer's order
  *  alongside a prompt to respond with estimated completion time
 */
+
+// GET request for /api/checkout
+// NOTE: tried to change to a post request but then on the 
+//       orders page, it wouldn't render the order using
+//       a post request, so leave as get for now
 router.get("/", (req, res) => {
 
   const promises = [];
@@ -26,15 +31,19 @@ router.get("/", (req, res) => {
 
   Promise.all(promises)
     .then((data) => {
+      // Constructs order string to be sent via text to restaurant
       for (foodItem of data) {
         orderStr += `${foodItem.name} x${order[foodItem.id]}\n`;
       }
 
+      // Creates new order and inserts into database
       orderQueries.createNewOrder(user.id, order)
         .then((createdOrder) => {
           orderStr += `Order ID: ${createdOrder.id}\n`;
           orderStr +=
             "Please respond with the order id followed by estimated completion time in minutes.";
+
+          // Twilio sends text message to restaurant
           twilioClient.messages
             .create({
               body: orderStr,
@@ -42,9 +51,10 @@ router.get("/", (req, res) => {
               to: process.env.RESTAURANT_PHONE,
             })
             .catch((err) => console.log(err.messages));
-          console.log(createdOrder.id);
+
+          // Sends the newly created order's id as response
           res.send(`${createdOrder.id}`);
-        })
+        });
     })
     .catch((err) => {
       res.send("Failed to get order items");

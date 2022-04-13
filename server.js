@@ -58,6 +58,7 @@ const checkoutRoute = require("./routes/complete-order-router");
 const smsResponseRoute = require("./routes/sms-response-router");
 const loginRoute = require("./routes/login-router");
 const registerRoute = require("./routes/register-router");
+const orderStatusRoute = require("./routes/order-status-router");
 //const menuSearchRoute = require("./routes/menu-search");
 
 // Mount all resource routes
@@ -70,6 +71,7 @@ app.use("/api/checkout", checkoutRoute);
 app.use("/api/smsresponse", smsResponseRoute);
 app.use("/api/login", loginRoute);
 app.use("/api/register", registerRoute);
+app.use("/api/order-status", orderStatusRoute);
 //app.use("/api/menuSearch", menuSearchRoute);
 
 // Note: mount other resources here, using the same pattern above
@@ -144,21 +146,6 @@ app.get("/test1", (req, res) => {
   res.send(req.session.user_id);
 });
 
-app.get("/order-success", (req, res) => {
-  res.render("order-success");
-});
-
-app.get("/order-pending", (req, res) => {
-  console.log("/order-pending get requests req.query", req.query);
-  orderQueries
-    .getEstimatedCompletionTime(req.query.orderID)
-    .then((result) => {
-      console.log(result);
-      console.log(result.estimated_completion_time);
-      res.send(`${result.estimated_completion_time}`);
-    })
-    .catch((err) => console.log(err.messages));
-});
 
 app.get("/login", redirectUtils.toHome, (req, res) => {
   res.render("login");

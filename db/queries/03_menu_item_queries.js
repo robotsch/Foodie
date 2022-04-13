@@ -65,7 +65,6 @@ exports.getItemByID = getItemByID;
 
 const getItemBySearch = (searchItem) => {
   const values = [`%${searchItem}%`];
-  console.log("values: ", values);
   let queryString = `
    SELECT *
    FROM menu_items

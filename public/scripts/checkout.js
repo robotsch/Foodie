@@ -49,8 +49,9 @@ $(() => {
       return;
     }
 
+    // Renders each item in order
     for (const menuItem of Object.values(cartData)) {
-      $("#checkout-container > hr:first").after(createItem(menuItem));
+      $("#totals-container").before(createItem(menuItem));
     }
 
   };
@@ -59,7 +60,8 @@ $(() => {
   $.ajax({
     url: "/api/cart",
     type: "get",
-    data: JSON.parse(sessionStorage.getItem('orders')), // Passes in sessionStorage order info
+    // Passes in sessionStorage order info
+    data: JSON.parse(sessionStorage.getItem('orders')),
     success: function (response) {
       renderCheckout(response);
     },
@@ -68,36 +70,40 @@ $(() => {
     }
   });
 
-  // sohould be post request to /api/checkout to send order to backend
+  // When place order button is clicked
   $("#place-order-btn").unbind().on("click", function () {
 
+    // If no items in order, does nothing
     if (sessionStorage.getItem("orders") === null) return;
 
+    // GET requests to /api/checkout to get orderID of the newly created order
     $.ajax({
       url: "/api/checkout",
       type: "get",
-      data: JSON.parse(sessionStorage.getItem('orders')), // Passes in sessionStorage order info
+      // Passes in sessionStorage order info
+      data: JSON.parse(sessionStorage.getItem('orders')),
       success: function (orderID) {
-        console.log(orderID);
+
+        // After new order has been created and inserted into database
+        // user is shown pending screen while waiting for restaurant
+        // to accept order
         $("#checkout-container").replaceWith(`
         <div class="container-md d-flex flex-column align-items-center mt-4" id="order-pending-container">
         <h1>PENDING</h1>
-        <!-- <h3>Thank You!</h3>
-        <h5>Pickup at 94 Halsey Ave, Toronto</h5>
-        <h5>Your order will be ready at approximately:</h5>
-        <span id="estimated-completion-time">1:25 pm</span>
-        <span id="estimated-completion-date-time">(1:25 pm on Tue, April 11, 2022)</span> -->
         </div>`
         );
 
+        // Sends a GET request to /api/order-status every 2 seconds
+        // to check if order has been accepted
         let timer = setInterval(function () {
           $.ajax({
-            url: "/order-pending",
+            url: "/api/order-status",
             type: "get",
             data: { "orderID": orderID },
             success: function (response) {
               if (response === "null") {
-              // if (response !== "null") {
+                // SWITCH IF'S WHEN DEPLOYING ON HEROKU
+                // if (response !== "null") {
                 sessionStorage.clear();
                 clearInterval(timer);
                 document.location.href = "/orders";
@@ -107,7 +113,7 @@ $(() => {
               console.log(err.message);
             }
           });
-        }, 1000);
+        }, 2000);
 
       },
       err: function (err) {

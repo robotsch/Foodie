@@ -42,9 +42,8 @@ $(() => {
   const createMenuItem = function (menuItemData) {
     return $(`
       <div class="row">
-        <div class="col-lg-8 d-flex justify-content-between menuItem" id="menuItem-${
-          menuItemData.id
-        }">
+        <div class="col-lg-8 d-flex justify-content-between menuItem" id="menuItem-${menuItemData.id
+      }">
           <div>
             <h4>${menuItemData.name}</h4>
             <p>${menuItemData.description}</p>
@@ -64,9 +63,8 @@ $(() => {
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">${
-              menuItemData.name
-            }</h5>
+            <h5 class="modal-title" id="exampleModalLabel">${menuItemData.name
+      }</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body">
@@ -83,27 +81,23 @@ $(() => {
               </div>
               <div>
                 Total<br>
-                <span id="menuItemModal-total-cost-${menuItemData.id}">$${
-      menuItemData.price / 100
-    }</span>
+                <span id="menuItemModal-total-cost-${menuItemData.id}">$${menuItemData.price / 100
+      }</span>
               </div>
             </div>
             <hr class="bg-danger border-2 border-top border-danger">
             <div>
-              <button type="button" class="btn btn-outline-dark mx-3" id="menuItemModal-minus-quantity-${
-                menuItemData.id
-              }">-</button>
+              <button type="button" class="btn btn-outline-dark mx-3" id="menuItemModal-minus-quantity-${menuItemData.id
+      }">-</button>
               <span class="menuItemModal-quantity-${menuItemData.id}">1</span>
-              <button type="button" class="btn btn-outline-dark mx-3" id="menuItemModal-plus-quantity-${
-                menuItemData.id
-              }">+</button>
+              <button type="button" class="btn btn-outline-dark mx-3" id="menuItemModal-plus-quantity-${menuItemData.id
+      }">+</button>
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" data-bs-dismiss="modal" id="menuItemModal-submit-btn-${
-              menuItemData.id
-            }" class="btn btn-primary">Add To Order</button>
+            <button type="button" data-bs-dismiss="modal" id="menuItemModal-submit-btn-${menuItemData.id
+      }" class="btn btn-primary">Add To Order</button>
           </div>
           </div>
         </div>
@@ -304,5 +298,5 @@ $(() => {
 //end of rip
 
 const renderSearchItems = (data) => {
-  for (let i = 0; i < data.mentItems.length; i++) {}
+  for (let i = 0; i < data.mentItems.length; i++) { }
 };
