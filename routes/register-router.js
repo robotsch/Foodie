@@ -13,8 +13,8 @@ const authUtils = require('../utils/auth-utils')
 
 router.post("/", (req, res) => {
   const userData = req.body
-
-  userQueries.getUserWithEmail(userData.email)
+  if(authUtils.validatePassword(userData.password)){
+    userQueries.getUserWithEmail(userData.email)
     .then((result) => {
       if(!result) {
         authUtils.registerUser(userData)
@@ -32,6 +32,9 @@ router.post("/", (req, res) => {
       }
     })
     .catch((err) => console.log(err))
+  } else {
+    res.send('Password does not meet complexity requirements')
+  }
 })
 
 module.exports = router;
