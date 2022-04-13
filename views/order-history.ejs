@@ -1,54 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
 
-  <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+    <!-- Reseting CSS -->
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
 
-  <!-- Reseting CSS -->
-  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-  <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/main.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/topbar.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/order-history.css" type="text/css" />
 
-  <link rel="stylesheet" href="/styles/main.css" type="text/css" />
-  <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-  <link rel="stylesheet" href="/styles/topbar.css" type="text/css" />
-  <link rel="stylesheet" href="/styles/order-history.css" type="text/css" />
+    <!-- jQuery -->
+    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
 
-  <!-- jQuery -->
-  <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <!-- app.js -->
+    <script type="text/javascript" src="/scripts/order-history.js"></script>
 
-  <!-- app.js -->
-  <script type="text/javascript" src="/scripts/order-history.js"></script>
+    <title>Order History | Golden Wok</title>
+  </head>
 
-  <title>Order History | Golden Wok</title>
-</head>
-
-<body>
-  
-  <%- include('partials/_topbar') %>
+  <body>
+    <%- include('partials/_topbar') %>
 
     <div id="massive">
       <div class="row">
         <div id="active-div">
-          <img id="cooking-img" src="http://localhost:8080/assets/cooking.png" alt="Cooking" />
+          <img
+            id="cooking-img"
+            src="http://localhost:8080/assets/cooking.png"
+            alt="Cooking"
+          />
           <h2 name="active">Active Orders</h2>
-          <img id="cooking-img-2" src="http://localhost:8080/assets/cooking.png" alt="Cooking" />
+          <img
+            id="cooking-img-2"
+            src="http://localhost:8080/assets/cooking.png"
+            alt="Cooking"
+          />
         </div>
       </div>
-      <div id="active-div"></div>
+
       <div id="active-orders-container">
-        <h3>NO ACTIVE ORDERS</h3>
+        <div id="active-div">
+          <h3>NO ACTIVE ORDERS</h3>
+        </div>
       </div>
       <div class="row">
         <div id="active-div">
-          <img id="past-img" src="http://localhost:8080/assets/past.png" alt="History" />
+          <img
+            id="past-img"
+            src="http://localhost:8080/assets/past.png"
+            alt="History"
+          />
           <h2 name="active">Previous Orders</h2>
-          <img id="past-img-2" src="http://localhost:8080/assets/past.png" alt="History" />
+          <img
+            id="past-img-2"
+            src="http://localhost:8080/assets/past.png"
+            alt="History"
+          />
         </div>
       </div>
       <div id="active-div">
@@ -59,9 +79,10 @@
     </div>
 
     <!-- Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-      crossorigin="anonymous"></script>
-</body>
-
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>

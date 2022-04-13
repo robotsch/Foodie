@@ -150,14 +150,9 @@ $(() => {
         url: `/api/resolve-order`,
         method: "post",
         data: { orderId: orderID },
-      })
-        .then((response) => {
-          const results = JSON.parse(response).menuItemResults;
-          renderMenuItems(results);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      }).catch((err) => {
+        console.log(err);
+      });
     }
   );
 });
