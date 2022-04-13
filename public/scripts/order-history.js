@@ -8,13 +8,22 @@ $(() => {
     return div.innerHTML;
   };
 
+  const timeFormatter = (detailedTimeString) => {
+    let date = detailedTimeString.slice(0, 10);
+    let time = detailedTimeString.slice(11, 16);
+    return date, " ", time;
+  };
+
   const createActiveOrder = (activeOrderObj) => {
+    let time_ordered = timeFormatter(activeOrderObj.time_ordered);
+    let time_accepted = timeFormatter(activeOrderObj.time_accepted);
+
     return $(`
     <div class="entry-div">
-      <h4>Order #: ${activeOrderObj.orders_id}</h4>
-      <p class="entries">Order Placed: ${activeOrderObj.time_ordered}</p>
-      <p class="entries">Order Accepted: ${activeOrderObj.time_accepted}</p>
-      <p class="entries">Estimated Preparation Time: ${activeOrderObj.estimated_completion_time} mins</p>
+      <h4>Order #:${activeOrderObj.orders_id}</h4>
+      <p class="entries"><b>Order Placed:</b> ${time_ordered}</p>
+      <p class="entries"><b>Order Accepted:</b> ${time_accepted}</p>
+      <p class="entries"><b>Estimated Preparation Time:</b> ${activeOrderObj.estimated_completion_time} mins</p>
       <button type="submit" class="resolve-order-btn">Order Complete</button>
     </div>
     `);
@@ -25,9 +34,8 @@ $(() => {
     <div class="entry-div">
       <div>
         <h4>Order #: ${oldOrderObj.orders_id}</h4>
-        <p class="entries">Order Placed: ${oldOrderObj.time_ordered}</p>
-        <p class="entries">Order Accepted: ${oldOrderObj.time_accepted}</p>
-        <p class="entries">Estimated Preparation Time: ${oldOrderObj.estimated_completion_time} mins</p>
+        <p class="entries"><b>Order Placed:</b> ${oldOrderObj.time_ordered}</p>
+        <p class="entries"><b>Order Accepted:</b> ${oldOrderObj.time_accepted}</p>
       </div>
     </div>
     `);
@@ -124,7 +132,7 @@ $(() => {
       //console.log("retrieved orderID: ", orderID);
 
       $.ajax({
-        url: `/complete`,
+        url: `/api/resolve-order`,
         method: "post",
         data: { orderID: orderID },
       })
