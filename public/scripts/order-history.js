@@ -14,7 +14,10 @@ $(() => {
       <h4>Order #: ${activeOrderObj.orders_id}</h4>
       <p class="entries">Order Placed: ${activeOrderObj.time_ordered}</p>
       <p class="entries">Order Accepted: ${activeOrderObj.time_accepted}</p>
-      <p class="entries">Estimated Preparation Time: ${activeOrderObj.estimated_completion_time}</p>
+      <p class="entries">Estimated Preparation Time: ${activeOrderObj.estimated_completion_time} mins</p>
+      <form action="/resolve" method="POST" class="resolve-order-form">
+      <button type="submit" class="resolve-order-btn">Order Complete</button>
+      </form>
     </div>
     `);
   };
@@ -26,7 +29,7 @@ $(() => {
         <h4>Order #: ${oldOrderObj.orders_id}</h4>
         <p class="entries">Order Placed: ${oldOrderObj.time_ordered}</p>
         <p class="entries">Order Accepted: ${oldOrderObj.time_accepted}</p>
-        <p class="entries">Estimated Preparation Time: ${oldOrderObj.estimated_completion_time}</p>
+        <p class="entries">Estimated Preparation Time: ${oldOrderObj.estimated_completion_time} mins</p>
       </div>
     </div>
     `);

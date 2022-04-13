@@ -124,3 +124,20 @@ const getEstimatedCompletionTime = function (orderID) {
 };
 
 exports.getEstimatedCompletionTime = getEstimatedCompletionTime;
+
+//takes orderID and userID to query the db for results and returns the order that matches. returns null/undefined if order/user does not exist or if the order does not belong to that user
+const orderBelongsToUser = (orderID, userID) => {
+  const values = [orderID, userID];
+
+  return db
+    .query(
+      `SELECT *
+    FROM orders
+    JOIN users ON users.id = user_id
+    WHERE orders.id = $1 AND users.id = $2`,
+      [values]
+    )
+    .then((result) => result.rows[0]);
+};
+
+exports.orderBelongsToUser = orderBelongsToUser;
