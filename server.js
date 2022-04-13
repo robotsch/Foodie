@@ -59,7 +59,7 @@ const smsResponseRoute = require("./routes/sms-response-router");
 const loginRoute = require("./routes/login-router");
 const registerRoute = require("./routes/register-router");
 const orderStatusRoute = require("./routes/order-status-router");
-//const menuSearchRoute = require("./routes/menu-search");
+const menuSearchRoute = require("./routes/menu-search-router");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -72,7 +72,7 @@ app.use("/api/smsresponse", smsResponseRoute);
 app.use("/api/login", loginRoute);
 app.use("/api/register", registerRoute);
 app.use("/api/order-status", orderStatusRoute);
-//app.use("/api/menuSearch", menuSearchRoute);
+app.use("/api/menu-search", menuSearchRoute);
 
 // Note: mount other resources here, using the same pattern above
 const redirectUtils = require("./middleware/auth-redirects");
@@ -159,46 +159,4 @@ app.get("/register", redirectUtils.toHome, (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
-});
-
-const menuQueries = require("./db/queries/03_menu_item_queries");
-
-app.post("/search", (req, res) => {
-  //console.log("post request: ", req);
-
-  //req.session.user_id = "test";
-
-  let body = req.body;
-
-  let searchArr = Object.keys(body);
-  let searchString = searchArr[0];
-
-  console.log("searchString: ", searchString);
-
-  return Promise.all([
-    menuQueries.getItemBySearch(searchString),
-    menuQueries.getAllCategories(),
-  ])
-    .then((values) => {
-      const menuItems = {};
-
-      values[0].forEach((row) => {
-        if (!(row.category_id in menuItems)) {
-          menuItems[row.category_id] = [];
-        }
-        menuItems[row.category_id].push(row);
-      });
-
-      const categories = {};
-      values[1].forEach((row) => {
-        categories[row.id] = row.category;
-      });
-      //console.log(menuItems, categories);
-      res.send(
-        JSON.stringify({ menuItems: menuItems, categories: categories })
-      );
-    })
-    .catch((err) => {
-      res.status(500).send("Failed to get menu and items");
-    });
 });
