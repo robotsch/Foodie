@@ -106,6 +106,7 @@ $(() => {
               if (response !== "null") {
                 sessionStorage.clear();
                 clearInterval(timer);
+                document.location.href = "/orders";
               }
             },
             err: function (err) {
