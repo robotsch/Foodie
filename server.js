@@ -56,7 +56,7 @@ const checkoutRoute = require("./routes/complete-order-router");
 const smsResponseRoute = require("./routes/sms-response-router");
 const loginRoute = require("./routes/login-router");
 const registerRoute = require("./routes/register-router");
-const logoutRoute = require("./routes/logout-router")
+const logoutRoute = require("./routes/logout-router");
 const orderStatusRoute = require("./routes/order-status-router");
 const menuSearchRoute = require("./routes/menu-search-router");
 const orderHistoryRoute = require("./routes/order-history-router");
@@ -71,7 +71,7 @@ app.use("/api/checkout", checkoutRoute);
 app.use("/api/smsresponse", smsResponseRoute);
 app.use("/api/login", loginRoute);
 app.use("/api/register", registerRoute);
-app.use("/api/logout", logoutRoute)
+app.use("/api/logout", logoutRoute);
 app.use("/api/order-status", orderStatusRoute);
 app.use("/api/menu-search", menuSearchRoute);
 app.use("/api/orders-user-id", orderHistoryRoute);
@@ -115,8 +115,4 @@ app.get("/register", redirectUtils.toHome, (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
-});
-
-app.post("/complete", (req, res) => {
-  console.log("request: ", req);
 });
