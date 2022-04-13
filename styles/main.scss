@@ -1,8 +1,15 @@
-body {
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
-  min-height: 100vh;
+@use 'variables' as v;
 
-  background: #fff;
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+body,
+html {
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: v.$bg-colour;
 }
