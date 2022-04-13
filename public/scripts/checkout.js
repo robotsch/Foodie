@@ -116,22 +116,4 @@ $(() => {
     });
   });
 
-  // const requestLoop = setInterval(function () {
-  //   $.ajax({
-  //     url: "",
-  //     type: "get",
-  //     data: ,
-  //     success: function (response) {
-  //       console.log(response);
-  //     },
-  //     err: function (err) {
-  //       console.log(err.message);
-  //     }
-  //   });
-  //   // if (order completion time exists) {
-  //   if (true) {
-  //     clearInterval(timer);
-  //   }
-  // }, 1000);
-
 });
