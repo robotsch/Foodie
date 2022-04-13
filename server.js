@@ -115,6 +115,11 @@ app.get("/test1", (req, res) => {
   res.send(req.session.user_id);
 });
 
+// ============== NOTE =========================
+// when i use first one i get error "Cannot set headers after they are sent to the client"
+// no idea what's causing it, but without the middleware for both login and register
+// they work perfectly fine (also no logout function yet)
+
 // app.get("/login", redirectUtils.toHome, (req, res) => {
 app.get("/login", (req, res) => {
   res.render("login");
