@@ -134,7 +134,7 @@ $(() => {
       $.ajax({
         url: `/api/resolve-order`,
         method: "post",
-        data: { orderID: orderID },
+        data: { orderId: orderID },
       })
         .then((response) => {
           const results = JSON.parse(response).menuItemResults;
