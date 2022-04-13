@@ -1,39 +1,34 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-maroon">
+<nav class="navbar navbar-expand-md navbar-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">Golden Wok</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand abs" href="/">Golden Wok</a>
+    <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
+    <div class="navbar-collapse collapse" id="collapseNavbar">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Menu</a>
+        </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/">View Full Menu</a>
+          <a class="nav-link" href="/cart">Cart</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/search">Search Menu</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/orders">Order History</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/register">Register</a>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="/cart">View Cart</a>
-        </li>
-        
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/search">Search Menu</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/orders">Order History</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/login">Login</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/register">Register</a>
-        </li>
-
-        <hr/>
-
-        <h3 class="d-lg-none">Foodie logo</h3>
+        <hr>
+        <span id="foodie-logo">Foodie logo</span>
 
       </ul>
     </div>
