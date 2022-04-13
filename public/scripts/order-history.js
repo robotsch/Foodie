@@ -9,33 +9,48 @@ $(() => {
   };
 
   const timeFormatter = (detailedTimeString) => {
-    let date = detailedTimeString.slice(0, 10);
-    let time = detailedTimeString.slice(11, 16);
-    return date, " ", time;
+    if (detailedTimeString === null) {
+      return "Pending";
+    } else {
+      let date = detailedTimeString.slice(0, 10);
+      let time = detailedTimeString.slice(11, 16);
+      return date, " ", time;
+    }
   };
 
   const createActiveOrder = (activeOrderObj) => {
     let time_ordered = timeFormatter(activeOrderObj.time_ordered);
     let time_accepted = timeFormatter(activeOrderObj.time_accepted);
 
+    let est_time = activeOrderObj.estimated_completion_time;
+
+    if (est_time === null) {
+      est_time = "Pending";
+    } else {
+      est_time = (activeOrderObj.estimated_completion_time, " mins");
+    }
+
     return $(`
     <div class="entry-div">
       <h4>Order #:${activeOrderObj.orders_id}</h4>
       <p class="entries"><b>Order Placed:</b> ${time_ordered}</p>
       <p class="entries"><b>Order Accepted:</b> ${time_accepted}</p>
-      <p class="entries"><b>Estimated Preparation Time:</b> ${activeOrderObj.estimated_completion_time} mins</p>
+      <p class="entries"><b>Estimated Preparation Time:</b> ${est_time}</p>
       <button type="submit" class="resolve-order-btn">Order Complete</button>
     </div>
     `);
   };
 
   const createPriorOrder = (oldOrderObj) => {
+    let time_ordered = timeFormatter(oldOrderObj.time_ordered);
+    let time_accepted = timeFormatter(oldOrderObj.time_accepted);
+
     return $(`
     <div class="entry-div">
       <div>
         <h4>Order #:${oldOrderObj.orders_id}</h4>
-        <p class="entries"><b>Order Placed:</b> ${oldOrderObj.time_ordered}</p>
-        <p class="entries"><b>Order Accepted:</b> ${oldOrderObj.time_accepted}</p>
+        <p class="entries"><b>Order Placed:</b> ${time_ordered}</p>
+        <p class="entries"><b>Order Accepted:</b> ${time_accepted}</p>
       </div>
     </div>
     `);
@@ -49,7 +64,7 @@ $(() => {
   };
 
   const renderActiveOrders = (newOrdersArr) => {
-    // console.log("newOrdersArr: ", newOrdersArr);
+    //console.log("newOrdersArr: ", newOrdersArr);
 
     let tempArr = [];
 
@@ -59,7 +74,7 @@ $(() => {
       tempArr.push(object.orders_id);
     }
 
-    // console.log("tempArr: ", tempArr);
+    //console.log("tempArr: ", tempArr);
 
     let searchArr = getUnique(tempArr);
 
@@ -124,7 +139,6 @@ $(() => {
     ".resolve-order-btn",
     function (event) {
       event.preventDefault();
-      alert("button pressed");
 
       const orderH4 = $(this).siblings("h4").text();
       const indOf = orderH4.indexOf(":");
