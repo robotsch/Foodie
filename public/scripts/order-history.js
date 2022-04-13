@@ -130,26 +130,6 @@ $(() => {
       $("#previous-orders-container").empty();
       renderPreviousOrders(data.oldOrders);
     }
-
-    let timer = setInterval(function () {
-      $.ajax({
-        url: "/api/order-status",
-        type: "get",
-        data: { orderID: orderID },
-        success: function (response) {
-          if (response === "null") {
-            // SWITCH IF'S WHEN DEPLOYING ON HEROKU
-            // if (response !== "null") {
-            sessionStorage.clear();
-            clearInterval(timer);
-            document.location.href = "/orders";
-          }
-        },
-        err: function (err) {
-          console.log(err.message);
-        },
-      });
-    }, 2000);
   });
 
   $("#active-orders-container").on(
@@ -179,4 +159,18 @@ $(() => {
         });
     }
   );
+  /*
+  setInterval(() => {
+    $.ajax({
+      url: "/api/orders-user-id",
+      method: "GET",
+    }).then(function (response) {
+      const data = JSON.parse(response);
+      console.log("getmethod data:", data);
+      console.log("response: ", response);
+
+
+    });
+  }, 3000);
+  */
 });
