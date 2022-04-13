@@ -26,20 +26,22 @@ const validatePassword = function(password) {
  * @returns the newly created user's ID and sets the session
  */
 const registerUser = function(userObj) {
-  if(validatePassword(userObj.password))
-  return userQueries.addUser({
-    email: userObj.email,
-    password:  bcrypt.hashSync(userObj.password, 10),
-    first_name: userObj.fname,
-    last_name: userObj.lname,
-    phone_number: userObj.phone
-  })
-    .then((newUser) => {
-      return newUser.id;
+  if(validatePassword(userObj.password)) {
+    return userQueries.addUser({
+      email: userObj.email,
+      password:  bcrypt.hashSync(userObj.password, 10),
+      first_name: userObj.fname,
+      last_name: userObj.lname,
+      phone_number: userObj.phone
     })
-    .catch((err) => {
-      console.log('Registration failed: ', err);
-    });
+      .then((newUser) => {
+        return newUser.id;
+      })
+      .catch((err) => {
+        console.log('Registration failed: ', err);
+      });
+  }
+  return null
 };
 
 /**
