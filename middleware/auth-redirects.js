@@ -5,14 +5,14 @@
 
 const toLogin = function(req, res, next) {
   if (!req.session.user_id) {
-    res.redirect('/login');
+    return res.redirect('/login');
   }
   next();
 };
 
 const toHome = function(req, res, next) {
   if (req.session.user_id) {
-    res.redirect('/');
+    return res.redirect('/');
   }
   next();
 };
