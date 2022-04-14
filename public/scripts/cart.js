@@ -63,7 +63,8 @@ $(() => {
         $('.modal-title').text(menuItem.name);
         $('#desc').text(menuItem.description);
         $(`#price`).text(`$${(menuItem.price / 100).toFixed(2)}`);
-        $(".quantity").text(menuItem.quantity);
+        $(".quantity").text(JSON.parse(sessionStorage.getItem("orders"))[menuItem.id]);
+        console.log((menuItem.price * menuItem.quantity / 100).toFixed(2));
         $("#total").text(`$${(menuItem.price * menuItem.quantity / 100).toFixed(2)}`);
 
         // Decreases quantity by 1 on minus button click
@@ -71,7 +72,7 @@ $(() => {
           const quantity = parseInt($('.modal-body').find(".quantity:first").text());
           if (quantity > 1) {
             $(".quantity").text(quantity - 1);
-            $("#total").text(`$${((quantity - 1) * menuItem.price / 100)}`);
+            $("#total").text(`$${((quantity - 1) * menuItem.price / 100).toFixed(2)}`);
           }
         });
 
@@ -80,7 +81,7 @@ $(() => {
           const quantity = parseInt($('.modal-body').find(".quantity:first").text());
           if (quantity < 100) {
             $(".quantity").text(quantity + 1);
-            $("#total").text(`$${((quantity + 1) * menuItem.price / 100)}`);
+            $("#total").text(`$${((quantity + 1) * menuItem.price / 100).toFixed(2)}`);
           }
         });
 
@@ -103,7 +104,7 @@ $(() => {
           $(`#item-${menuItem.id} > div:first-child > div:first-child`).text(newQuantity);
 
           // Updates total price for each item on 'Your Cart' page after quantity changes
-          $(`#item-${menuItem.id} > div:nth-child(2) > div:nth-child(2)`).text(`$${menuItem.price * newQuantity / 100}`);
+          $(`#item-${menuItem.id} > div:nth-child(2) > div:nth-child(2)`).text(`$${(menuItem.price * newQuantity / 100).toFixed(2)}`);
 
           // Updates sessionStorage subtotal and orders
           const newSubtotal = parseInt(sessionStorage.getItem('subtotal')) + menuItem.price * (newQuantity - oldQuantity);
@@ -112,6 +113,7 @@ $(() => {
           updateTotals(newSubtotal);
 
           sessionStorage.setItem('orders', JSON.stringify(sessionCart));
+          console.log("in set button", sessionStorage);
         });
 
         // When remove item button is clicked
@@ -172,7 +174,7 @@ $(() => {
   $.ajax({
     url: "/api/cart",
     type: "get",
-     // Passes in sessionStorage orders info
+    // Passes in sessionStorage orders info
     data: JSON.parse(sessionStorage.getItem('orders')),
     success: function (response) {
       renderCart(response);
