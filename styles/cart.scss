@@ -1,4 +1,4 @@
-@use 'variables'as v;
+@use "variables" as v;
 
 .item-container {
   width: 100%;
@@ -11,14 +11,14 @@
   align-items: center;
 }
 
-.item-container>div {
+.item-container > div {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.item-container>div>div:first-child {
-  background-color: #F4D35E;
+.item-container > div > div:first-child {
+  background-color: #f4d35e;
   border-radius: 5px;
 }
 
@@ -26,7 +26,7 @@
   width: 100%;
 }
 
-#totals-container>div {
+#totals-container > div {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -36,20 +36,20 @@
   max-width: v.$max-width;
 }
 
-#cart-container>hr {
+#cart-container > hr {
   width: 100%;
 }
 
-.modal-body>div:first-of-type {
+.modal-body > div:first-of-type {
   display: flex;
   justify-content: space-between;
 }
 
-.modal-body>div>div {
+.modal-body > div > div {
   text-align: center;
 }
 
-.modal-body>div:nth-of-type(2) {
+.modal-body > div:nth-of-type(2) {
   display: flex;
   justify-content: center;
   align-items: center;
