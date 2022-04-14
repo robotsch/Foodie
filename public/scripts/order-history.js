@@ -18,11 +18,13 @@ $(() => {
     }
   };
 
-  const createActiveOrder = (activeOrderObj) => {
+  const createActiveOrder = (activeOrderObj, total) => {
     let time_ordered = timeFormatter(activeOrderObj.time_ordered);
     let time_accepted = timeFormatter(activeOrderObj.time_accepted);
 
     let est_time = activeOrderObj.estimated_completion_time;
+
+    total = total.toFixed(2);
 
     if (est_time === null) {
       est_time = "Pending";
@@ -33,23 +35,25 @@ $(() => {
     return $(`
     <div class="entry-div">
       <h5>Order #${activeOrderObj.orders_id}</h5>
-      <p class="entries"><b>Order Placed:</b> ${time_ordered}</p>
-      <p class="entries"><b>Order Accepted:</b> ${time_accepted}</p>
-      <p class="entries"><b>Estimated Time:</b> ${est_time}</p>
+      <p class="entries"><b>Ordered:</b> ${time_ordered}</p>
+      <p class="entries"><b>Accepted:</b> ${time_accepted}</p>
+      <p class="entries"><b>Est. time:</b> ${est_time}</p>
+      <p class="entries"><b>Total:</b> $${total}</p>
       <button type="submit" class="resolve-order-btn">Order Complete</button>
     </div>
     `);
   };
 
-  const createPriorOrder = (oldOrderObj) => {
+  const createPriorOrder = (oldOrderObj, total) => {
     let time_ordered = timeFormatter(oldOrderObj.time_ordered);
     let time_accepted = timeFormatter(oldOrderObj.time_accepted);
-
+    total = total.toFixed(2);
     return $(`
     <div class="entry-div-history">
         <h5>Order #${oldOrderObj.orders_id}</h5>
-        <p class="entries"><b>Order Placed:</b> ${time_ordered}</p>
-        <p class="entries"><b>Order Accepted:</b> ${time_accepted}</p>
+        <p class="entries"><b>Ordered:</b> ${time_ordered}</p>
+        <p class="entries"><b>Accepted:</b> ${time_accepted}</p>
+        <p class="entries"><b>Total:</b> $${total}</p>
     </div>
     `);
   };
@@ -80,13 +84,20 @@ $(() => {
       indexUniqueOrders.push(tempArr.indexOf(searchVal));
     }
 
-    // console.log("indexUniqueOrders: ", indexUniqueOrders);
-
     for (const indexNumber of indexUniqueOrders) {
-      // console.log(newOrdersArr[indexNumber]);
+      let orderCost = 0;
+      for (const object of newOrdersArr) {
+        if (object.orders_id === newOrdersArr[indexNumber].orders_id) {
+          console.log("object: ", object);
+          console.log("object order id: ", object.orders_id);
+          console.log("object price: ", object.price);
+          console.log("object quantity: ", object.quantity);
+          orderCost += ((object.price * object.quantity) / 100) * 1.13 + 1;
+        }
+      }
 
       $(`#active-orders-container`).append(
-        createActiveOrder(newOrdersArr[indexNumber])
+        createActiveOrder(newOrdersArr[indexNumber], orderCost)
       );
     }
   };
@@ -107,8 +118,19 @@ $(() => {
     }
 
     for (const indexNumber of indexUniqueOrders) {
+      let orderCost = 0;
+      for (const object of oldOrdersArr) {
+        if (object.orders_id === oldOrdersArr[indexNumber].orders_id) {
+          console.log("object: ", object);
+          console.log("object order id: ", object.orders_id);
+          console.log("object price: ", object.price);
+          console.log("object quantity: ", object.quantity);
+          orderCost += ((object.price * object.quantity) / 100) * 1.13 + 1;
+        }
+      }
+
       $(`#previous-orders-container`).append(
-        createPriorOrder(oldOrdersArr[indexNumber])
+        createPriorOrder(oldOrdersArr[indexNumber], orderCost)
       );
     }
   };
