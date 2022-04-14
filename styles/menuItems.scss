@@ -1,7 +1,10 @@
+@use 'variables' as v;
+
 .menuItem-img-container {
   width: 100px;
   height: 100px;
   flex-shrink: 0;
+  overflow: hidden;
 }
 
 .menuItem-img-container > img {
@@ -9,9 +12,14 @@
   width: 100%;
   height: 100%;
   border-radius: 20px;
+  transition: transform 0.3s;
 }
 
 .menuItem {
+  transition: box-shadow 0.3s;
+  border-radius: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   cursor: pointer;
   margin-bottom: 1rem;
 
@@ -30,6 +38,11 @@
     font-weight: 600;
     font-size: 16px;
   }
+  
+}
+
+.menuItem:hover {
+  box-shadow: 0 0 25px rgba(33, 33, 33, 0.2);
 }
 
 .modal-body > div:first-of-type {
@@ -48,6 +61,6 @@
 }
 
 #add-to-order-btn {
-  background-color: #da4167;
-  border-color: #da4167;
+  background-color: v.$maroon-colour;
+  border-color: v.$maroon-colour;
 }
