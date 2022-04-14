@@ -1,12 +1,6 @@
 //ripped from full-menu.js
 
 $(() => {
-  // Transforms any scripting attacks to normal text
-  const escape = function (str) {
-    let div = document.createElement("div");
-    div.append(document.createTextNode(str));
-    return div.innerHTML;
-  };
 
   const timeFormatter = (detailedTimeString) => {
     if (detailedTimeString === null) {
@@ -140,14 +134,10 @@ $(() => {
     method: "GET",
   }).then(function (response) {
     const data = JSON.parse(response);
-    // console.log("getmethod data:", data);
-    // console.log("response: ", response);
 
     if (data.newOrders.length > 0) {
       $("#active-orders-container").empty();
       renderActiveOrders(data.newOrders);
-
-      console.log(data.newOrders);
 
       data.newOrders.forEach((order) => {
         if (order.estimated_completion_time === null) {
@@ -158,20 +148,16 @@ $(() => {
               data: { orderID: order.orders_id },
               success: function (response) {
                 // SWITCH IF'S WHEN DEPLOYING ON HEROKU
-                console.log("INSIDE SUCCESS");
-                console.log(typeof response);
-                console.log("loop");
+                // if (response === "null") {
                 if (response !== "null") {
-                  // if (response === "null") {
                   sessionStorage.clear();
                   clearInterval(timer);
-                  console.log("PLS DEAR GOD IT WORKED");
                   document.location.href = "/orders";
                 }
               },
               err: function (err) {
                 console.log(err.message);
-              },
+              }
             });
           }, 4000);
         }

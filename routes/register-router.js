@@ -13,7 +13,7 @@ const authUtils = require('../utils/auth-utils')
 
 router.post("/", (req, res) => {
   const userData = req.body
-  if(authUtils.validatePassword(userData.password)){
+  if(authUtils.validatePassword(userData.password1)){
     userQueries.getUserWithEmail(userData.email)
     .then((result) => {
       if(!result) {
