@@ -23,7 +23,9 @@
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
 
   <!-- app.js -->
-  <!-- <script type="text/javascript" src="/scripts/register.js"></script> -->
+  <script type="text/javascript" src="/scripts/register.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 
   <title>Register | Golden Wok</title>
 </head>
@@ -35,26 +37,31 @@
   <div class="container-md mt-4">
     <h3>Create New Account</h3>
     <form action="/api/register" method="post">
-      <div class="mb-3">
+      <div class="form-group mb-3">
         <label for="first-name" class="form-label">First Name</label>
-        <input type="text" class="form-control" id="first-name" name="fname">
+        <input type="text" class="form-control" id="first-name" name="fname" placeholder="Bob">
       </div>
-      <div class="mb-3">
+      <div class="form-group mb-3">
         <label for="last-name" class="form-label">Last Name</label>
-        <input type="text" class="form-control" id="last-name" name="lname">
+        <input type="text" class="form-control" id="last-name" name="lname" placeholder="Smith">
       </div>
-      <div class="mb-3">
+      <div class="form-group mb-3">
         <label for="email" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="email" name="email">
-        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        <input type="email" class="form-control" id="email" name="email" placeholder="example@example.com">
+        <div class="form-text">We'll never share your email with anyone else.</div>
       </div>
-      <div class="mb-3">
+      <div class="form-group mb-3">
         <label for="phone" class="form-label">Phone Number</label>
-        <input type="tel" class="form-control" id="phone" name="phone">
+        <input type="tel" class="form-control" id="phone" name="phone" placeholder="4161234567">
       </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password">
+      <div class="form-group mb-3">
+        <label for="password1" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password1" name="password1">
+        <div class="form-text">Requirements: min 8 characters, min 1 special character, min 1 number, min 1 uppercase letter.</div>
+      </div>
+      <div class="form-group mb-3">
+        <label for="password2" class="form-label">Re-enter password</label>
+        <input type="password" class="form-control" id="password2" name="password2">
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
