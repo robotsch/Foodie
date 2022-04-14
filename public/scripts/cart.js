@@ -64,7 +64,6 @@ $(() => {
         $('#desc').text(menuItem.description);
         $(`#price`).text(`$${(menuItem.price / 100).toFixed(2)}`);
         $(".quantity").text(JSON.parse(sessionStorage.getItem("orders"))[menuItem.id]);
-        console.log((menuItem.price * menuItem.quantity / 100).toFixed(2));
         $("#total").text(`$${(menuItem.price * menuItem.quantity / 100).toFixed(2)}`);
 
         // Decreases quantity by 1 on minus button click
