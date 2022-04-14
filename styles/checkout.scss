@@ -1,9 +1,0 @@
-@use 'variables'as v;
-
-#checkout-container {
-  width: v.$max-width;
-}
-
-#checkout-container>hr {
-  width: 100%;
-}
