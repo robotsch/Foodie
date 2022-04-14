@@ -170,30 +170,6 @@ $(() => {
       // Passes in sessionStorage order info
       data: JSON.parse(sessionStorage.getItem('orders')),
       success: function (orderID) {
-
-        // Sends a GET request to /api/order-status every 2 seconds
-        // to check if order has been accepted
-        // let timer = setInterval(function () {
-        //   $.ajax({
-        //     url: "/api/order-status",
-        //     type: "get",
-        //     data: { "orderID": orderID },
-        //     success: function (response) {
-        //       // if (response === "null") {
-        //       // SWITCH IF'S WHEN DEPLOYING ON HEROKU
-        //       if (response !== "null") {
-        //         sessionStorage.clear();
-        //         clearInterval(timer);
-        //         document.location.href = "/orders";
-        //       }
-        //     },
-        //     err: function (err) {
-        //       console.log(err.message);
-        //     }
-        //   });
-        // }, 2000);
-        console.log("cart.js IN get request to /api/checkout")
-
         document.location.href = "/orders";
       },
       err: function (err) {

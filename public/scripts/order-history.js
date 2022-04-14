@@ -112,14 +112,10 @@ $(() => {
     method: "GET",
   }).then(function (response) {
     const data = JSON.parse(response);
-    // console.log("getmethod data:", data);
-    // console.log("response: ", response);
 
     if (data.newOrders.length > 0) {
       $("#active-orders-container").empty();
       renderActiveOrders(data.newOrders);
-
-      console.log(data.newOrders);
 
       data.newOrders.forEach((order) => {
         if (order.estimated_completion_time === null) {
@@ -130,10 +126,8 @@ $(() => {
               data: { orderID: order.orders_id },
               success: function (response) {
                 // SWITCH IF'S WHEN DEPLOYING ON HEROKU
-                console.log("loop in order-history.js");
                 // if (response === "null") {
                 if (response !== "null") {
-                  console.log("CLEAR THE DAMN CART");
                   sessionStorage.clear();
                   clearInterval(timer);
                   document.location.href = "/orders";
