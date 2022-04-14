@@ -17,6 +17,7 @@ app.use(morgan("dev"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 
+// Sass setup
 app.use(
   "/styles",
   sassMiddleware({
@@ -47,10 +48,8 @@ app.use(
 
 app.use(express.static("public"));
 
-// Separated Routes for each Resource
-// Note: Feel free to replace the example routes below with your own
+// Router imports
 const menuRoute = require("./routes/menu-router");
-const addItemRoute = require("./routes/add-item-router");
 const cartRoute = require("./routes/cart-summary-router");
 const checkoutRoute = require("./routes/complete-order-router");
 const smsResponseRoute = require("./routes/sms-response-router");
@@ -62,10 +61,8 @@ const menuSearchRoute = require("./routes/menu-search-router");
 const orderHistoryRoute = require("./routes/order-history-router");
 const resolveOrderRoute = require("./routes/resolve-order-router");
 
-// Mount all resource routes
-// Note: Feel free to replace the example routes below with your own
+// Resource routes
 app.use("/api/menu", menuRoute);
-app.use("/api/additem", addItemRoute);
 app.use("/api/cart", cartRoute);
 app.use("/api/checkout", checkoutRoute);
 app.use("/api/smsresponse", smsResponseRoute);
@@ -77,13 +74,8 @@ app.use("/api/menu-search", menuSearchRoute);
 app.use("/api/orders-user-id", orderHistoryRoute);
 app.use("/api/resolve-order", resolveOrderRoute);
 
-// Note: mount other resources here, using the same pattern above
+// Import redirect utilities for visitors/registered users
 const redirectUtils = require("./middleware/auth-redirects");
-const authUtils = require("./utils/auth-utils");
-
-// Home page
-// Warning: avoid creating more routes in this file!
-// Separate them into separate routes files (see above).
 
 app.get("/", (req, res) => {
   res.render("full-menu", { user: req.session.user_id });
@@ -96,10 +88,6 @@ app.get("/search", (req, res) => {
 app.get("/cart", (req, res) => {
   res.render("cart", { user: req.session.user_id });
 });
-
-// app.get("/checkout", redirectUtils.toLogin, (req, res) => {
-//   res.render("checkout", { user: req.session.user_id });
-// });
 
 app.get("/orders", redirectUtils.toLogin, (req, res) => {
   res.render("order-history", { user: req.session.user_id });
@@ -114,5 +102,5 @@ app.get("/register", redirectUtils.toHome, (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`);
+  console.log(`Foodie app listening on port ${PORT}`);
 });

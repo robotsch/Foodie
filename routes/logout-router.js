@@ -4,8 +4,8 @@ const router = express.Router();
 // Destroy session and redirect user to main page
 router.get("/", (req, res) => {
   req.session.destroy(() => {
-    res.redirect("/")
-  })
-})
+    res.redirect("/");
+  });
+});
 
 module.exports = router;

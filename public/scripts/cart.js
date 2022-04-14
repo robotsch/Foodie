@@ -112,7 +112,6 @@ $(() => {
           updateTotals(newSubtotal);
 
           sessionStorage.setItem('orders', JSON.stringify(sessionCart));
-          console.log("in set button", sessionStorage);
         });
 
         // When remove item button is clicked
