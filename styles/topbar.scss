@@ -15,11 +15,15 @@ nav {
   color: v.$navbar-font-colour;
 }
 
-#foodie-logo{
+#foodie-logo {
   display: block;
 }
 
 @media (min-width: 768px) {
+  nav {
+    height: 71px;
+  }
+
   .navbar-brand.abs {
     position: absolute;
     width: auto;

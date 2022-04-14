@@ -1,0 +1,28 @@
+@use 'variables'as v;
+
+#cart-btn {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  bottom: 100px;
+  right: 50px;
+  background-color: v.$maroon-colour;
+  border-radius: 20px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+#cart-btn>span {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+#cart-btn>img {
+  color: inherit;
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}

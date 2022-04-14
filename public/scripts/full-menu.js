@@ -96,6 +96,9 @@ $(() => {
           sessionStorage.setItem("orders", JSON.stringify(orders));
           sessionStorage.setItem("subtotal", JSON.stringify(subtotal));
 
+          // Updates cart in bottom right
+          $("#cart-btn > span").text(`Cart | ${Object.keys(orders).length}`);
+
         });
 
         // Opens and closes modal

@@ -1,6 +1,6 @@
-@use 'variables'as v;
+@use "variables" as v;
 
-#banner>img {
+#banner > img {
   object-fit: cover;
   width: 100%;
   height: 28vh;
@@ -9,4 +9,18 @@
 .category-title h3 {
   color: v.$category-title-font-color;
   font-weight: 600;
+}
+
+.container-md {
+  margin-top: 71px;
+}
+
+.menuItem {
+  transition: box-shadow 0.3s;
+  transition: background-color 0.3s;
+}
+
+.menuItem:hover {
+  box-shadow: 0 0 25px rgba(33, 33, 33, 0.2);
+  background-color: #e9e9e9;
 }
