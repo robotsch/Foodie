@@ -51,8 +51,8 @@ router.get("/", (req, res) => {
           res.send(`${createdOrder.id}`);
         });
     })
-    .catch((err) => {
-      res.send("Failed to get order items: " , err);
+    .catch(() => {
+      res.status(500).send("Failed to get order items: ", err);
     });
 });
 
