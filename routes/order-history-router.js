@@ -16,8 +16,8 @@ router.get("/", (req, res) => {
     .then((values) => {
       res.send(JSON.stringify({ newOrders: values[0], oldOrders: values[1] }));
     })
-    .catch((err) => {
-      res.status(500).send("Failed to get orders: ", err);
+    .catch(() => {
+      res.send('Failed to get order history');
     });
 });
 
