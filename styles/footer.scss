@@ -4,6 +4,11 @@ footer {
   background-color: v.$maroon-colour;
 }
 
+footer img {
+  height: 50px;
+  width: auto;
+}
+
 footer>div:last-child {
   background-color: rgba(0, 0, 0, 0.2);
 }
