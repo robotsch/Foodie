@@ -89,7 +89,24 @@ $(() => {
         createActiveOrder(newOrdersArr[indexNumber], orderCost)
       );
 
-      let ordNo = newOrdersArr[indexNumber].orders_id;
+      const ordNo = newOrdersArr[indexNumber].orders_id;
+
+      $(`#order_id${ordNo} > button`).on("click", function (event) {
+        event.stopPropagation();
+
+        $.ajax({
+          url: `/api/resolve-order`,
+          method: "post",
+          data: { orderId: ordNo },
+        })
+          .then(() => {
+            window.location.href = "/orders";
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
+
 
       $(`#order_id${ordNo}`)
         .unbind()
@@ -191,28 +208,4 @@ $(() => {
     }
   });
 
-  $("#active-orders-container").on(
-    "click",
-    ".resolve-order-btn",
-    function (event) {
-      event.preventDefault();
-
-      const orderH4 = $(this).siblings("h5").text();
-      const indOf = orderH4.indexOf("#");
-      const orderID = orderH4.slice(indOf + 1);
-
-
-      $.ajax({
-        url: `/api/resolve-order`,
-        method: "post",
-        data: { orderId: orderID },
-      })
-        .then(() => {
-          window.location.href = "/orders";
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  );
 });
