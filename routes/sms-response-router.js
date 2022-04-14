@@ -13,22 +13,22 @@ const twilioClient = require("../lib/twilio");
 
 router.post("/", (req, res) => {
   const [orderId, estimatedTime] = req.body.Body.split(" ");
-  const areaCode = process.env.USER_AREA_CODE || '+1'
+  const areaCode = process.env.USER_AREA_CODE || '+1';
   if (Number(orderId) % 1 === 0 || Number(estimatedTime % 1 === 0)) {
     orderQueries.acceptOrder(Number(orderId), Number(estimatedTime));
     
     orderQueries.getOrderPhone(Number(orderId))
       .then((orderPhone) => {
         setTimeout(() => {
-          orderQueries.completeOrder(Number(orderId))
-        }, (Number(estimatedTime)* 60 * 1000 * 2) + 900000)
+          orderQueries.completeOrder(Number(orderId));
+        }, (Number(estimatedTime) * 60 * 1000 * 2) + 900000);
         
         twilioClient.messages.create({
           body: `Your order from Golden Wok has been confirmed! It will be ready for pickup in approximately ${estimatedTime} minutes`,
           from: process.env.APP_PHONE,
           to: areaCode + orderPhone.phone_number
         });
-      })
+      });
     return res.send("Success");
   }
   twilioClient.messages

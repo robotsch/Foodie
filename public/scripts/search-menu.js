@@ -93,6 +93,14 @@ $(() => {
 
       });
 
+      $(`#menuItem-${menuItem.id}`).hover(function () {
+        $(this).children(".menuItem-img-container").children("img").css("transform", "scale(1.1)");
+      });
+
+      $(`#menuItem-${menuItem.id}`).mouseleave(function () {
+        $(this).children(".menuItem-img-container").children("img").css("transform", "scale(1)");
+      });
+
     }
   };
 

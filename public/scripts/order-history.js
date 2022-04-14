@@ -59,8 +59,6 @@ $(() => {
   };
 
   const renderActiveOrders = (newOrdersArr) => {
-    //console.log("newOrdersArr: ", newOrdersArr);
-
     let tempArr = [];
 
     let indexUniqueOrders = [];
@@ -68,8 +66,6 @@ $(() => {
     for (const object of newOrdersArr) {
       tempArr.push(object.orders_id);
     }
-
-    //console.log("tempArr: ", tempArr);
 
     let searchArr = getUnique(tempArr);
 
@@ -92,15 +88,27 @@ $(() => {
         createActiveOrder(newOrdersArr[indexNumber], orderCost)
       );
 
-      let ordNo = newOrdersArr[indexNumber].orders_id;
-      //console.log("ordNo: ", ordNo);
-      //console.log("orddesc: ", orderDesc);
-      /*rip of full menu*/
+      const ordNo = newOrdersArr[indexNumber].orders_id;
+
+      $(`#order_id${ordNo} > button`).on("click", function (event) {
+        event.stopPropagation();
+
+        $.ajax({
+          url: `/api/resolve-order`,
+          method: "post",
+          data: { orderId: ordNo },
+        })
+          .then(() => {
+            window.location.href = "/orders";
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
 
       $(`#order_id${ordNo}`)
         .unbind()
         .on("click", function () {
-          console.log("click");
           // Sets info in modal to menuItem that was clicked
           $(".modal-title").text(`Order #${ordNo}`);
           $("#desc").text(orderDesc);
@@ -142,14 +150,10 @@ $(() => {
       );
 
       let ordNo = oldOrdersArr[indexNumber].orders_id;
-      console.log("ordNo: ", ordNo);
-      //console.log("orddesc: ", orderDesc);
-      /*rip of full menu*/
 
       $(`#order_id${ordNo}`)
         .unbind()
         .on("click", function () {
-          console.log("click");
           // Sets info in modal to menuItem that was clicked
           $(".modal-title").text(`Order #${ordNo}`);
           $("#desc").text(orderDesc);
@@ -201,35 +205,4 @@ $(() => {
       renderPreviousOrders(data.oldOrders);
     }
   });
-
-  $("#active-orders-container").on(
-    "click",
-    ".resolve-order-btn",
-    function (event) {
-      event.preventDefault();
-
-      const orderH4 = $(this).siblings("h6").text();
-      const indOf = orderH4.indexOf("#");
-      const orderID = orderH4.slice(indOf + 1);
-
-      //console.log("retrieved orderID: ", orderID);
-
-      $.ajax({
-        url: `/api/resolve-order`,
-        method: "post",
-        data: { orderId: orderID },
-      })
-        .then(() => {
-          /*
-          setTimeout(() => {
-            document.location.href = "/orders";
-          }, 5000);*/
-          console.log("it is working");
-          window.location.href = "/orders";
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  );
 });
