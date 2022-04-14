@@ -1,4 +1,4 @@
-@use 'variables' as v;
+@use 'variables'as v;
 
 body {
   font-family: 'Inter', sans-serif;
@@ -7,13 +7,19 @@ body {
 body,
 html {
   margin: 0;
+  // position: relative;
 }
 
 body {
   min-height: 100vh;
+  height: 100%;
   background: v.$bg-colour;
 }
 
 .container-md {
   margin-top: 100px;
+  // min-height: 100vh;
+  // overflow: hidden;
+  // display: block;
+  // padding-bottom: 180px;
 }

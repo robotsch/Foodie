@@ -16,6 +16,7 @@
 
   <link rel="stylesheet" href="/styles/main.css" type="text/css" />
   <link rel="stylesheet" href="/styles/topbar.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/cart-button.css" type="text/css" />
   <link rel="stylesheet" href="/styles/footer.css" type="text/css" />
   <link rel="stylesheet" href="/styles/full-menu.css" type="text/css" />
   <link rel="stylesheet" href="/styles/menuItems.css" type="text/css" />
@@ -29,7 +30,7 @@
   <title>Golden Wok</title>
 </head>
 
-<body>
+<body class="d-flex flex-column">
 
   <%- include('partials/_topbar') %>
 
@@ -80,6 +81,8 @@
         </div>
       </div>
     </div>
+
+  <%- include('partials/_cart-button') %>
 
   <%- include('partials/_footer') %>
 

@@ -1,9 +1,9 @@
-@use 'variables' as v;
+@use 'variables'as v;
 
 footer {
   background-color: v.$maroon-colour;
 }
 
-footer > div:last-child {
+footer>div:last-child {
   background-color: rgba(0, 0, 0, 0.2);
 }
