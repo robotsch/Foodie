@@ -2,10 +2,13 @@ const express = require("express");
 const router = express.Router();
 const orderQueries = require("../db/queries/04_orders_queries");
 
-// GET request for /api/order-status/ 
+/**
+ * Queries the database for the estimated completion time of an order 
+ *  then updates the client based on the result
+ * Downstream: Null results will display 'Pending'
+ *  otherwise the client will render the retrieved time
+ */
 router.get("/", (req, res) => {
-  // Queries for the estimated completion time which acts
-  // as pending state if it's null
   orderQueries
     .getEstimatedCompletionTime(req.query.orderID)
     .then((result) => {
