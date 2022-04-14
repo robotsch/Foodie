@@ -32,10 +32,10 @@ $(() => {
 
     return $(`
     <div class="entry-div">
-      <h4>Order #${activeOrderObj.orders_id}</h4>
+      <h5>Order #${activeOrderObj.orders_id}</h5>
       <p class="entries"><b>Order Placed:</b> ${time_ordered}</p>
       <p class="entries"><b>Order Accepted:</b> ${time_accepted}</p>
-      <p class="entries"><b>Estimated Preparation Time:</b> ${est_time}</p>
+      <p class="entries"><b>Estimated Time:</b> ${est_time}</p>
       <button type="submit" class="resolve-order-btn">Order Complete</button>
     </div>
     `);
@@ -47,7 +47,7 @@ $(() => {
 
     return $(`
     <div class="entry-div-history">
-        <h4>Order #${oldOrderObj.orders_id}</h4>
+        <h5>Order #${oldOrderObj.orders_id}</h5>
         <p class="entries"><b>Order Placed:</b> ${time_ordered}</p>
         <p class="entries"><b>Order Accepted:</b> ${time_accepted}</p>
     </div>
@@ -127,37 +127,33 @@ $(() => {
 
       console.log(data.newOrders);
 
-      data.newOrders.forEach(order => {
+      data.newOrders.forEach((order) => {
         if (order.estimated_completion_time === null) {
-
           let timer = setInterval(function () {
             $.ajax({
               url: "/api/order-status",
               type: "get",
-              data: { "orderID": order.orders_id },
+              data: { orderID: order.orders_id },
               success: function (response) {
                 // SWITCH IF'S WHEN DEPLOYING ON HEROKU
                 console.log("INSIDE SUCCESS");
                 console.log(typeof response);
                 console.log("loop");
                 if (response !== "null") {
-                // if (response === "null") {
+                  // if (response === "null") {
                   sessionStorage.clear();
                   clearInterval(timer);
                   console.log("PLS DEAR GOD IT WORKED");
-                  document.location.href = "/orders"
+                  document.location.href = "/orders";
                 }
               },
               err: function (err) {
                 console.log(err.message);
-              }
+              },
             });
           }, 4000);
         }
-
       });
-
-
     }
 
     if (data.oldOrders.length > 0) {
@@ -172,7 +168,7 @@ $(() => {
     function (event) {
       event.preventDefault();
 
-      const orderH4 = $(this).siblings("h4").text();
+      const orderH4 = $(this).siblings("h5").text();
       const indOf = orderH4.indexOf("#");
       const orderID = orderH4.slice(indOf + 1);
 
@@ -184,27 +180,16 @@ $(() => {
         data: { orderId: orderID },
       })
         .then(() => {
+          /*
           setTimeout(() => {
-            window.location.href = "/orders";
-          }, 5000);
+            document.location.href = "/orders";
+          }, 5000);*/
+          console.log("it is working");
+          window.location.href = "/orders";
         })
         .catch((err) => {
           console.log(err);
         });
     }
   );
-  /*
-  setInterval(() => {
-    $.ajax({
-      url: "/api/orders-user-id",
-      method: "GET",
-    }).then(function (response) {
-      const data = JSON.parse(response);
-      console.log("getmethod data:", data);
-      console.log("response: ", response);
-
-
-    });
-  }, 3000);
-  */
 });

@@ -5,7 +5,8 @@ const orderQueries = require("../db/queries/04_orders_queries");
 
 // Handle order completion, WIP
 router.post("/", (req, res) => {
-  orderQueries.completeOrder(Number(req.body.orderId))
+  orderQueries.completeOrder(Number(req.body.orderId));
+  res.send("success");
 });
 
 module.exports = router;
