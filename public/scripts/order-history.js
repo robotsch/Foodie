@@ -1,7 +1,6 @@
 //ripped from full-menu.js
 
 $(() => {
-
   const timeFormatter = (detailedTimeString) => {
     if (detailedTimeString === null) {
       return "Pending";
@@ -27,7 +26,7 @@ $(() => {
     }
 
     return $(`
-    <div class="entry-div">
+    <div class="entry-div" id="order_id${activeOrderObj.orders_id}">
       <h5>Order #${activeOrderObj.orders_id}</h5>
       <p class="entries"><b>Ordered:</b> ${time_ordered}</p>
       <p class="entries"><b>Accepted:</b> ${time_accepted}</p>
@@ -43,7 +42,7 @@ $(() => {
     let time_accepted = timeFormatter(oldOrderObj.time_accepted);
     total = total.toFixed(2);
     return $(`
-    <div class="entry-div-history">
+    <div class="entry-div-history" id="order_id${oldOrderObj.orders_id}">
         <h5>Order #${oldOrderObj.orders_id}</h5>
         <p class="entries"><b>Ordered:</b> ${time_ordered}</p>
         <p class="entries"><b>Accepted:</b> ${time_accepted}</p>
@@ -80,19 +79,34 @@ $(() => {
 
     for (const indexNumber of indexUniqueOrders) {
       let orderCost = 0;
+      let orderDesc = "||";
+
       for (const object of newOrdersArr) {
         if (object.orders_id === newOrdersArr[indexNumber].orders_id) {
-          console.log("object: ", object);
-          console.log("object order id: ", object.orders_id);
-          console.log("object price: ", object.price);
-          console.log("object quantity: ", object.quantity);
           orderCost += ((object.price * object.quantity) / 100) * 1.13 + 1;
+          orderDesc += ` ${object.name} x (${object.quantity}) ||`;
         }
       }
 
       $(`#active-orders-container`).append(
         createActiveOrder(newOrdersArr[indexNumber], orderCost)
       );
+
+      let ordNo = newOrdersArr[indexNumber].orders_id;
+      //console.log("ordNo: ", ordNo);
+      //console.log("orddesc: ", orderDesc);
+      /*rip of full menu*/
+
+      $(`#order_id${ordNo}`)
+        .unbind()
+        .on("click", function () {
+          console.log("click");
+          // Sets info in modal to menuItem that was clicked
+          $(".modal-title").text(`Order #${ordNo}`);
+          $("#desc").text(orderDesc);
+          $("#total-modal").text(`Total: $${orderCost.toFixed(2)}`);
+          $(`#menuItem-modal`).modal("toggle");
+        });
     }
   };
 
@@ -113,19 +127,37 @@ $(() => {
 
     for (const indexNumber of indexUniqueOrders) {
       let orderCost = 0;
+      let orderDesc = "||";
+
+      //calculates the total order price
       for (const object of oldOrdersArr) {
         if (object.orders_id === oldOrdersArr[indexNumber].orders_id) {
-          console.log("object: ", object);
-          console.log("object order id: ", object.orders_id);
-          console.log("object price: ", object.price);
-          console.log("object quantity: ", object.quantity);
           orderCost += ((object.price * object.quantity) / 100) * 1.13 + 1;
+          orderDesc += ` ${object.name} x (${object.quantity}) ||`;
         }
       }
 
       $(`#previous-orders-container`).append(
         createPriorOrder(oldOrdersArr[indexNumber], orderCost)
       );
+
+      let ordNo = oldOrdersArr[indexNumber].orders_id;
+      console.log("ordNo: ", ordNo);
+      //console.log("orddesc: ", orderDesc);
+      /*rip of full menu*/
+
+      $(`#order_id${ordNo}`)
+        .unbind()
+        .on("click", function () {
+          console.log("click");
+          // Sets info in modal to menuItem that was clicked
+          $(".modal-title").text(`Order #${ordNo}`);
+          $("#desc").text(orderDesc);
+          $("#total-modal").text(`Total: $${orderCost.toFixed(2)}`);
+          $(`#menuItem-modal`).modal("toggle");
+        });
+
+      //end of rip
     }
   };
 
@@ -157,7 +189,7 @@ $(() => {
               },
               err: function (err) {
                 console.log(err.message);
-              }
+              },
             });
           }, 4000);
         }

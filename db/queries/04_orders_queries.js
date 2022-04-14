@@ -84,7 +84,7 @@ const newOrdersByID = function (userID) {
   const values = [userID];
 
   let queryString = `
-  SELECT user_id, orders.id as orders_id, order_menu_items.id as order_menu_items_id, menu_items.id as menu_items_id, price, estimated_completion_time, time_ordered, time_accepted, name, quantity
+  SELECT user_id, orders.id as orders_id, order_menu_items.id as order_menu_items_id, menu_items.id as menu_items_id, price, estimated_completion_time, time_ordered, time_accepted, name, quantity, name, description
     FROM orders
     JOIN order_menu_items ON order_id = orders.id
     JOIN menu_items ON menu_item_id = menu_items.id
@@ -100,7 +100,7 @@ const oldOrdersByID = function (userID) {
   const values = [userID];
 
   let queryString = `
-  SELECT user_id, orders.id as orders_id, order_menu_items.id as order_menu_items_id, menu_items.id as menu_items_id, price, estimated_completion_time, time_ordered, time_accepted, name, quantity
+  SELECT user_id, orders.id as orders_id, order_menu_items.id as order_menu_items_id, menu_items.id as menu_items_id, price, estimated_completion_time, time_ordered, time_accepted, name, quantity, name, description
     FROM orders
     JOIN order_menu_items ON order_id = orders.id
     JOIN menu_items ON menu_item_id = menu_items.id
@@ -143,13 +143,15 @@ const orderBelongsToUser = (orderID, userID) => {
 exports.orderBelongsToUser = orderBelongsToUser;
 
 const getOrderPhone = (orderID) => {
-  return db.query(
-    `SELECT phone_number
+  return db
+    .query(
+      `SELECT phone_number
     FROM orders
-    JOIN useres on users.id = user_id
-    WHERE orders.id = $1`
-    , [orderID])
-    .then(result => result.rows[0])
+    JOIN users on users.id = user_id
+    WHERE orders.id = $1`,
+      [orderID]
+    )
+    .then((result) => result.rows[0]);
 };
 
 exports.getOrderPhone = getOrderPhone;
