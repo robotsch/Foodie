@@ -2,11 +2,11 @@ const express = require("express");
 const router = express.Router();
 const menuQueries = require("../db/queries/03_menu_item_queries");
 
-// GET request to /api/menu-search
+/**
+ * Router to send search results back to the client
+ * Executes a database query based on the search parameters
+ */
 router.get("/", (req, res) => {
-  //console.log("post request: ", req);
-
-  // req.session.user_id = "test";
 
   const searchArr = Object.keys(req.query);
   const searchString = searchArr[0];
