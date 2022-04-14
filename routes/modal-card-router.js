@@ -7,11 +7,12 @@ const orderQueries = require('../db/queries/04_orders_queries')
  *  then send a formatted object to the client
  */
 router.get("/", (req, res) => {
-  const orderId = req.body.orderID
+  const order = req.query;
   let modalObj = {}
 
-  orderQueries.getAllOrderDetailsById(orderId)
+  return orderQueries.getAllOrderDetailsById(order.orderID)
     .then((data) => {
+      console.log(data);
       for(const row in data) {
         modalObj[data[row].name] = {
           price: data[row].price,

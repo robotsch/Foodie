@@ -175,18 +175,23 @@ $(() => {
             data: { orderID: ordNo },
             success: function (response) {
 
-              for (const menuItemName in response) {
-                if (Object.hasOwnProperty.call(response, menuItemName)) {
-                  const quantity = response[menuItemName].quantity;
-                  const price = response[menuItemName].price;
-                  $('#total-modal').before(createItem(menuItemName, quantity, price));
-                  orderCost += quantity * price;
-                }
-              }
+              console.log("response", response);
+              const data = JSON.parse(response);
+              console.log(typeof response)
 
-              $(".modal-title").text(`Order #${ordNo}`);
-              $("#total-modal").text(`Total: $${orderCost.toFixed(2)}`);
-              $(`#menuItem-modal`).modal("toggle");
+              // for (const menuItemName in response) {
+              //   if (Object.hasOwnProperty.call(response, menuItemName)) {
+              //     const quantity = response[menuItemName].quantity;
+              //     const price = response[menuItemName].price;
+              //     $('#total-modal').before(createItem(menuItemName, quantity, price));
+              //     orderCost += quantity * price;
+              //   }
+              // }
+
+              // $(".modal-title").text(`Order #${ordNo}`);
+              // $("#total-modal").text(`Total: $${orderCost.toFixed(2)}`);
+              // $(`#menuItem-modal`).modal("toggle");
+
             },
             err: function (err) {
               console.log(err.message);
