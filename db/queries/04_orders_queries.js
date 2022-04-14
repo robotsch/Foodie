@@ -153,3 +153,17 @@ const getOrderPhone = (orderID) => {
 };
 
 exports.getOrderPhone = getOrderPhone;
+
+const getAllOrderDetailsById = (orderID) => {
+  return db
+    .query(
+      `SELECT order_id, quantity, name, price
+    FROM order_menu_items
+    JOIN menu_items on menu_items.id = menu_item_id
+    WHERE order_id = $1`,
+      [orderID]
+    )
+    .then((result) => result.rows);
+};
+
+exports.getAllOrderDetailsById = getAllOrderDetailsById;
