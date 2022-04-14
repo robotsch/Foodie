@@ -1,8 +1,20 @@
 $(() => {
 
-  jQuery.validator.addMethod("tenDigits", function(value, element) {
+  jQuery.validator.addMethod("tenDigits", function (value, element) {
     return this.optional(element) || value.toString().length === 10;
   }, "Phone number must be 10 digits");
+
+  jQuery.validator.addMethod("passwordOneDigit", function (value, element) {
+    return this.optional(element) || /\d/.test(value);
+  }, "Password must include one digit (0-9)");
+
+  jQuery.validator.addMethod("passwordOneUppercase", function (value, element) {
+    return this.optional(element) || /[A-Z]/.test(value);
+  }, "Password must contain one uppercase letter");
+
+  jQuery.validator.addMethod("passwordOneSpecial", function (value, element) {
+    return this.optional(element) || /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(value);
+  }, "Password must contain one special character");
 
   $("form").validate({
     rules: {
@@ -19,7 +31,10 @@ $(() => {
       },
       password1: {
         required: true,
-        minlength: 5
+        minlength: 8,
+        passwordOneDigit: true,
+        passwordOneUppercase: true,
+        passwordOneSpecial: true
       },
       password2: {
         required: true,
