@@ -20,7 +20,7 @@ router.post("/", (req, res) => {
         //   from: process.env.APP_PHONE,
         //   to: orderPhone
         // });
-        console.log(orderPhone, areaCode + orderPhone)
+        console.log(orderPhone.phone_number, areaCode + orderPhone.phone_number)
       })
     return res.send("Success");
   }
