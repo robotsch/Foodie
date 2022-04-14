@@ -6,6 +6,7 @@ const twilioClient = require("../lib/twilio");
 /**
  * Handle incoming Twilio webhook triggered by incoming SMS from restaurant
  * Parses orderId and estimatedTime, and updates database with those values
+ * Sends SMS to customer's phone when the order is accepted
  */
 
 router.post("/", (req, res) => {
@@ -15,12 +16,11 @@ router.post("/", (req, res) => {
     orderQueries.acceptOrder(Number(orderId), Number(estimatedTime));
     orderQueries.getOrderPhone(Number(orderId))
       .then((orderPhone) => {
-        // twilioClient.messages.create({
-        //   body: `Your order from ${restaurant} has been confirmed! It will be ready for pickup in approximately ${estimatedTime} minutes`,
-        //   from: process.env.APP_PHONE,
-        //   to: orderPhone
-        // });
-        console.log(orderPhone.phone_number, areaCode + orderPhone.phone_number)
+        twilioClient.messages.create({
+          body: `Your order from ${restaurant} has been confirmed! It will be ready for pickup in approximately ${estimatedTime} minutes`,
+          from: process.env.APP_PHONE,
+          to: areaCode + orderPhone.phone_number
+        });
       })
     return res.send("Success");
   }
