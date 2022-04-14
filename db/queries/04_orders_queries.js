@@ -146,7 +146,7 @@ const getOrderPhone = (orderID) => {
   return db.query(
     `SELECT phone_number
     FROM orders
-    JOIN useres on users.id = user_id
+    JOIN users on users.id = user_id
     WHERE orders.id = $1`
     , [orderID])
     .then(result => result.rows[0])
