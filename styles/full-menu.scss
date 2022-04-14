@@ -6,50 +6,7 @@
   height: 28vh;
 }
 
-.menuItem-img-container {
-  width: 100px;
-  height: 100px;
-  overflow: hidden;
-}
-
 .category-title h3 {
   color: v.$category-title-font-color;
   font-weight: 600;
-}
-
-.menuItem-img-container>img {
-  width: 100%;
-  height: auto;
-}
-
-.menuItem {
-  cursor: pointer;
-
-  h4 {
-    font-weight: 600;
-  }
-
-  p {
-    font-weight: 400;
-  }
-
-  h5 {
-    font-weight: 600;
-  }
-}
-
-
-.modal-body>div:first-of-type {
-  display: flex;
-  justify-content: space-between;
-}
-
-.modal-body>div>div {
-  text-align: center;
-}
-
-.modal-body>div:nth-of-type(2) {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }

@@ -8,8 +8,8 @@ $(() => {
 
   const createMenuItem = function (menuItemData) {
     return $(`
-      <div class="row">
-        <div class="col-lg-8 d-flex justify-content-between menuItem" id="menuItem-${menuItemData.id
+      <div class="row justify-content-center">
+        <div class="col-lg-8 d-flex justify-content-between align-items-center menuItem" id="menuItem-${menuItemData.id
       }">
           <div>
             <h4>${menuItemData.name}</h4>
@@ -35,6 +35,7 @@ $(() => {
         // Sets info in modal to menuItem that was clicked
         $('.modal-title').text(menuItem.name);
         $('#desc').text(menuItem.description);
+        $('.quantity').text(1);
         $(`#price`).text(`$${(menuItem.price / 100).toFixed(2)}`);
         $("#total").text(`$${(menuItem.price * parseInt($('.modal-body').find(".quantity:first").text()) / 100).toFixed(2)}`);
 
@@ -93,7 +94,7 @@ $(() => {
   };
 
   const deleteSearchResults = () => {
-    $("#results-container").empty();
+    $("#results-container").children().not(":first").remove();
   };
 
   const fetchRenderEntireMenu = function () {

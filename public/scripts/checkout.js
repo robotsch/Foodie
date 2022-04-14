@@ -95,6 +95,7 @@ $(() => {
 
         // Sends a GET request to /api/order-status every 2 seconds
         // to check if order has been accepted
+        console.log("/api/checkout SUCECSS FUNCTION", orderID);
         let timer = setInterval(function () {
           $.ajax({
             url: "/api/order-status",
@@ -103,9 +104,12 @@ $(() => {
             success: function (response) {
               // if (response === "null") {
               // SWITCH IF'S WHEN DEPLOYING ON HEROKU
+              console.log("loop");
               if (response !== "null") {
+                console.log("CLEAR THE DAMN CART");
                 sessionStorage.clear();
                 clearInterval(timer);
+                document.location.href = "/orders";
               }
             },
             err: function (err) {

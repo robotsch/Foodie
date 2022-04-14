@@ -16,17 +16,23 @@
           <a class="nav-link" href="/search">Search Menu</a>
         </li>
       </ul>
+
       <ul class="navbar-nav ms-auto">
+        <% if (user) { %>
         <li class="nav-item">
           <a class="nav-link" href="/orders">Order History</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/api/logout">Logout</a>
+        </li>
+        <% } else { %>
         <li class="nav-item">
           <a class="nav-link" href="/login">Login</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/register">Register</a>
         </li>
-
+        <% } %>
         <hr>
         <span id="foodie-logo">Foodie logo</span>
 

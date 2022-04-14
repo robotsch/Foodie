@@ -1,7 +1,9 @@
-form { 
-  width: 100%;
+@use 'variables'as v;
+
+#checkout-container {
+  width: v.$max-width;
 }
 
-#checkout-container > hr {
+#checkout-container>hr {
   width: 100%;
 }

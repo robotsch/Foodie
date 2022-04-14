@@ -30,7 +30,7 @@ $(() => {
 
     const totals = {
       subtotal: newSubtotal / 100,
-      serviceFee: (newSubtotal) ? 1 : 0,
+      serviceFee: (newSubtotal === "0") ? 0 : 1,
       tax: newSubtotal * 0.13 / 100,
       total: newSubtotal * 1.13 / 100
     };
@@ -43,8 +43,8 @@ $(() => {
 
   const renderCart = function (cartData) {
 
-    // Sets totals to 0 initially
-    updateTotals(0);
+    // Sets totals to subtotal
+    updateTotals(sessionStorage.getItem("subtotal"));
 
     // No items in cart
     if (Object.keys(cartData).length === 0) {
@@ -63,7 +63,8 @@ $(() => {
         $('.modal-title').text(menuItem.name);
         $('#desc').text(menuItem.description);
         $(`#price`).text(`$${(menuItem.price / 100).toFixed(2)}`);
-        $(".quantity").text(menuItem.quantity);
+        $(".quantity").text(JSON.parse(sessionStorage.getItem("orders"))[menuItem.id]);
+        console.log((menuItem.price * menuItem.quantity / 100).toFixed(2));
         $("#total").text(`$${(menuItem.price * menuItem.quantity / 100).toFixed(2)}`);
 
         // Decreases quantity by 1 on minus button click
@@ -71,7 +72,7 @@ $(() => {
           const quantity = parseInt($('.modal-body').find(".quantity:first").text());
           if (quantity > 1) {
             $(".quantity").text(quantity - 1);
-            $("#total").text(`$${((quantity - 1) * menuItem.price / 100)}`);
+            $("#total").text(`$${((quantity - 1) * menuItem.price / 100).toFixed(2)}`);
           }
         });
 
@@ -80,7 +81,7 @@ $(() => {
           const quantity = parseInt($('.modal-body').find(".quantity:first").text());
           if (quantity < 100) {
             $(".quantity").text(quantity + 1);
-            $("#total").text(`$${((quantity + 1) * menuItem.price / 100)}`);
+            $("#total").text(`$${((quantity + 1) * menuItem.price / 100).toFixed(2)}`);
           }
         });
 
@@ -103,7 +104,7 @@ $(() => {
           $(`#item-${menuItem.id} > div:first-child > div:first-child`).text(newQuantity);
 
           // Updates total price for each item on 'Your Cart' page after quantity changes
-          $(`#item-${menuItem.id} > div:nth-child(2) > div:nth-child(2)`).text(`$${menuItem.price * newQuantity / 100}`);
+          $(`#item-${menuItem.id} > div:nth-child(2) > div:nth-child(2)`).text(`$${(menuItem.price * newQuantity / 100).toFixed(2)}`);
 
           // Updates sessionStorage subtotal and orders
           const newSubtotal = parseInt(sessionStorage.getItem('subtotal')) + menuItem.price * (newQuantity - oldQuantity);
@@ -112,6 +113,7 @@ $(() => {
           updateTotals(newSubtotal);
 
           sessionStorage.setItem('orders', JSON.stringify(sessionCart));
+          console.log("in set button", sessionStorage);
         });
 
         // When remove item button is clicked
@@ -157,13 +159,23 @@ $(() => {
   };
 
   // When checkout button is clicked
-  $("#checkout-btn").unbind().on("click", function () {
+  $("#place-order-btn").unbind().on("click", function () {
 
     // If no items in cart then checkout button DOES NOT redirect
     if (sessionStorage.getItem("orders") === null) return;
 
-    // If items in cart, redirects to checkout page
-    document.location.href = "/checkout";
+    $.ajax({
+      url: "/api/checkout",
+      type: "get",
+      // Passes in sessionStorage order info
+      data: JSON.parse(sessionStorage.getItem('orders')),
+      success: function (orderID) {
+        document.location.href = "/orders";
+      },
+      err: function (err) {
+        console.log(err.message);
+      }
+    });
 
   });
 
@@ -172,7 +184,7 @@ $(() => {
   $.ajax({
     url: "/api/cart",
     type: "get",
-     // Passes in sessionStorage orders info
+    // Passes in sessionStorage orders info
     data: JSON.parse(sessionStorage.getItem('orders')),
     success: function (response) {
       renderCart(response);

@@ -60,7 +60,7 @@ const logoutRoute = require("./routes/logout-router");
 const orderStatusRoute = require("./routes/order-status-router");
 const menuSearchRoute = require("./routes/menu-search-router");
 const orderHistoryRoute = require("./routes/order-history-router");
-const resolveOrderRoute = require("./routes/resolve-order-router")
+const resolveOrderRoute = require("./routes/resolve-order-router");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -75,7 +75,7 @@ app.use("/api/logout", logoutRoute);
 app.use("/api/order-status", orderStatusRoute);
 app.use("/api/menu-search", menuSearchRoute);
 app.use("/api/orders-user-id", orderHistoryRoute);
-app.use("/api/resolve-order", resolveOrderRoute)
+app.use("/api/resolve-order", resolveOrderRoute);
 
 // Note: mount other resources here, using the same pattern above
 const redirectUtils = require("./middleware/auth-redirects");
@@ -86,31 +86,31 @@ const authUtils = require("./utils/auth-utils");
 // Separate them into separate routes files (see above).
 
 app.get("/", (req, res) => {
-  res.render("full-menu");
+  res.render("full-menu", { user: req.session.user_id });
 });
 
 app.get("/search", (req, res) => {
-  res.render("search-menu");
+  res.render("search-menu", { user: req.session.user_id });
 });
 
 app.get("/cart", (req, res) => {
-  res.render("cart");
+  res.render("cart", { user: req.session.user_id });
 });
 
-app.get("/checkout", redirectUtils.toLogin, (req, res) => {
-  res.render("checkout");
-});
+// app.get("/checkout", redirectUtils.toLogin, (req, res) => {
+//   res.render("checkout", { user: req.session.user_id });
+// });
 
 app.get("/orders", redirectUtils.toLogin, (req, res) => {
-  res.render("order-history");
+  res.render("order-history", { user: req.session.user_id });
 });
 
 app.get("/login", redirectUtils.toHome, (req, res) => {
-  res.render("login");
+  res.render("login", { user: req.session.user_id });
 });
 
 app.get("/register", redirectUtils.toHome, (req, res) => {
-  res.render("register");
+  res.render("register", { user: req.session.user_id });
 });
 
 app.listen(PORT, () => {

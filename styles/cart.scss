@@ -1,3 +1,5 @@
+@use "variables" as v;
+
 .item-container {
   width: 100%;
 }
@@ -16,7 +18,7 @@
 }
 
 .item-container > div > div:first-child {
-  background-color: #F4D35E;
+  background-color: #f4d35e;
   border-radius: 5px;
 }
 
@@ -28,6 +30,10 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+}
+
+#cart-container {
+  max-width: v.$max-width;
 }
 
 #cart-container > hr {

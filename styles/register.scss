@@ -1,3 +1,5 @@
+@use 'variables' as v;
+
 body > div:first-of-type {
-  max-width: 500px;
+  max-width: v.$max-width;
 }

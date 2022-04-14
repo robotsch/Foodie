@@ -59,8 +59,9 @@
 #active-div {
   display: flex;
   justify-content: center;
-  margin-top: 2.5%;
+  margin-top: 50px;
   height: 36px;
+  margin-bottom: 2.5%;
 }
 
 #cooking-img {
@@ -86,6 +87,9 @@
 #active-orders-container {
   margin-bottom: 100px;
   justify-content: center;
+  align-items: center;
+  display: inline;
+  margin-top: 25px;
 }
 
 #previous-orders-container {
@@ -100,20 +104,33 @@
 .entry-div {
   align-items: center;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  margin-top: 30px;
+}
+
+@media (min-width: 1175px) {
+  .entry-div {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 0px;
+  }
 }
 
 .entry-div-history {
   align-items: center;
   display: flex;
   justify-content: center;
-  margin-top: 5px;
+  margin-top: 30px;
+  margin-left: 15px;
 }
 
 .entries {
   margin-left: 10px;
   margin-right: 10px;
-  padding-top: 15px;
+  padding-top: 7.5px;
 }
 
 .resolve-order-btn {
@@ -121,6 +138,10 @@
   border: 2px solid #ffffff;
   box-sizing: border-box;
   border-radius: 12px;
-  width: 240px;
+  width: 180px;
   background-color: #da4167;
+}
+
+.row {
+  margin-right: 0px;
 }
