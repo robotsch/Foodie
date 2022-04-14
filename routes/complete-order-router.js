@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const menuQueries = require("../db/queries/03_menu_item_queries");
-const userQueries = require("../db/queries/01_user_queries")
+const userQueries = require("../db/queries/01_user_queries");
 const orderQueries = require("../db/queries/04_orders_queries");
 const twilioClient = require("../lib/twilio");
 
@@ -17,7 +17,7 @@ const twilioClient = require("../lib/twilio");
 router.get("/", (req, res) => {
 
   const promises = [];
-  promises.push(userQueries.getUserWithId(req.session.user_id))
+  promises.push(userQueries.getUserWithId(req.session.user_id));
 
   const order = req.query;
   
@@ -28,9 +28,9 @@ router.get("/", (req, res) => {
   Promise.all(promises)
     .then((data) => {
       // Promise array mutation intended
-      const user = data.shift()
+      const user = data.shift();
       let orderStr = `Order received from ${user.first_name} ${user.last_name.charAt(0)}.\n`;
-      for (foodItem of data) {
+      for (const foodItem of data) {
         orderStr += `${foodItem.name} x${order[foodItem.id]}\n`;
       }
 
@@ -52,7 +52,7 @@ router.get("/", (req, res) => {
         });
     })
     .catch((err) => {
-      res.send("Failed to get order items");
+      res.send("Failed to get order items: " , err);
     });
 });
 

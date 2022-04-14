@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
   ])
     .then((values) => {
       const allMenuItems = values[0];
-      const allCategories = values[1]
+      const allCategories = values[1];
       
       const menuItems = {};
       allMenuItems.forEach((menuItem) => {
@@ -34,7 +34,7 @@ router.get("/", (req, res) => {
       );
     })
     .catch((err) => {
-      res.status(500).send("Failed to get menu and items");
+      res.status(500).send("Failed to get menu and items: ", err);
     });
 });
 

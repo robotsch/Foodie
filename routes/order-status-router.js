@@ -3,7 +3,7 @@ const router = express.Router();
 const orderQueries = require("../db/queries/04_orders_queries");
 
 /**
- * Queries the database for the estimated completion time of an order 
+ * Queries the database for the estimated completion time of an order
  *  then updates the client based on the result
  * Downstream: Null results will display 'Pending'
  *  otherwise the client will render the retrieved time
