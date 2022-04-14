@@ -27,7 +27,7 @@ $(() => {
 
     return $(`
     <div class="entry-div" id="order_id${activeOrderObj.orders_id}">
-      <h5>Order #${activeOrderObj.orders_id}</h5>
+      <h6><b>Order</b> #${activeOrderObj.orders_id}</h6>
       <p class="entries"><b>Ordered:</b> ${time_ordered}</p>
       <p class="entries"><b>Accepted:</b> ${time_accepted}</p>
       <p class="entries"><b>Est. time:</b> ${est_time}</p>
@@ -43,7 +43,7 @@ $(() => {
     total = total.toFixed(2);
     return $(`
     <div class="entry-div-history" id="order_id${oldOrderObj.orders_id}">
-        <h5>Order #${oldOrderObj.orders_id}</h5>
+        <h6><b>Order</b> #${oldOrderObj.orders_id}</h6>
         <p class="entries"><b>Ordered:</b> ${time_ordered}</p>
         <p class="entries"><b>Accepted:</b> ${time_accepted}</p>
         <p class="entries"><b>Total:</b> $${total}</p>
@@ -59,7 +59,6 @@ $(() => {
   };
 
   const renderActiveOrders = (newOrdersArr) => {
-
     let tempArr = [];
 
     let indexUniqueOrders = [];
@@ -89,7 +88,23 @@ $(() => {
         createActiveOrder(newOrdersArr[indexNumber], orderCost)
       );
 
-      let ordNo = newOrdersArr[indexNumber].orders_id;
+      const ordNo = newOrdersArr[indexNumber].orders_id;
+
+      $(`#order_id${ordNo} > button`).on("click", function (event) {
+        event.stopPropagation();
+
+        $.ajax({
+          url: `/api/resolve-order`,
+          method: "post",
+          data: { orderId: ordNo },
+        })
+          .then(() => {
+            window.location.href = "/orders";
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
 
       $(`#order_id${ordNo}`)
         .unbind()
@@ -190,29 +205,4 @@ $(() => {
       renderPreviousOrders(data.oldOrders);
     }
   });
-
-  $("#active-orders-container").on(
-    "click",
-    ".resolve-order-btn",
-    function (event) {
-      event.preventDefault();
-
-      const orderH4 = $(this).siblings("h5").text();
-      const indOf = orderH4.indexOf("#");
-      const orderID = orderH4.slice(indOf + 1);
-
-
-      $.ajax({
-        url: `/api/resolve-order`,
-        method: "post",
-        data: { orderId: orderID },
-      })
-        .then(() => {
-          window.location.href = "/orders";
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  );
 });
