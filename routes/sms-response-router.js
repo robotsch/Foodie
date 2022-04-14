@@ -17,7 +17,7 @@ router.post("/", (req, res) => {
     orderQueries.getOrderPhone(Number(orderId))
       .then((orderPhone) => {
         twilioClient.messages.create({
-          body: `Your order from ${restaurant} has been confirmed! It will be ready for pickup in approximately ${estimatedTime} minutes`,
+          body: `Your order from Golden Wok has been confirmed! It will be ready for pickup in approximately ${estimatedTime} minutes`,
           from: process.env.APP_PHONE,
           to: areaCode + orderPhone.phone_number
         });
