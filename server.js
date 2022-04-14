@@ -60,6 +60,7 @@ const orderStatusRoute = require("./routes/order-status-router");
 const menuSearchRoute = require("./routes/menu-search-router");
 const orderHistoryRoute = require("./routes/order-history-router");
 const resolveOrderRoute = require("./routes/resolve-order-router");
+const orderDetailsRoute = require("./routes/modal-card-router")
 
 // Resource routes
 app.use("/api/menu", menuRoute);
@@ -73,6 +74,7 @@ app.use("/api/order-status", orderStatusRoute);
 app.use("/api/menu-search", menuSearchRoute);
 app.use("/api/orders-user-id", orderHistoryRoute);
 app.use("/api/resolve-order", resolveOrderRoute);
+app.use("/api/get-order-details", orderDetailsRoute)
 
 // Import redirect utilities for visitors/registered users
 const redirectUtils = require("./middleware/auth-redirects");
