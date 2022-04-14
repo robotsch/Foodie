@@ -97,9 +97,9 @@ app.get("/cart", (req, res) => {
   res.render("cart", { user: req.session.user_id });
 });
 
-app.get("/checkout", redirectUtils.toLogin, (req, res) => {
-  res.render("checkout", { user: req.session.user_id });
-});
+// app.get("/checkout", redirectUtils.toLogin, (req, res) => {
+//   res.render("checkout", { user: req.session.user_id });
+// });
 
 app.get("/orders", redirectUtils.toLogin, (req, res) => {
   res.render("order-history", { user: req.session.user_id });

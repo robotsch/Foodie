@@ -30,7 +30,7 @@ $(() => {
 
     const totals = {
       subtotal: newSubtotal / 100,
-      serviceFee: (newSubtotal) ? 1 : 0,
+      serviceFee: (newSubtotal === "0") ? 0 : 1,
       tax: newSubtotal * 0.13 / 100,
       total: newSubtotal * 1.13 / 100
     };
@@ -43,8 +43,8 @@ $(() => {
 
   const renderCart = function (cartData) {
 
-    // Sets totals to 0 initially
-    updateTotals(0);
+    // Sets totals to subtotal
+    updateTotals(sessionStorage.getItem("subtotal"));
 
     // No items in cart
     if (Object.keys(cartData).length === 0) {
@@ -159,13 +159,47 @@ $(() => {
   };
 
   // When checkout button is clicked
-  $("#checkout-btn").unbind().on("click", function () {
+  $("#place-order-btn").unbind().on("click", function () {
 
     // If no items in cart then checkout button DOES NOT redirect
     if (sessionStorage.getItem("orders") === null) return;
 
-    // If items in cart, redirects to checkout page
-    document.location.href = "/checkout";
+    $.ajax({
+      url: "/api/checkout",
+      type: "get",
+      // Passes in sessionStorage order info
+      data: JSON.parse(sessionStorage.getItem('orders')),
+      success: function (orderID) {
+
+        // Sends a GET request to /api/order-status every 2 seconds
+        // to check if order has been accepted
+        // let timer = setInterval(function () {
+        //   $.ajax({
+        //     url: "/api/order-status",
+        //     type: "get",
+        //     data: { "orderID": orderID },
+        //     success: function (response) {
+        //       // if (response === "null") {
+        //       // SWITCH IF'S WHEN DEPLOYING ON HEROKU
+        //       if (response !== "null") {
+        //         sessionStorage.clear();
+        //         clearInterval(timer);
+        //         document.location.href = "/orders";
+        //       }
+        //     },
+        //     err: function (err) {
+        //       console.log(err.message);
+        //     }
+        //   });
+        // }, 2000);
+        console.log("cart.js IN get request to /api/checkout")
+
+        document.location.href = "/orders";
+      },
+      err: function (err) {
+        console.log(err.message);
+      }
+    });
 
   });
 
