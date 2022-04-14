@@ -59,7 +59,6 @@ $(() => {
   };
 
   const renderActiveOrders = (newOrdersArr) => {
-    //console.log("newOrdersArr: ", newOrdersArr);
 
     let tempArr = [];
 
@@ -68,8 +67,6 @@ $(() => {
     for (const object of newOrdersArr) {
       tempArr.push(object.orders_id);
     }
-
-    //console.log("tempArr: ", tempArr);
 
     let searchArr = getUnique(tempArr);
 
@@ -93,14 +90,10 @@ $(() => {
       );
 
       let ordNo = newOrdersArr[indexNumber].orders_id;
-      //console.log("ordNo: ", ordNo);
-      //console.log("orddesc: ", orderDesc);
-      /*rip of full menu*/
 
       $(`#order_id${ordNo}`)
         .unbind()
         .on("click", function () {
-          console.log("click");
           // Sets info in modal to menuItem that was clicked
           $(".modal-title").text(`Order #${ordNo}`);
           $("#desc").text(orderDesc);
@@ -142,14 +135,10 @@ $(() => {
       );
 
       let ordNo = oldOrdersArr[indexNumber].orders_id;
-      console.log("ordNo: ", ordNo);
-      //console.log("orddesc: ", orderDesc);
-      /*rip of full menu*/
 
       $(`#order_id${ordNo}`)
         .unbind()
         .on("click", function () {
-          console.log("click");
           // Sets info in modal to menuItem that was clicked
           $(".modal-title").text(`Order #${ordNo}`);
           $("#desc").text(orderDesc);
@@ -212,7 +201,6 @@ $(() => {
       const indOf = orderH4.indexOf("#");
       const orderID = orderH4.slice(indOf + 1);
 
-      //console.log("retrieved orderID: ", orderID);
 
       $.ajax({
         url: `/api/resolve-order`,
@@ -220,11 +208,6 @@ $(() => {
         data: { orderId: orderID },
       })
         .then(() => {
-          /*
-          setTimeout(() => {
-            document.location.href = "/orders";
-          }, 5000);*/
-          console.log("it is working");
           window.location.href = "/orders";
         })
         .catch((err) => {

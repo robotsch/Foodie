@@ -51,7 +51,7 @@ const acceptOrder = function (orderID, estTime) {
     values
   )
     .then((result) => {
-      console.log("Order accepted!");
+      console.log("Order accepted");
     })
     .catch((err) => {
       console.log(err.message);
@@ -79,8 +79,6 @@ const completeOrder = function (orderID) {
 exports.completeOrder = completeOrder;
 
 const newOrdersByID = function (userID) {
-  //console.log("new: ", userID);
-
   const values = [userID];
 
   let queryString = `
