@@ -120,6 +120,19 @@ $(() => {
     }
   };
 
+  const createItem = function (name, quantity, price) {
+    return $(`
+      <div class="item-container">
+        <div>
+          <div class="px-2 py-1 mx-2 text-center">${quantity}</div>
+          <div>${name}</div>
+        </div>
+        <div>$${(quantity * price / 100).toFixed(2)}</div>
+      </div>
+      <hr>
+  `);
+  };
+
   const renderPreviousOrders = (oldOrdersArr) => {
     let tempArr = [];
 
@@ -140,12 +153,12 @@ $(() => {
       let orderDesc = "||";
 
       //calculates the total order price
-      for (const object of oldOrdersArr) {
-        if (object.orders_id === oldOrdersArr[indexNumber].orders_id) {
-          orderCost += ((object.price * object.quantity) / 100) * 1.13 + 1;
-          orderDesc += ` ${object.name} x (${object.quantity}) ||`;
-        }
-      }
+      // for (const object of oldOrdersArr) {
+      //   if (object.orders_id === oldOrdersArr[indexNumber].orders_id) {
+      //     orderCost += ((object.price * object.quantity) / 100) * 1.13 + 1;
+      //     orderDesc += ` ${object.name} x (${object.quantity}) ||`;
+      //   }
+      // }
 
       $(`#previous-orders-container`).append(
         createPriorOrder(oldOrdersArr[indexNumber], orderCost)
@@ -157,10 +170,43 @@ $(() => {
         .unbind()
         .on("click", function () {
           // Sets info in modal to menuItem that was clicked
-          $(".modal-title").text(`Order #${ordNo}`);
           $("#desc").text(orderDesc);
-          $("#total-modal").text(`Total: $${orderCost.toFixed(2)}`);
-          $(`#menuItem-modal`).modal("toggle");
+          $.ajax({
+            url: "/api/get-order-details",
+            method: "GET",
+            data: { orderID: ordNo },
+            success: function (response) {
+
+              for (const menuItemName in response) {
+                if (Object.hasOwnProperty.call(response, menuItemName)) {
+                  const quantity = response[menuItemName].quantity;
+                  const price = response[menuItemName].price;
+                  $('#total-modal').before(createItem(menuItemName, quantity, price));
+                  orderCost += quantity * price;
+                }
+              }
+
+              $(".modal-title").text(`Order #${ordNo}`);
+              $("#total-modal").text(`Total: $${orderCost.toFixed(2)}`);
+              $(`#menuItem-modal`).modal("toggle");
+            },
+            err: function (err) {
+              console.log(err.message);
+            }
+          });
+          // API CALL TO /api/getAllMenuItemInfoForOrder
+          // data: { orderID: ordNo }
+          // in the success: function(response) {
+          //  parse the JSON
+          //  loop over keys or index or whatever fuck is in the json
+          //  let orderDesc string here make it append it on every loop
+          //  set modal info for description
+          //  set toher modal info
+
+          // menuitem name, menuitem price per, order_menu_items quantity,
+          // }
+          // $("#total-modal").text(`Total: $${orderCost.toFixed(2)}`);
+          // $(`#menuItem-modal`).modal("toggle");
         });
 
       //end of rip
