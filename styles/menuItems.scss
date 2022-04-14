@@ -4,7 +4,7 @@
   flex-shrink: 0;
 }
 
-.menuItem-img-container>img {
+.menuItem-img-container > img {
   object-fit: cover;
   width: 100%;
   height: 100%;
@@ -32,18 +32,22 @@
   }
 }
 
-
-.modal-body>div:first-of-type {
+.modal-body > div:first-of-type {
   display: flex;
   justify-content: space-between;
 }
 
-.modal-body>div>div {
+.modal-body > div > div {
   text-align: center;
 }
 
-.modal-body>div:nth-of-type(2) {
+.modal-body > div:nth-of-type(2) {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#add-to-order-btn {
+  background-color: #da4167;
+  border-color: #da4167;
 }

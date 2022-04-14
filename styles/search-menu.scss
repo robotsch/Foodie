@@ -1,4 +1,4 @@
-@use 'variables'as v;
+@use "variables" as v;
 
 #search-text {
   border: none;
@@ -12,14 +12,14 @@
 }
 
 #search-text:focus-visible {
-  border: 0 none #FFF;
+  border: 0 none #fff;
   overflow: hidden;
   outline: none;
   border-bottom: 1px solid #c7cedb;
 }
 
 textarea:focus {
-  border: 0 none #FFF;
+  border: 0 none #fff;
   overflow: hidden;
   outline: none;
 }
@@ -41,4 +41,9 @@ textarea:focus {
 
 #search-img {
   margin-right: 10px;
+}
+
+#add-to-order-btn {
+  background-color: #da4167;
+  border-color: #da4167;
 }
