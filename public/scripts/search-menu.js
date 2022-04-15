@@ -1,10 +1,4 @@
 $(() => {
-  // Transforms any scripting attacks to normal text
-  const escape = function (str) {
-    let div = document.createElement("div");
-    div.append(document.createTextNode(str));
-    return div.innerHTML;
-  };
 
   const createMenuItem = function (menuItemData) {
     return $(`

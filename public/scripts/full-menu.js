@@ -1,17 +1,11 @@
 $(() => {
-  // Transforms any scripting attacks to normal text
-  const escape = function (str) {
-    let div = document.createElement("div");
-    div.append(document.createTextNode(str));
-    return div.innerHTML;
-  };
 
   const createMenuItem = function (menuItemData) {
     return $(`
       <div class="row justify-content-center">
         <div class="col-lg-8 d-flex justify-content-between align-items-center menuItem" id="menuItem-${menuItemData.id
       }">
-          <div class="d-flex flex-column justify-content-center">
+          <div>
             <h4>${menuItemData.name}</h4>
             <p>${menuItemData.description}</p>
             <h5>$${menuItemData.price / 100}</h5>
