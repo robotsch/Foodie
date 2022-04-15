@@ -5,25 +5,17 @@ $(() => {
     if (detailedTimeString === null) {
       return "Pending";
     } else {
-      let date = detailedTimeString.slice(0, 10);
-      let time = detailedTimeString.slice(11, 16);
+      const date = detailedTimeString.slice(0, 10);
+      const time = detailedTimeString.slice(11, 16);
       return date, " ", time;
     }
   };
 
   const createActiveOrder = (activeOrderObj, total) => {
-    let time_ordered = timeFormatter(activeOrderObj.time_ordered);
-    let time_accepted = timeFormatter(activeOrderObj.time_accepted);
+    const time_ordered = timeFormatter(activeOrderObj.time_ordered);
+    const time_accepted = timeFormatter(activeOrderObj.time_accepted);
 
-    let est_time = activeOrderObj.estimated_completion_time;
-
-    total = total.toFixed(2);
-
-    if (est_time === null) {
-      est_time = "Pending";
-    } else {
-      est_time = est_time + " mins";
-    }
+    const est_time = activeOrderObj.estimated_completion_time ? activeOrderObj.estimated_completion_time + " mins" : "Pending";
 
     return $(`
     <div class="entry-div" id="order_id${activeOrderObj.orders_id}">
@@ -31,34 +23,34 @@ $(() => {
         <p class="entries"><b>Ordered:</b> ${time_ordered}</p>
         <p class="entries"><b>Accepted:</b> ${time_accepted}</p>
         <p class="entries"><b>Est. time:</b> ${est_time}</p>
-        <p class="entries"><b>Total:</b> $${total}</p>
+        <p class="entries"><b>Total:</b> $${total.toFixed(2)}</p>
         <button type="submit" class="resolve-order-btn">Complete Order</button>
       </div>
       `);
   };
 
   const createPriorOrder = (oldOrderObj, total) => {
-    let time_ordered = timeFormatter(oldOrderObj.time_ordered);
-    let time_accepted = timeFormatter(oldOrderObj.time_accepted);
-    total = total.toFixed(2);
+    const time_ordered = timeFormatter(oldOrderObj.time_ordered);
+    const time_accepted = timeFormatter(oldOrderObj.time_accepted);
+
     return $(`
     <div class="entry-div-history" id="order_id${oldOrderObj.orders_id}">
         <h6><b>Order</b> #${oldOrderObj.orders_id}</h6>
         <p class="entries"><b>Ordered:</b> ${time_ordered}</p>
         <p class="entries"><b>Accepted:</b> ${time_accepted}</p>
-        <p class="entries"><b>Total:</b> $${total}</p>
+        <p class="entries"><b>Total:</b> $${total.toFixed(2)}</p>
     </div>
     `);
   };
 
   const getUnique = (valArray) => {
-    let newArray = valArray.filter(
+    const newArray = valArray.filter(
       (element, index, array) => array.indexOf(element) === index
     );
     return newArray;
   };
 
-  const createItem = function (name, quantity, price, total) {
+  const createItem = function (name, quantity, price) {
     return $(`
       <div class="item-container">
         <div>
@@ -78,9 +70,9 @@ $(() => {
       method: "GET",
       data: { orderID: orderID },
       success: function (response) {
-        
+
         $(".modal-body").empty();
-        
+
         const data = JSON.parse(response);
 
         let orderCost = 0;
@@ -129,28 +121,26 @@ $(() => {
 
     for (const indexNumber of indexUniqueOrders) {
       let orderCost = 0;
-      let orderDesc = "||";
 
       for (const object of newOrdersArr) {
         if (object.orders_id === newOrdersArr[indexNumber].orders_id) {
-          orderCost += ((object.price * object.quantity) / 100) * 1.13 + 1;
-          orderDesc += ` ${object.name} x (${object.quantity}) ||`;
+          orderCost += object.price * object.quantity;
         }
       }
 
       $(`#active-orders-container`).append(
-        createActiveOrder(newOrdersArr[indexNumber], orderCost)
+        createActiveOrder(newOrdersArr[indexNumber], (orderCost + 100) * 1.13 / 100)
       );
 
-      const ordNo = newOrdersArr[indexNumber].orders_id;
+      const orderID = newOrdersArr[indexNumber].orders_id;
 
-      $(`#order_id${ordNo} > button`).on("click", function (event) {
+      $(`#order_id${orderID} > button`).on("click", function (event) {
         event.stopPropagation();
 
         $.ajax({
           url: `/api/resolve-order`,
           method: "post",
-          data: { orderId: ordNo },
+          data: { orderId: orderID },
         })
           .then(() => {
             window.location.href = "/orders";
@@ -160,8 +150,8 @@ $(() => {
           });
       });
 
-      $(`#order_id${ordNo}`).unbind().on("click", function () {
-        renderOrderModalItems(ordNo);
+      $(`#order_id${orderID}`).unbind().on("click", function () {
+        renderOrderModalItems(orderID);
       });
     }
   };
@@ -183,7 +173,6 @@ $(() => {
 
     for (const indexNumber of indexUniqueOrders) {
       let orderCost = 0;
-      let orderDesc = "";
 
       //calculates the total order price
       for (const object of oldOrdersArr) {
@@ -191,19 +180,15 @@ $(() => {
           orderCost += (object.price * object.quantity);
         }
       }
-
-      orderCost += 100;
-      orderCost *= 1.13;
-      orderCost /= 100;
-
+      
       $(`#previous-orders-container`).append(
-        createPriorOrder(oldOrdersArr[indexNumber], orderCost)
+        createPriorOrder(oldOrdersArr[indexNumber], (orderCost + 100) * 1.13 / 100)
       );
 
-      let ordNo = oldOrdersArr[indexNumber].orders_id;
+      const orderID = oldOrdersArr[indexNumber].orders_id;
 
-      $(`#order_id${ordNo}`).unbind().on("click", function () {
-        renderOrderModalItems(ordNo);
+      $(`#order_id${orderID}`).unbind().on("click", function () {
+        renderOrderModalItems(orderID);
       });
     }
   };
