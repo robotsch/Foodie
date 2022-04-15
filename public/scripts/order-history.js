@@ -102,7 +102,7 @@ $(() => {
           data: { orderId: ordNo },
         })
           .then(() => {
-            $("#resolve-order-btn").prop("disabled", false);
+            // $(".resolve-order-btn").prop("disabled", false);
             window.location.href = "/orders";
           })
           .catch((err) => {
@@ -238,7 +238,7 @@ $(() => {
                 // console.log(response);
                 // if (response === "null") {
                 if (response !== "null") {
-                  $("#resolve-order-btn").prop("disabled", false);
+                  $(".resolve-order-btn").prop("disabled", false);
                   sessionStorage.clear();
                   clearInterval(timer);
                   document.location.href = "/orders";
