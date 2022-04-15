@@ -32,7 +32,7 @@ $(() => {
       <p class="entries"><b>Accepted:</b> ${time_accepted}</p>
       <p class="entries"><b>Est. time:</b> ${est_time}</p>
       <p class="entries"><b>Total:</b> $${total}</p>
-      <button type="submit" class="resolve-order-btn">Order Complete</button>
+      <button type="submit" class="resolve-order-btn" disabled>Complete Order</button>
     </div>
     `);
   };
@@ -99,6 +99,7 @@ $(() => {
           data: { orderId: ordNo },
         })
           .then(() => {
+            $("#resolve-order-btn").prop("disabled", false);
             window.location.href = "/orders";
           })
           .catch((err) => {
@@ -111,7 +112,7 @@ $(() => {
         .on("click", function () {
           // Sets info in modal to menuItem that was clicked
           $(".modal-title").text(`Order #${ordNo}`);
-          $("#desc").text(orderDesc);
+          $("#tax-modal").text(`Tax: $${(orderCost * 0.13).toFixed(2)}`);
           $("#total-modal").text(`Total: $${orderCost.toFixed(2)}`);
           $(`#order-history-modal`).modal("toggle");
         });
