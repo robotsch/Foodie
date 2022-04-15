@@ -24,17 +24,18 @@ $(() => {
       <h6><b>Order</b> #${activeOrderObj.orders_id}</h6>
       <p class="entries"><b>Ordered:</b> ${time_ordered}</p>
       <p class="entries"><b>Accepted:</b> ${time_accepted}</p>
-      <p class="entries"><b>Est. time:</b> ${est_time}</p>
+      <p class="entries"><b>Est. time:</b></p>
       <p class="entries"><b>Total:</b> $${total}</p>
       <button type="submit" class="resolve-order-btn">Complete Order</button>
     </div>
-    `)
+    `);
 
     if (est_time === null) {
-      est_time = "Pending";
-      $(orderElement).prop("disabled", true);
+      $(`#order_id9${activeOrderObj.orders_id} > p:nth-of-type(3)`).append("<b>Est. time:</b> Pending");
+      $(".resolve-order-btn").prop("disabled", true);
     } else {
-      est_time = activeOrderObj.estimated_completion_time + " mins";
+      $(`#order_id9${activeOrderObj.orders_id} > p:nth-of-type(3)`).append(`<b>Est. time:</b> 
+      ${activeOrderObj.estimated_completion_time} mins`);
     }
 
     return orderElement;
@@ -96,7 +97,7 @@ $(() => {
       $(`#order_id${ordNo} > button`).on("click", function (event) {
         event.stopPropagation();
         console.log("click");
-        
+
 
 
         $.ajax({
