@@ -19,19 +19,19 @@ $(() => {
 
     return $(`
     <div class="entry-div py-3 my-3 px-2" id="order_id${activeOrderObj.orders_id}">
-        <div>
+        <div class="mx-2">
           <b>Order</b> #${activeOrderObj.orders_id}
         </div>
-        <div>
+        <div class="mx-2">
           <b>Ordered:</b> ${time_ordered}
         </div>
-        <div>
+        <div class="mx-2">
           <b>Accepted:</b> ${time_accepted}
         </div>
-        <div>
+        <div class="mx-2">
           <b>Est. time:</b> ${est_time}
         </div>
-        <div>
+        <div class="mx-2">
           <b>Total:</b> $${total.toFixed(2)}
         </div>
         <button type="submit" class="resolve-order-btn btn btn-primary">Complete Order</button>
