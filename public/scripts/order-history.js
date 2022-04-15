@@ -71,6 +71,47 @@ $(() => {
   `);
   };
 
+  const renderOrderModalItems = function (orderID) {
+    // Sets info in modal to menuItem that was clicked
+    $.ajax({
+      url: "/api/get-order-details",
+      method: "GET",
+      data: { orderID: orderID },
+      success: function (response) {
+        
+        $(".modal-body").empty();
+        
+        const data = JSON.parse(response);
+
+        let orderCost = 0;
+
+        for (const menuItemName in data) {
+          if (Object.hasOwnProperty.call(data, menuItemName)) {
+            const quantity = data[menuItemName].quantity;
+            const price = data[menuItemName].price;
+            $('.modal-body').append(createItem(menuItemName, quantity, price));
+            orderCost += quantity * price;
+          }
+        }
+
+        $(".modal-body > hr:last-child").remove();
+
+        orderCost += 100;
+        orderCost *= 1.13;
+        orderCost /= 100;
+
+        $(".modal-title").text(`Order #${orderID}`);
+        $("#tax-modal").text(`Tax: $${(orderCost * 0.13).toFixed(2)}`);
+        $("#total-modal").text(`Total: $${orderCost.toFixed(2)}`);
+        $(`#order-history-modal`).modal("toggle");
+
+      },
+      err: function (err) {
+        console.log(err.message);
+      }
+    });
+  };
+
   const renderActiveOrders = (newOrdersArr) => {
     let tempArr = [];
 
@@ -119,54 +160,8 @@ $(() => {
           });
       });
 
-      // $(`#order_id${ordNo}`)
-      //   .unbind()
-      //   .on("click", function () {
-      //     // Sets info in modal to menuItem that was clicked
-      //     $(".modal-title").text(`Order #${ordNo}`);
-      //     $("#tax-modal").text(`Tax: $${(orderCost * 0.13).toFixed(2)}`);
-      //     $("#total-modal").text(`Total: $${orderCost.toFixed(2)}`);
-      //     $(`#order-history-modal`).modal("toggle");
-      //   });
-
-      $(`#order_id${ordNo}`)
-      .unbind()
-      .on("click", function () {
-        // Sets info in modal to menuItem that was clicked
-        $("#desc").text(orderDesc);
-        $.ajax({
-          url: "/api/get-order-details",
-          method: "GET",
-          data: { orderID: ordNo },
-          success: function (response) {
-
-            const data = JSON.parse(response);
-
-            for (const menuItemName in data) {
-              if (Object.hasOwnProperty.call(data, menuItemName)) {
-                const quantity = data[menuItemName].quantity;
-                const price = data[menuItemName].price;
-                $('.modal-body').append(createItem(menuItemName, quantity, price));
-                orderCost += quantity * price;
-              }
-            }
-
-            $(".modal-body > hr:last-child").remove();
-
-            orderCost += 100;
-            orderCost *= 1.13;
-            orderCost /= 100;
-
-            $(".modal-title").text(`Order #${ordNo}`);
-            $("#tax-modal").text(`Tax: $${(orderCost * 0.13).toFixed(2)}`);
-            $("#total-modal").text(`Total: $${orderCost.toFixed(2)}`);
-            $(`#order-history-modal`).modal("toggle");
-
-          },
-          err: function (err) {
-            console.log(err.message);
-          }
-        });
+      $(`#order_id${ordNo}`).unbind().on("click", function () {
+        renderOrderModalItems(ordNo);
       });
     }
   };
@@ -205,48 +200,11 @@ $(() => {
         createPriorOrder(oldOrdersArr[indexNumber], orderCost)
       );
 
-      orderCost = 0;
       let ordNo = oldOrdersArr[indexNumber].orders_id;
 
-      $(`#order_id${ordNo}`)
-        .unbind()
-        .on("click", function () {
-          // Sets info in modal to menuItem that was clicked
-          $("#desc").text(orderDesc);
-          $.ajax({
-            url: "/api/get-order-details",
-            method: "GET",
-            data: { orderID: ordNo },
-            success: function (response) {
-
-              const data = JSON.parse(response);
-
-              for (const menuItemName in data) {
-                if (Object.hasOwnProperty.call(data, menuItemName)) {
-                  const quantity = data[menuItemName].quantity;
-                  const price = data[menuItemName].price;
-                  $('.modal-body').append(createItem(menuItemName, quantity, price));
-                  orderCost += quantity * price;
-                }
-              }
-
-              $(".modal-body > hr:last-child").remove();
-
-              orderCost += 100;
-              orderCost *= 1.13;
-              orderCost /= 100;
-
-              $(".modal-title").text(`Order #${ordNo}`);
-              $("#tax-modal").text(`Tax: $${(orderCost * 0.13).toFixed(2)}`);
-              $("#total-modal").text(`Total: $${orderCost.toFixed(2)}`);
-              $(`#order-history-modal`).modal("toggle");
-
-            },
-            err: function (err) {
-              console.log(err.message);
-            }
-          });
-        });
+      $(`#order_id${ordNo}`).unbind().on("click", function () {
+        renderOrderModalItems(ordNo);
+      });
     }
   };
 
