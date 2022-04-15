@@ -1,6 +1,6 @@
 $(() => {
 
-  let orders = sessionStorage.getItem("orders");
+  const orders = sessionStorage.getItem("orders");
   if (orders) {
     orders = JSON.parse(orders);
     $("#cart-btn > span").text(`Cart | ${Object.keys(orders).length}`);
