@@ -15,8 +15,6 @@ $(() => {
     let time_ordered = timeFormatter(activeOrderObj.time_ordered);
     let time_accepted = timeFormatter(activeOrderObj.time_accepted);
 
-    let est_time = activeOrderObj.estimated_completion_time;
-
     total = total.toFixed(2);
 
     let orderElement = $(`
@@ -30,11 +28,12 @@ $(() => {
     </div>
     `);
 
-    if (est_time === null) {
-      $(`#order_id9${activeOrderObj.orders_id} > p:nth-of-type(3)`).append("<b>Est. time:</b> Pending");
+    console.log(activeOrderObj.estimated_completion_time);
+    if (activeOrderObj.estimated_completion_time === null) {
+      $(`#order_id${activeOrderObj.orders_id} > p:nth-of-type(3)`).append("<b>Est. time:</b> Pending");
       $(".resolve-order-btn").prop("disabled", true);
     } else {
-      $(`#order_id9${activeOrderObj.orders_id} > p:nth-of-type(3)`).append(`<b>Est. time:</b> 
+      $(`#order_id${activeOrderObj.orders_id} > p:nth-of-type(3)`).append(`<b>Est. time:</b> 
       ${activeOrderObj.estimated_completion_time} mins`);
     }
 
