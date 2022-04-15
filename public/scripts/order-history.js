@@ -99,7 +99,7 @@ $(() => {
           data: { orderId: ordNo },
         })
           .then(() => {
-            $("#resolve-order-btn").prop("disabled", false);
+            $("#resolve-order-btn").removeAttr("disabled");
             window.location.href = "/orders";
           })
           .catch((err) => {
