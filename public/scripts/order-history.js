@@ -113,7 +113,7 @@ $(() => {
           $(".modal-title").text(`Order #${ordNo}`);
           $("#desc").text(orderDesc);
           $("#total-modal").text(`Total: $${orderCost.toFixed(2)}`);
-          $(`#menuItem-modal`).modal("toggle");
+          $(`#order-history-modal`).modal("toggle");
         });
     }
   };
@@ -196,10 +196,12 @@ $(() => {
 
               orderCost += 100;
               orderCost *= 1.13;
+              orderCost /= 100;
 
               $(".modal-title").text(`Order #${ordNo}`);
-              $("#total-modal").text(`Total: $${(orderCost / 100).toFixed(2)}`);
-              $(`#menuItem-modal`).modal("toggle");
+              $("#tax-modal").text(`Tax: $${(orderCost * 0.13).toFixed(2)}`);
+              $("#total-modal").text(`Total: $${orderCost.toFixed(2)}`);
+              $(`#order-history-modal`).modal("toggle");
 
             },
             err: function (err) {
