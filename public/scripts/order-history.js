@@ -58,6 +58,19 @@ $(() => {
     return newArray;
   };
 
+  const createItem = function (name, quantity, price, total) {
+    return $(`
+      <div class="item-container">
+        <div>
+          <div class="px-2 py-1 mx-2 text-center">${quantity}</div>
+          <div>${name}</div>
+        </div>
+        <div>$${((price * quantity) / 100).toFixed(2)}</div>
+      </div>
+      <hr>
+  `);
+  };
+
   const renderActiveOrders = (newOrdersArr) => {
     let tempArr = [];
 
@@ -92,9 +105,6 @@ $(() => {
 
       $(`#order_id${ordNo} > button`).on("click", function (event) {
         event.stopPropagation();
-        console.log("click");
-
-
 
         $.ajax({
           url: `/api/resolve-order`,
@@ -102,7 +112,6 @@ $(() => {
           data: { orderId: ordNo },
         })
           .then(() => {
-            // $(".resolve-order-btn").prop("disabled", false);
             window.location.href = "/orders";
           })
           .catch((err) => {
@@ -110,29 +119,56 @@ $(() => {
           });
       });
 
-      $(`#order_id${ordNo}`)
-        .unbind()
-        .on("click", function () {
-          // Sets info in modal to menuItem that was clicked
-          $(".modal-title").text(`Order #${ordNo}`);
-          $("#tax-modal").text(`Tax: $${(orderCost * 0.13).toFixed(2)}`);
-          $("#total-modal").text(`Total: $${orderCost.toFixed(2)}`);
-          $(`#order-history-modal`).modal("toggle");
-        });
-    }
-  };
+      // $(`#order_id${ordNo}`)
+      //   .unbind()
+      //   .on("click", function () {
+      //     // Sets info in modal to menuItem that was clicked
+      //     $(".modal-title").text(`Order #${ordNo}`);
+      //     $("#tax-modal").text(`Tax: $${(orderCost * 0.13).toFixed(2)}`);
+      //     $("#total-modal").text(`Total: $${orderCost.toFixed(2)}`);
+      //     $(`#order-history-modal`).modal("toggle");
+      //   });
 
-  const createItem = function (name, quantity, price, total) {
-    return $(`
-      <div class="item-container">
-        <div>
-          <div class="px-2 py-1 mx-2 text-center">${quantity}</div>
-          <div>${name}</div>
-        </div>
-        <div>$${((price * quantity) / 100).toFixed(2)}</div>
-      </div>
-      <hr>
-  `);
+      $(`#order_id${ordNo}`)
+      .unbind()
+      .on("click", function () {
+        // Sets info in modal to menuItem that was clicked
+        $("#desc").text(orderDesc);
+        $.ajax({
+          url: "/api/get-order-details",
+          method: "GET",
+          data: { orderID: ordNo },
+          success: function (response) {
+
+            const data = JSON.parse(response);
+
+            for (const menuItemName in data) {
+              if (Object.hasOwnProperty.call(data, menuItemName)) {
+                const quantity = data[menuItemName].quantity;
+                const price = data[menuItemName].price;
+                $('.modal-body').append(createItem(menuItemName, quantity, price));
+                orderCost += quantity * price;
+              }
+            }
+
+            $(".modal-body > hr:last-child").remove();
+
+            orderCost += 100;
+            orderCost *= 1.13;
+            orderCost /= 100;
+
+            $(".modal-title").text(`Order #${ordNo}`);
+            $("#tax-modal").text(`Tax: $${(orderCost * 0.13).toFixed(2)}`);
+            $("#total-modal").text(`Total: $${orderCost.toFixed(2)}`);
+            $(`#order-history-modal`).modal("toggle");
+
+          },
+          err: function (err) {
+            console.log(err.message);
+          }
+        });
+      });
+    }
   };
 
   const renderPreviousOrders = (oldOrdersArr) => {
@@ -196,8 +232,6 @@ $(() => {
 
               $(".modal-body > hr:last-child").remove();
 
-              // console.log(orderCost);
-
               orderCost += 100;
               orderCost *= 1.13;
               orderCost /= 100;
@@ -238,7 +272,6 @@ $(() => {
                 // console.log(response);
                 // if (response === "null") {
                 if (response !== "null") {
-                  // $(".resolve-order-btn").prop("disabled", false);
                   sessionStorage.clear();
                   clearInterval(timer);
                   document.location.href = "/orders";
