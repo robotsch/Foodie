@@ -32,7 +32,7 @@ $(() => {
       <p class="entries"><b>Accepted:</b> ${time_accepted}</p>
       <p class="entries"><b>Est. time:</b> ${est_time}</p>
       <p class="entries"><b>Total:</b> $${total}</p>
-      <button type="submit" class="resolve-order-btn" disabled>Complete Order</button>
+      <button type="submit" class="resolve-order-btn" disabled="disabled">Complete Order</button>
     </div>
     `);
   };
@@ -99,7 +99,7 @@ $(() => {
           data: { orderId: ordNo },
         })
           .then(() => {
-            $("#resolve-order-btn").removeAttr("disabled");
+            $("#resolve-order-btn").attr("disabled", false);
             window.location.href = "/orders";
           })
           .catch((err) => {
