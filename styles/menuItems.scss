@@ -43,7 +43,7 @@
   
 }
 
-.menuItem:hover {
+.menuItem:hover, .menuItem:focus, .menuItem:active, .menuItem.active, .open>.dropdown-toggle.menuItem {
   box-shadow: 0 0 25px rgba(33, 33, 33, 0.2);
 }
 
@@ -62,7 +62,12 @@
   align-items: center;
 }
 
-#add-to-order-btn {
-  background-color: v.$maroon-colour;
-  border-color: v.$maroon-colour;
+.btn-primary {
+  background-color: v.$navy-colour;
+  border-color: v.$navy-colour;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
+  background-color: v.$light-blue-colour;
+  border-color: v.$light-blue-colour;
 }

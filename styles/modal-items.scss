@@ -1,0 +1,32 @@
+@use 'variables' as v;
+
+.item-container {
+  width: 100%;
+}
+
+.item-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-container > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-container > div > div:first-child {
+  background-color: #f4d35e;
+  border-radius: 5px;
+}
+
+.item-container > div:first-child > div:nth-child(2) {
+  word-break: break-word;
+}
+
+.item-container > div:last-child > div:last-child {
+  width: 4.4em;
+  text-align: right;
+}

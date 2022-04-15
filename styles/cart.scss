@@ -1,36 +1,5 @@
 @use "variables" as v;
 
-.item-container {
-  width: 100%;
-}
-
-.item-container {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.item-container > div {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.item-container > div > div:first-child {
-  background-color: #f4d35e;
-  border-radius: 5px;
-}
-
-.item-container > div:first-child > div:nth-child(2) {
-  word-break: break-word;
-}
-
-.item-container > div:last-child > div:last-child {
-  width: 4.4em;
-  text-align: right;
-}
-
 #totals-container {
   width: 100%;
 }
@@ -65,11 +34,21 @@
 }
 
 .btn-primary {
-  background-color: #da4167;
-  border-color: #da4167;
+  background-color: v.$navy-colour;
+  border-color: v.$navy-colour;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
+  background-color: v.$light-blue-colour;
+  border-color: v.$light-blue-colour;
 }
 
 #place-order-btn {
-  background-color: #da4167;
-  border-color: #da4167;
+  background-color: v.$dark-orange-colour;
+  border-color: v.$dark-orange-colour;
+}
+
+#place-order-btn:hover, #place-order-btn:focus, #place-order-btn:active, #place-order-btn.active, .open>.dropdown-toggle#place-order-btn {
+  background-color: v.$orange-colour;
+  border-color: v.$orange-colour;
 }
