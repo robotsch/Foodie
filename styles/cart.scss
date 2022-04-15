@@ -1,5 +1,13 @@
 @use "variables" as v;
 
+#cart-container {
+  max-width: v.$max-width;
+}
+
+#cart-container > hr {
+  width: 100%;
+}
+
 #totals-container {
   width: 100%;
 }
@@ -8,14 +16,6 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-}
-
-#cart-container {
-  max-width: v.$max-width;
-}
-
-#cart-container > hr {
-  width: 100%;
 }
 
 .modal-body > div:first-of-type {

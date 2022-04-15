@@ -1,31 +1,16 @@
 @use 'variables' as v;
 
-#active-div {
+.title img{
+  height: 36px;
+  width: auto;
+}
+
+.title { 
   display: flex;
   justify-content: center;
-  margin-top: 50px;
   height: 36px;
-  margin-bottom: 2.5%;
-}
-
-#cooking-img {
-  margin-right: 25px;
-  background-color: white;
-}
-
-#cooking-img-2 {
-  margin-left: 25px;
-  background-color: white;
-}
-
-#past-img {
-  margin-right: 25px;
-  background-color: white;
-}
-
-#past-img-2 {
-  margin-left: 25px;
-  background-color: white;
+  font-size: 30px;
+  font-weight: 500;
 }
 
 #active-orders-container {
@@ -39,10 +24,6 @@
 #previous-orders-container {
   margin-bottom: 100px;
   justify-content: center;
-}
-
-#massive {
-  display: inline;
 }
 
 .entry-div {
@@ -99,9 +80,9 @@
   background-color: v.$maroon-colour;
 }
 
-.row {
-  margin-right: 0px;
-}
+// .row {
+//   margin-right: 0px;
+// }
 
 h6 {
   margin-right: 16px;
