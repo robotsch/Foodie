@@ -19,32 +19,47 @@ $(() => {
 
     total = total.toFixed(2);
 
-    let orderElement = `
-    <div class="entry-div" id="order_id${activeOrderObj.orders_id}">
-      <h6><b>Order</b> #${activeOrderObj.orders_id}</h6>
-      <p class="entries"><b>Ordered:</b> ${time_ordered}</p>
-      <p class="entries"><b>Accepted:</b> ${time_accepted}</p>
-    `;
+    // let orderElement = `
+    //   <div class="entry-div" id="order_id${activeOrderObj.orders_id}">
+    //     <h6><b>Order</b> #${activeOrderObj.orders_id}</h6>
+    //     <p class="entries"><b>Ordered:</b> ${time_ordered}</p>
+    //     <p class="entries"><b>Accepted:</b> ${time_accepted}</p>
+    //     <p class="entries"><b>Est. time:</b> Pending</p>
+    //     <p class="entries"><b>Total:</b> $${total}</p>
+    //     <button type="submit" class="resolve-order-btn" disabled="true">Complete Order</button>
+    //   </div>
+    // `;
 
     if (est_time === null) {
-      orderElement += `
-        <p class="entries"><b>Est. time:</b> Pending</p>
-        <p class="entries"><b>Total:</b> $${total}</p>
-        <button type="submit" class="resolve-order-btn" disabled="true">Complete Order</button>
-      </div>`;
+      est_time = "Pending";
+      // orderElement += `
+      //   <p class="entries"><b>Est. time:</b> Pending</p>
+      //   <p class="entries"><b>Total:</b> $${total}</p>
+      //   <button type="submit" class="resolve-order-btn" disabled="true">Complete Order</button>
+      // </div>`;
       // $(`#order_id${activeOrderObj.orders_id} > p:nth-of-type(3) > b`).after("Pending");
       // $(".resolve-order-btn").prop("disabled", true);
     } else {
-      orderElement += `
-        <p class="entries"><b>Est. time:</b> ${est_time} mins</p>
-        <p class="entries"><b>Total:</b> $${total}</p>
-        <button type="submit" class="resolve-order-btn" disabled="false">Complete Order</button>
-      </div>`;
+      est_time = est_time + " mins";
+      // orderElement += `
+      //   <p class="entries"><b>Est. time:</b> ${est_time} mins</p>
+      //   <p class="entries"><b>Total:</b> $${total}</p>
+      //   <button type="submit" class="resolve-order-btn" disabled="false">Complete Order</button>
+      // </div>`;
       // $(`#order_id${activeOrderObj.orders_id} > p:nth-of-type(3)`).append(`<b>Est. time:</b> 
       // ${est_time} mins`);
     }
 
-    return $(orderElement);
+    return $(`
+    <div class="entry-div" id="order_id${activeOrderObj.orders_id}">
+        <h6><b>Order</b> #${activeOrderObj.orders_id}</h6>
+        <p class="entries"><b>Ordered:</b> ${time_ordered}</p>
+        <p class="entries"><b>Accepted:</b> ${time_accepted}</p>
+        <p class="entries"><b>Est. time:</b> ${est_time}</p>
+        <p class="entries"><b>Total:</b> $${total}</p>
+        <button type="submit" class="resolve-order-btn">Complete Order</button>
+      </div>
+      `);
   };
 
   const createPriorOrder = (oldOrderObj, total) => {
