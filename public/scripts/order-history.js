@@ -19,22 +19,25 @@ $(() => {
 
     total = total.toFixed(2);
 
-    if (est_time === null) {
-      est_time = "Pending";
-    } else {
-      est_time = activeOrderObj.estimated_completion_time + " mins";
-    }
-
-    return $(`
+    let orderElement = $(`
     <div class="entry-div" id="order_id${activeOrderObj.orders_id}">
       <h6><b>Order</b> #${activeOrderObj.orders_id}</h6>
       <p class="entries"><b>Ordered:</b> ${time_ordered}</p>
       <p class="entries"><b>Accepted:</b> ${time_accepted}</p>
       <p class="entries"><b>Est. time:</b> ${est_time}</p>
       <p class="entries"><b>Total:</b> $${total}</p>
-      <button type="submit" class="resolve-order-btn" disabled>Complete Order</button>
+      <button type="submit" class="resolve-order-btn">Complete Order</button>
     </div>
-    `);
+    `)
+
+    if (est_time === null) {
+      est_time = "Pending";
+      $(orderElement).prop("disabled", true);
+    } else {
+      est_time = activeOrderObj.estimated_completion_time + " mins";
+    }
+
+    return orderElement;
   };
 
   const createPriorOrder = (oldOrderObj, total) => {
@@ -238,7 +241,7 @@ $(() => {
                 // console.log(response);
                 // if (response === "null") {
                 if (response !== "null") {
-                  $(".resolve-order-btn").prop("disabled", false);
+                  // $(".resolve-order-btn").prop("disabled", false);
                   sessionStorage.clear();
                   clearInterval(timer);
                   document.location.href = "/orders";
