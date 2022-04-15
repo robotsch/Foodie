@@ -118,14 +118,14 @@ $(() => {
     }
   };
 
-  const createItem = function (name, quantity, price) {
+  const createItem = function (name, quantity, price, total) {
     return $(`
       <div class="item-container">
         <div>
           <div class="px-2 py-1 mx-2 text-center">${quantity}</div>
           <div>${name}</div>
         </div>
-        <div>$${(quantity * price / 100).toFixed(2)}</div>
+        <div>$${((price * quantity) / 100).toFixed(2)}</div>
       </div>
       <hr>
   `);
@@ -148,20 +148,24 @@ $(() => {
 
     for (const indexNumber of indexUniqueOrders) {
       let orderCost = 0;
-      let orderDesc = "||";
+      let orderDesc = "";
 
       //calculates the total order price
-      // for (const object of oldOrdersArr) {
-      //   if (object.orders_id === oldOrdersArr[indexNumber].orders_id) {
-      //     orderCost += ((object.price * object.quantity) / 100) * 1.13 + 1;
-      //     orderDesc += ` ${object.name} x (${object.quantity}) ||`;
-      //   }
-      // }
+      for (const object of oldOrdersArr) {
+        if (object.orders_id === oldOrdersArr[indexNumber].orders_id) {
+          orderCost += (object.price * object.quantity);
+        }
+      }
+
+      orderCost += 100;
+      orderCost *= 1.13;
+      orderCost /= 100;
 
       $(`#previous-orders-container`).append(
         createPriorOrder(oldOrdersArr[indexNumber], orderCost)
       );
 
+      orderCost = 0;
       let ordNo = oldOrdersArr[indexNumber].orders_id;
 
       $(`#order_id${ordNo}`)
@@ -175,44 +179,34 @@ $(() => {
             data: { orderID: ordNo },
             success: function (response) {
 
-              console.log("response", response);
               const data = JSON.parse(response);
-              console.log(typeof response)
 
-              // for (const menuItemName in response) {
-              //   if (Object.hasOwnProperty.call(response, menuItemName)) {
-              //     const quantity = response[menuItemName].quantity;
-              //     const price = response[menuItemName].price;
-              //     $('#total-modal').before(createItem(menuItemName, quantity, price));
-              //     orderCost += quantity * price;
-              //   }
-              // }
+              for (const menuItemName in data) {
+                if (Object.hasOwnProperty.call(data, menuItemName)) {
+                  const quantity = data[menuItemName].quantity;
+                  const price = data[menuItemName].price;
+                  $('.modal-body').append(createItem(menuItemName, quantity, price));
+                  orderCost += quantity * price;
+                }
+              }
 
-              // $(".modal-title").text(`Order #${ordNo}`);
-              // $("#total-modal").text(`Total: $${orderCost.toFixed(2)}`);
-              // $(`#menuItem-modal`).modal("toggle");
+              $(".modal-body > hr:last-child").remove();
+
+              // console.log(orderCost);
+
+              orderCost += 100;
+              orderCost *= 1.13;
+
+              $(".modal-title").text(`Order #${ordNo}`);
+              $("#total-modal").text(`Total: $${(orderCost / 100).toFixed(2)}`);
+              $(`#menuItem-modal`).modal("toggle");
 
             },
             err: function (err) {
               console.log(err.message);
             }
           });
-          // API CALL TO /api/getAllMenuItemInfoForOrder
-          // data: { orderID: ordNo }
-          // in the success: function(response) {
-          //  parse the JSON
-          //  loop over keys or index or whatever fuck is in the json
-          //  let orderDesc string here make it append it on every loop
-          //  set modal info for description
-          //  set toher modal info
-
-          // menuitem name, menuitem price per, order_menu_items quantity,
-          // }
-          // $("#total-modal").text(`Total: $${orderCost.toFixed(2)}`);
-          // $(`#menuItem-modal`).modal("toggle");
         });
-
-      //end of rip
     }
   };
 

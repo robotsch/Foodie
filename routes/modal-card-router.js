@@ -8,11 +8,10 @@ const orderQueries = require('../db/queries/04_orders_queries')
  */
 router.get("/", (req, res) => {
   const order = req.query;
-  let modalObj = {}
+  const modalObj = {}
 
   return orderQueries.getAllOrderDetailsById(order.orderID)
     .then((data) => {
-      console.log(data);
       for(const row in data) {
         modalObj[data[row].name] = {
           price: data[row].price,
