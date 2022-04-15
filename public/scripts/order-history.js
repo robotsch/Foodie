@@ -18,14 +18,25 @@ $(() => {
     const est_time = activeOrderObj.estimated_completion_time ? activeOrderObj.estimated_completion_time + " mins" : "Pending";
 
     return $(`
-    <div class="entry-div" id="order_id${activeOrderObj.orders_id}">
-        <h6><b>Order</b> #${activeOrderObj.orders_id}</h6>
-        <p class="entries"><b>Ordered:</b> ${time_ordered}</p>
-        <p class="entries"><b>Accepted:</b> ${time_accepted}</p>
-        <p class="entries"><b>Est. time:</b> ${est_time}</p>
-        <p class="entries"><b>Total:</b> $${total.toFixed(2)}</p>
-        <button type="submit" class="resolve-order-btn">Complete Order</button>
+    <div class="entry-div py-3 my-3 px-2" id="order_id${activeOrderObj.orders_id}">
+        <div>
+          <b>Order</b> #${activeOrderObj.orders_id}
+        </div>
+        <div>
+          <b>Ordered:</b> ${time_ordered}
+        </div>
+        <div>
+          <b>Accepted:</b> ${time_accepted}
+        </div>
+        <div>
+          <b>Est. time:</b> ${est_time}
+        </div>
+        <div>
+          <b>Total:</b> $${total.toFixed(2)}
+        </div>
+        <button type="submit" class="resolve-order-btn btn btn-primary">Complete Order</button>
       </div>
+      <hr>
       `);
   };
 
@@ -34,12 +45,21 @@ $(() => {
     const time_accepted = timeFormatter(oldOrderObj.time_accepted);
 
     return $(`
-    <div class="entry-div-history" id="order_id${oldOrderObj.orders_id}">
-        <h6><b>Order</b> #${oldOrderObj.orders_id}</h6>
-        <p class="entries"><b>Ordered:</b> ${time_ordered}</p>
-        <p class="entries"><b>Accepted:</b> ${time_accepted}</p>
-        <p class="entries"><b>Total:</b> $${total.toFixed(2)}</p>
+    <div class="entry-div py-3 my-3 px-2" id="order_id${oldOrderObj.orders_id}">
+        <div>
+          <b>Order</b> #${oldOrderObj.orders_id}
+        </div>
+        <div>
+          <b>Ordered:</b> ${time_ordered}
+        </div>
+        <div>
+          <b>Accepted:</b> ${time_accepted}
+        </div>
+        <div>
+          <b>Total:</b> $${total.toFixed(2)}
+        </div>
     </div>
+    <hr>
     `);
   };
 
@@ -128,7 +148,7 @@ $(() => {
         }
       }
 
-      $(`#active-orders-container`).append(
+      $("#prior-orders-title").before(
         createActiveOrder(newOrdersArr[indexNumber], (orderCost + 100) * 1.13 / 100)
       );
 
@@ -181,7 +201,7 @@ $(() => {
         }
       }
       
-      $(`#previous-orders-container`).append(
+      $(".container-md").append(
         createPriorOrder(oldOrdersArr[indexNumber], (orderCost + 100) * 1.13 / 100)
       );
 
@@ -227,11 +247,21 @@ $(() => {
           }, 4000);
         }
       });
+    } else {
+      $("#active-orders-title").after($(`      
+      <div class="row text-center mt-2">
+        <h3 id="no-active">No active orders</h3>
+      </div>`))
     }
 
     if (data.oldOrders.length > 0) {
       $("#previous-orders-container").empty();
       renderPreviousOrders(data.oldOrders);
+    } else {
+      $("#prior-orders-title").after($(`      
+      <div class="row text-center mt-2">
+        <h3 id="no-active">No prior orders</h3>
+      </div>`))
     }
   });
 });
