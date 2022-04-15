@@ -1,0 +1,17 @@
+@use "variables" as v;
+
+body > div:first-of-type {
+  max-width: v.$max-width;
+}
+
+.btn-primary {
+  color: #000;
+  background-color: v.$yellow-colour;
+  border-color: v.$yellow-colour;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
+  color: #000;
+  background-color: v.$orange-colour;
+  border-color: v.$orange-colour;
+}
