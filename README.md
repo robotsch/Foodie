@@ -65,8 +65,8 @@ Due to the way Twilio Webhooks work, local installations will require an interne
   - Restaurant receives and confirms customer orders via SMS
   - User gets notified that their order has been confirmed by the restaurant via SMS
   
-![Menu]()
-![Select food item]()
-![Search menu]()
-![Cart with items]()
-![Order history]()
+![Menu](https://github.com/robotsch/Foodie/blob/main/docs/landing-page.png)
+![Select food item](https://github.com/robotsch/Foodie/blob/main/docs/select-fooditem.png)
+![Search menu](https://github.com/robotsch/Foodie/blob/main/docs/search.png)
+![Cart with items](https://github.com/robotsch/Foodie/blob/main/docs/cart-with-items.png)
+![Order history](https://github.com/robotsch/Foodie/blob/main/docs/active-orders.png)
