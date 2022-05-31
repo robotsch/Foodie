@@ -1,6 +1,6 @@
 Foodie - A Restaurant Pickup App
 =========
-Food is a restaurant ordering pickup app where users can order from a menu, edit their cart, be notified via SMS of their order and look at their past orders.
+Foodie is a restaurant ordering pickup app where users can order from a menu, edit their cart, be notified via SMS of their order and look at their past orders.
 
 # Setup
 ## Getting Started
