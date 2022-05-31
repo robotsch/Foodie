@@ -1,6 +1,7 @@
 Foodie - A Restaurant Pickup App
 =========
 
+# Setup
 ## Getting Started
 
 Due to the way Twilio Webhooks work, local installations will require an internet-routable address for full functionality.
@@ -32,20 +33,7 @@ Due to the way Twilio Webhooks work, local installations will require an interne
 3. From the Twilio phone number's management console, add a Webhook that submits a POST request to \<internet-routable-address\>/api/smsresponse
 4. From the Twilio phone number's management console, add the phone number used during the registration process, as well as the RESTAURANT_PHONE .env variable to the Verified Caller IDs list
 
-
-## Features
-
-- Internet accesible, functioning web app hosted on Heroku
-  - https://lhl-midterm-foodie.herokuapp.com/
-- User registration/authentication with secure sessions
-- View and search a dynamically loaded restaurant menu
-- Add, remove, or change the quantity of checkout cart items
-- An automatically updating Active Orders/Order History page 
-- Full flow Twilio integration
-  - Restaurant receives and confirms customer orders via SMS
-  - User gets notified that their order has been confirmed by the restaurant via SMS
-
-## Dependencies
+# Dependencies
 
 - Node 10.x or above
 - NPM 5.x or above
@@ -61,5 +49,24 @@ Due to the way Twilio Webhooks work, local installations will require an interne
 - Express-session
 - Twilio
 
-## Figma Mockup
+# Figma Mockup
 - [available here for preview!](https://www.figma.com/file/Z80zlJ6iuhuxJ72g0bQsYC/Assets-%2B-pages?node-id=4%3A14)
+
+
+# Features
+
+- Internet accesible, functioning web app hosted on Heroku
+  - https://lhl-midterm-foodie.herokuapp.com/
+- User registration/authentication with secure sessions
+- View and search a dynamically loaded restaurant menu
+- Add, remove, or change the quantity of checkout cart items
+- An automatically updating Active Orders/Order History page 
+- Full flow Twilio integration
+  - Restaurant receives and confirms customer orders via SMS
+  - User gets notified that their order has been confirmed by the restaurant via SMS
+  
+![Menu]()
+![Select food item]()
+![Search menu]()
+![Cart with items]()
+![Order history]()
