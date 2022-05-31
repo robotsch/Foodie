@@ -1,5 +1,6 @@
 Foodie - A Restaurant Pickup App
 =========
+Food is a restaurant ordering pickup app where users can order from a menu, edit their cart, be notified via SMS of their order and look at their past orders.
 
 # Setup
 ## Getting Started
@@ -48,6 +49,10 @@ Due to the way Twilio Webhooks work, local installations will require an interne
 - Dotenv
 - Express-session
 - Twilio
+
+## Tech Stack
+- Front-end: jQuery, Bootstrap
+- Back-end: NodeJS, Express, PostgreSQL
 
 # Figma Mockup
 - [available here for preview!](https://www.figma.com/file/Z80zlJ6iuhuxJ72g0bQsYC/Assets-%2B-pages?node-id=4%3A14)
